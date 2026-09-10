@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Painel Consolidado — Parque Tecnológico</title>
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+
+<div class="app-shell" id="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebar-toggle" title="Recolher menu">‹</button>
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">🧭</div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-title">
+          <span class="brand-title-top">PAINEL DE</span>
+          <span class="brand-title-main">INDICADORES</span>
+        </div>
+        <div class="sidebar-brand-sub">Parque Tecnológico</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <a class="nav-item" data-route="visao-geral" href="#/visao-geral"><span class="nav-icon">◎</span><span class="nav-label">Visão Geral</span></a>
+      <a class="nav-item" data-route="incubadora" href="#/incubadora"><span class="nav-icon">🚀</span><span class="nav-label">Incubadora &amp; Jornada</span></a>
+      <a class="nav-item" data-route="espacos" href="#/espacos"><span class="nav-icon">📅</span><span class="nav-label">Espaços &amp; Agenda</span></a>
+      <a class="nav-item" data-route="operacao" href="#/operacao"><span class="nav-icon">🛠️</span><span class="nav-label">Operação (O.S.)</span></a>
+      <a class="nav-item" data-route="relacionamento" href="#/relacionamento"><span class="nav-icon">🤝</span><span class="nav-label">Relacionamento (CRM)</span></a>
+      <a class="nav-item" data-route="educacao" href="#/educacao"><span class="nav-icon">🎓</span><span class="nav-label">Educação &amp; Visitas</span></a>
+      <a class="nav-item" data-route="metas" href="#/metas"><span class="nav-icon">🎯</span><span class="nav-label">Metas FINEP</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-logo">IFEEC</div>
+      <div class="sidebar-footer-tag">Instituto de Ciência e Tecnologia</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-heading">
+        <div class="topbar-eyebrow">
+          PARQUE TECNOLÓGICO
+          <span class="mock-badge" title="Este painel reúne dados reais e estimativas plausíveis para fins de apresentação — ainda não há integração automatizada entre os sistemas.">● DADOS ILUSTRATIVOS</span>
+        </div>
+        <h1 class="topbar-title" id="topbar-title">Visão Geral</h1>
+        <div class="topbar-sub" id="topbar-sub"></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="chip-row" id="source-chips">
+          <span class="chip"><span class="chip-dot"></span>Agenda</span>
+          <span class="chip"><span class="chip-dot"></span>O.S. IFEEC</span>
+          <span class="chip"><span class="chip-dot"></span>Zoho CRM</span>
+          <span class="chip"><span class="chip-dot"></span>AVA</span>
+          <span class="chip"><span class="chip-dot"></span>Catraca</span>
+        </div>
+        <div class="avatar-badge">GB</div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="toolbar">
+        <div class="period-field">
+          <span class="field-label">Período</span>
+          <select class="select" id="period-select"></select>
+        </div>
+        <div class="flex gap-8">
+          <button class="btn btn-outline" id="btn-export-excel">⬇ Baixar relatório</button>
+          <button class="btn btn-outline" id="btn-export-pdf">🖨 PDF</button>
+          <button class="btn btn-primary" id="btn-present">⛶ Modo apresentação</button>
+        </div>
+      </div>
+
+      <main id="view"></main>
+    </div>
+  </div>
+
+</div>
+
+<button class="btn btn-primary exit-present" id="btn-exit-present">✕ Sair da apresentação (Esc)</button>
+<div class="toast" id="toast"></div>
+
+<script src="assets/js/vendor/echarts.min.js"></script>
+
+<script src="data/agenda.js"></script>
+<script src="data/os.js"></script>
+<script src="data/crm.js"></script>
+<script src="data/incubadora.js"></script>
+<script src="data/educacao.js"></script>
+<script src="data/metas.js"></script>
+
+<script src="assets/js/format.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/components.js"></script>
+<script src="assets/js/period.js"></script>
+<script src="assets/js/router.js"></script>
+
+<script src="views/visao-geral.js"></script>
+<script src="views/incubadora.js"></script>
+<script src="views/espacos.js"></script>
+<script src="views/operacao.js"></script>
+<script src="views/relacionamento.js"></script>
+<script src="views/educacao.js"></script>
+<script src="views/metas.js"></script>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
