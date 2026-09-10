@@ -45,32 +45,8 @@
   --shadow-pop: 0 12px 32px -8px rgba(8, 41, 63, 0.35);
 }
 
-:root[data-theme="dark"],
-:root:not([data-theme="light"]) {
-  /* Painel foi desenhado como demonstração institucional: mantém a mesma
-     paleta clara dos sistemas de origem também no modo escuro do host,
-     para preservar a identidade visual apresentada. */
-  --bg: #0f1720;
-  --card: #16212c;
-  --card-border: #223143;
-  --gray-900: #eef1f5;
-  --gray-700: #c4ccd6;
-  --gray-500: #93a0ae;
-  --gray-300: #3a4756;
-  --gray-200: #2a3746;
-  --gray-100: #202c3a;
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --bg: #f1f0eb;
-    --card: #ffffff;
-    --card-border: #e5e3db;
-    --gray-900: #1c2531;
-    --gray-700: #3d4653;
-    --gray-500: #6b7480;
-    --gray-300: #c9ced6;
-    --gray-200: #e2e5ea;
-    --gray-100: #eef0f3;
-  }
-}
+/* Painel institucional de tema fixo (mesma leitura da Agenda/O.S. em qualquer
+   navegador ou preferência de sistema) — sem variação por dark mode. Uma
+   versão anterior alternava para uma paleta escura sempre que não havia um
+   data-theme explícito, o que deixava o painel ilegível fora do editor de
+   Artifacts; removido de propósito. */

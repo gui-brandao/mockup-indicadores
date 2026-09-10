@@ -64,12 +64,9 @@
       .map(
         (f) => `
         <div class="axis-tile">
-          <div class="flex items-center gap-8" style="justify-content:space-between">
-            <span class="axis-name">${f.icon} ${UI.esc(f.nome)}</span>
-            <span class="pill pill-green">sincronizado</span>
-          </div>
+          <span class="axis-name">${f.icon} ${UI.esc(f.nome)}</span>
           <div class="axis-value">${fmt.num(f.valor)}</div>
-          <div class="axis-sub">${UI.esc(f.unidade)} no período · mockup manual</div>
+          <div class="axis-sub">${UI.esc(f.unidade)} no período · ainda não integrado</div>
         </div>`
       )
       .join("");
