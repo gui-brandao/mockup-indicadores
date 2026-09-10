@@ -13,8 +13,9 @@
         value: fmt.num(PERIOD.sum(E.series.ava) + PERIOD.sum(E.series.estudantes) + PERIOD.sum(E.series.roteiros)),
         sub: "AVA + estudantes parceiros + roteiros",
         hero: true,
+        spark: PERIOD.slice(E.series.ava.map((v, i) => v + E.series.estudantes[i] + E.series.roteiros[i])),
       }) +
-      UI.kpiCard({ label: "Visitas técnicas guiadas", value: fmt.num(PERIOD.sum(E.series.visitas)), sub: "empresas, universidades e grupos" }) +
+      UI.kpiCard({ label: "Visitas técnicas guiadas", value: fmt.num(PERIOD.sum(E.series.visitas)), sub: "empresas, universidades e grupos", spark: PERIOD.slice(E.series.visitas) }) +
       UI.kpiCard({ label: "Público impactado (estimado)", value: fmt.num(E.publicoPorPerfil.reduce((s, p) => s + p.valor, 0)), sub: "todos os perfis, YTD" }) +
       UI.kpiCard({ label: "Temas no catálogo do AVA", value: fmt.num(E.catalogoAva.length), sub: "trilha de 2h cada" });
 
@@ -46,11 +47,32 @@
         })}
       </div>
 
-      ${UI.sectionCard({
-        eyebrow: "Sazonalidade",
-        title: "Visitas técnicas e roteiros pedagógicos, mês a mês",
-        bodyHtml: UI.chartBox("chart-edu-serie", 280),
-      })}
+      <div class="grid grid-main-side">
+        ${UI.sectionCard({
+          eyebrow: "Sazonalidade",
+          title: "Visitas técnicas e roteiros pedagógicos, mês a mês",
+          bodyHtml: UI.chartBox("chart-edu-serie", 280),
+        })}
+        ${UI.sectionCard({
+          eyebrow: "Perfil das visitas",
+          title: "Visitas técnicas por tipo de instituição",
+          bodyHtml: UI.chartBox("chart-edu-instituicao", 280),
+        })}
+      </div>
+
+      <div class="grid grid-2">
+        ${UI.sectionCard({
+          eyebrow: "AVA",
+          title: "Inscritos × conclusões por trilha",
+          desc: "As seis trilhas do Ambiente Virtual de Aprendizagem.",
+          bodyHtml: UI.chartBox("chart-edu-trilhas", 300),
+        })}
+        ${UI.sectionCard({
+          eyebrow: "Alcance regional",
+          title: "Roteiros pedagógicos por cidade do Grande ABC",
+          bodyHtml: UI.chartBox("chart-edu-cidade", 300),
+        })}
+      </div>
 
       ${UI.sectionCard({
         eyebrow: "Materiais disponíveis no AVA",
@@ -66,25 +88,79 @@
 
     const chartPerfil = registerChart(echarts.init(document.getElementById("chart-edu-perfil")));
     chartPerfil.setOption({
-      color: [T.COLORS.navy600],
+      color: [T.SERIES_PALETTE[0]],
       tooltip: T.tooltipDefaults({ trigger: "item" }),
       grid: T.baseGrid({ top: 10 }),
       xAxis: T.valueAxis(),
       yAxis: T.categoryAxis(E.publicoPorPerfil.map((p) => p.perfil)),
-      series: [{ type: "bar", data: E.publicoPorPerfil.map((p) => p.valor), barMaxWidth: 20, itemStyle: { borderRadius: [0, 6, 6, 0] } }],
+      series: [{ type: "bar", data: E.publicoPorPerfil.map((p) => p.valor), barMaxWidth: 20, itemStyle: { borderRadius: T.barRadius("horizontal") } }],
     });
 
     const chartSerie = registerChart(echarts.init(document.getElementById("chart-edu-serie")));
     chartSerie.setOption({
-      color: [T.COLORS.navy600, T.COLORS.yellow500],
+      color: [T.SERIES_PALETTE[0], T.SERIES_PALETTE[3]],
       tooltip: T.tooltipDefaults(),
       legend: T.legendDefaults(),
       grid: T.baseGrid({ top: 40 }),
       xAxis: T.categoryAxis(PERIOD.slice(E.monthLabels)),
       yAxis: T.valueAxis(),
       series: [
-        { name: "Visitas técnicas", type: "line", data: PERIOD.slice(E.series.visitas), smooth: 0.3, symbol: "circle", symbolSize: 6 },
-        { name: "Roteiros pedagógicos", type: "line", data: PERIOD.slice(E.series.roteiros), smooth: 0.3, symbol: "circle", symbolSize: 6 },
+        T.lineSeriesDefaults({ name: "Visitas técnicas", data: PERIOD.slice(E.series.visitas), itemStyle: { color: T.SERIES_PALETTE[0] }, lineStyle: { width: 2, color: T.SERIES_PALETTE[0] } }),
+        T.lineSeriesDefaults({ name: "Roteiros pedagógicos", data: PERIOD.slice(E.series.roteiros), itemStyle: { color: T.SERIES_PALETTE[3] }, lineStyle: { width: 2, color: T.SERIES_PALETTE[3] } }),
+      ],
+    });
+
+    const chartInstituicao = registerChart(echarts.init(document.getElementById("chart-edu-instituicao")));
+    chartInstituicao.setOption({
+      color: T.SERIES_PALETTE,
+      tooltip: T.tooltipDefaults({ trigger: "item", formatter: (p) => `${p.name}<br/><b>${fmt.num(p.value)}</b> (${p.percent}%)` }),
+      legend: T.legendDefaults({ top: "auto", bottom: 0, left: "center", type: "scroll" }),
+      series: [
+        {
+          type: "pie",
+          radius: ["46%", "70%"],
+          center: ["50%", "42%"],
+          itemStyle: { borderColor: T.COLORS.surface, borderWidth: 2 },
+          label: { formatter: "{d}%", color: "#fff", fontSize: 11.5, fontWeight: 700, position: "inside" },
+          labelLine: { show: false },
+          data: E.visitasPorInstituicao.map((v) => ({ name: v.instituicao, value: v.valor })),
+        },
+      ],
+    });
+
+    // Barras horizontais — nomes de trilha são longos e rotacionar rótulos
+    // verticais colidia; categorias no eixo Y resolvem sem truncar nada.
+    const trilhasOrd = [...E.trilhas].reverse();
+    const chartTrilhas = registerChart(echarts.init(document.getElementById("chart-edu-trilhas")));
+    chartTrilhas.setOption({
+      color: [T.SERIES_PALETTE[0], T.SERIES_PALETTE[2]],
+      tooltip: T.tooltipDefaults(),
+      legend: T.legendDefaults(),
+      grid: T.baseGrid({ top: 40 }),
+      xAxis: T.valueAxis(),
+      yAxis: T.categoryAxis(trilhasOrd.map((t) => t.trilha), { axisLabel: { ...T.axisText(), interval: 0 } }),
+      series: [
+        { name: "Inscritos", type: "bar", data: trilhasOrd.map((t) => t.inscritos), barMaxWidth: 14, itemStyle: { borderRadius: T.barRadius("horizontal") } },
+        { name: "Conclusões", type: "bar", data: trilhasOrd.map((t) => t.conclusoes), barMaxWidth: 14, itemStyle: { borderRadius: T.barRadius("horizontal") } },
+      ],
+    });
+
+    const cidade = [...E.porCidade].sort((a, b) => a.valor - b.valor);
+    const chartCidade = registerChart(echarts.init(document.getElementById("chart-edu-cidade")));
+    chartCidade.setOption({
+      color: [T.SERIES_PALETTE[0]],
+      tooltip: T.tooltipDefaults({ trigger: "item" }),
+      grid: T.baseGrid({ top: 10, right: 60 }),
+      xAxis: T.valueAxis({ axisLabel: { show: false }, splitLine: { show: false } }),
+      yAxis: T.categoryAxis(cidade.map((c) => c.cidade)),
+      series: [
+        {
+          type: "bar",
+          data: cidade.map((c) => c.valor),
+          barMaxWidth: 18,
+          itemStyle: { borderRadius: T.barRadius("horizontal") },
+          label: { show: true, position: "right", formatter: (p) => fmt.num(p.value), color: T.COLORS.gray700, fontSize: 11, fontWeight: 700 },
+        },
       ],
     });
   }

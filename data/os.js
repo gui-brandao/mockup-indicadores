@@ -165,3 +165,29 @@ window.APP_DATA.os = {
   ],
   "tempoMedioResolucaoDias": 3.4
 };
+
+// --- Dados complementares (mockup) -------------------------------------------
+// Tempo médio de resolução (dias) — termina em 3,4, igual ao KPI do snapshot.
+window.APP_DATA.os.serieTempoMedio = [4.2, 4.0, 3.9, 4.1, 3.8, 3.6, 3.7, 3.5, 3.4];
+
+// Carga por equipe — soma = 710 registros do acumulado 2026.
+window.APP_DATA.os.porEquipe = [
+  { equipe: "Facilities", valor: 198 },
+  { equipe: "TI e Conectividade", valor: 162 },
+  { equipe: "Laboratórios", valor: 112 },
+  { equipe: "Apoio a eventos", valor: 96 },
+  { equipe: "Zeladoria", valor: 82 },
+  { equipe: "Sem responsável", valor: 60 }
+];
+
+// SLA mensal — dentro + fora do prazo = registros do mês.
+window.APP_DATA.os.slaMensal = {
+  dentro: [54, 51, 62, 58, 73, 68, 49, 85, 123],
+  fora: [8, 7, 9, 7, 10, 8, 5, 12, 21]
+};
+
+// Séries mensais para os minigráficos dos KPIs (terminam nos valores do snapshot).
+window.APP_DATA.os.serieEmAberto = [55, 51, 63, 58, 74, 68, 48, 88, 135];
+window.APP_DATA.os.serieFinalizados = [7, 7, 8, 7, 9, 8, 6, 9, 9];
+window.APP_DATA.os.serieUrgentes = [2, 1, 3, 2, 3, 2, 1, 4, 3];
+window.APP_DATA.os.serieSemResponsavel = [48, 44, 57, 52, 69, 63, 44, 84, 134];

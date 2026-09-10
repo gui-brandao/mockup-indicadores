@@ -73,12 +73,27 @@
     ROUTER.register("metas", VIEW_METAS);
   }
 
+  // A biblioteca de gráficos é servida pelo próprio site (assets/js/vendor).
+  // Se por qualquer motivo ela não carregar, avisa em vez de exibir um painel
+  // com todos os boxes vazios — o modo de falha que chegou à produção antes.
+  function checkChartsLibrary() {
+    if (typeof window.echarts !== "undefined") return;
+    const banner = document.createElement("div");
+    banner.className = "load-warning";
+    banner.innerHTML =
+      "<strong>Atenção:</strong> a biblioteca de gráficos não carregou — os indicadores numéricos " +
+      "seguem corretos, mas os gráficos não serão desenhados. Recarregue a página; se persistir, " +
+      "pode ser bloqueio de rede ao arquivo <code>assets/js/vendor/echarts.min.js</code>.";
+    document.querySelector(".content").prepend(banner);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initSidebar();
     initPeriodSelect();
     initExportButtons();
     initPresentMode();
     registerViews();
+    checkChartsLibrary();
     ROUTER.init();
   });
 })();

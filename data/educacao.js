@@ -210,3 +210,34 @@ window.APP_DATA.educacao = {
     }
   ]
 };
+
+// --- Dados complementares (mockup) -------------------------------------------
+// Visitas técnicas por tipo de instituição — soma = 432 visitas do acumulado.
+window.APP_DATA.educacao.visitasPorInstituicao = [
+  { instituicao: "Escolas públicas", valor: 168 },
+  { instituicao: "Escolas privadas", valor: 74 },
+  { instituicao: "Universidades", valor: 66 },
+  { instituicao: "Empresas", valor: 62 },
+  { instituicao: "Órgãos públicos", valor: 34 },
+  { instituicao: "Sociedade civil", valor: 28 }
+];
+
+// Trilhas do AVA — inscritos somam 1.550, igual ao realizado da meta 3.1.1.
+window.APP_DATA.educacao.trilhas = [
+  { trilha: "Empreendedorismo Inovador", inscritos: 320, conclusoes: 214 },
+  { trilha: "Modelagem de Negócios", inscritos: 286, conclusoes: 181 },
+  { trilha: "Validação e MVP", inscritos: 262, conclusoes: 158 },
+  { trilha: "Marketing e Vendas", inscritos: 238, conclusoes: 142 },
+  { trilha: "Gestão Financeira", inscritos: 224, conclusoes: 126 },
+  { trilha: "Indicadores e Dashboards", inscritos: 220, conclusoes: 118 }
+];
+
+// Alcance regional dos roteiros pedagógicos — soma = 4.930 (realizado da meta 3.3.1).
+window.APP_DATA.educacao.porCidade = [
+  { cidade: "Santo André", valor: 1985 },
+  { cidade: "São Bernardo do Campo", valor: 1108 },
+  { cidade: "São Caetano do Sul", valor: 642 },
+  { cidade: "Diadema", valor: 518 },
+  { cidade: "Mauá", valor: 383 },
+  { cidade: "Ribeirão Pires", valor: 294 }
+];

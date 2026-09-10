@@ -528,6 +528,103 @@ a { color: inherit; }
 .kpi-trend.down { color: var(--red-600); background: var(--red-100); }
 .kpi-trend.flat { color: var(--gray-700); background: var(--gray-100); }
 
+/* Sparkline (SVG inline dentro dos cartões) */
+
+.kpi-spark {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.tile-spark {
+  margin-top: 8px;
+}
+
+.spark {
+  display: block;
+  overflow: visible;
+}
+
+.spark-line {
+  fill: none;
+  stroke: var(--navy-600);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.spark-area { fill: rgba(47, 122, 184, 0.14); stroke: none; }
+.spark-dot { fill: var(--navy-600); }
+
+.spark-light .spark-line { stroke: var(--yellow-300); }
+.spark-light .spark-area { fill: rgba(246, 212, 101, 0.22); }
+.spark-light .spark-dot { fill: var(--yellow-300); }
+
+.spark-green .spark-line, .spark-green .spark-dot { stroke: var(--green-600); fill: var(--green-600); }
+.spark-green .spark-line { fill: none; }
+.spark-green .spark-area { fill: rgba(31, 138, 77, 0.14); }
+
+/* Barra compacta dentro de tabelas */
+
+.mini-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 130px;
+}
+
+.mini-bar .progress-track { flex: 1; }
+
+.mini-bar-value {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--navy-700);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Aviso de biblioteca ausente + fallback de gráfico */
+
+.load-warning {
+  background: var(--yellow-100);
+  border: 1px solid var(--yellow-500);
+  color: #7a5c0d;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.load-warning code {
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.chart-box-failed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+}
+
+.chart-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  padding: 16px;
+  color: var(--gray-500);
+  font-size: 12.5px;
+}
+
+.chart-fallback strong { color: var(--gray-700); font-size: 13.5px; }
+.chart-fallback code { font-size: 11px; opacity: 0.75; }
+
 /* Chart container */
 
 .chart-box {
@@ -678,6 +775,16 @@ table.data-table {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+}
+
+.highlight-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--gray-900);
 }
 
 /* Section footer note */

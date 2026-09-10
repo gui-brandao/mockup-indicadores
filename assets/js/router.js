@@ -31,6 +31,20 @@
     return hash || "visao-geral";
   }
 
+  // Preenche todo .chart-box que ficou sem conteúdo com um aviso legível.
+  function markChartsFailed(scope, err) {
+    scope.querySelectorAll(".chart-box").forEach((box) => {
+      if (box.children.length) return;
+      box.classList.add("chart-box-failed");
+      box.innerHTML =
+        '<div class="chart-fallback">' +
+        "<strong>Gráfico indisponível</strong>" +
+        "<span>Não foi possível carregar a biblioteca de gráficos nesta rede.</span>" +
+        (err && err.message ? `<code>${String(err.message).slice(0, 120)}</code>` : "") +
+        "</div>";
+    });
+  }
+
   function render() {
     teardown();
     const path = currentPath();
@@ -40,8 +54,16 @@
     const main = document.getElementById("view");
     main.innerHTML = view.render();
 
+    // Se o mount falhar (ex.: biblioteca de gráficos ausente), a falha precisa
+    // ficar VISÍVEL. Antes, uma exceção aqui deixava todos os boxes de gráfico
+    // em branco sem nenhum aviso — foi exatamente o defeito que chegou à produção.
     if (view.mount) {
-      view.mount({ registerChart });
+      try {
+        view.mount({ registerChart });
+      } catch (err) {
+        console.error("Falha ao montar os gráficos da tela:", err);
+        markChartsFailed(main, err);
+      }
     }
 
     document.querySelectorAll(".nav-item").forEach((el) => {

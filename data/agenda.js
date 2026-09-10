@@ -304,3 +304,29 @@ window.APP_DATA.agenda = {
     }
   ]
 };
+
+// --- Dados complementares (mockup) -------------------------------------------
+// Ocupação por dia da semana × faixa de horário — magnitude contínua (mapa de calor).
+window.APP_DATA.agenda.ocupacaoHeatmap = {
+  dias: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+  faixas: ["08–10", "10–12", "12–14", "14–16", "16–18", "18–20"],
+  // [indiceDia, indiceFaixa, reservas]
+  valores: [
+    [0,0,12],[0,1,18],[0,2,6],[0,3,16],[0,4,11],[0,5,3],
+    [1,0,15],[1,1,22],[1,2,7],[1,3,19],[1,4,13],[1,5,4],
+    [2,0,17],[2,1,24],[2,2,9],[2,3,21],[2,4,15],[2,5,5],
+    [3,0,16],[3,1,23],[3,2,8],[3,3,20],[3,4,14],[3,5,6],
+    [4,0,13],[4,1,19],[4,2,7],[4,3,15],[4,4,10],[4,5,2],
+    [5,0,4],[5,1,7],[5,2,2],[5,3,5],[5,4,1],[5,5,0]
+  ]
+};
+
+// Tipo de uso dos espaços — soma = 811 agendamentos do acumulado 2026.
+window.APP_DATA.agenda.tiposUso = [
+  { tipo: "Reunião", valor: 296 },
+  { tipo: "Evento / Workshop", valor: 158 },
+  { tipo: "Visita técnica", valor: 112 },
+  { tipo: "Laboratório", valor: 101 },
+  { tipo: "Curso / Oficina", valor: 85 },
+  { tipo: "Coworking", valor: 59 }
+];

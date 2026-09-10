@@ -153,3 +153,31 @@ window.APP_DATA.incubadora = {
     "semStatus": 54
   }
 };
+
+// --- Dados complementares (mockup) -------------------------------------------
+// Setores das 34 startups ativas — soma = 34.
+window.APP_DATA.incubadora.setores = [
+  { setor: "IndTech / Manufatura", valor: 7 },
+  { setor: "HealthTech", valor: 6 },
+  { setor: "EdTech", valor: 5 },
+  { setor: "Economia Criativa", valor: 5 },
+  { setor: "AgTech / Meio Ambiente", valor: 4 },
+  { setor: "Outros (GovTech, Fintech)", valor: 7 }
+];
+
+// Diagnóstico multidimensional — média das startups ativas (0 a 100).
+window.APP_DATA.incubadora.maturidade = [
+  { dimensao: "Modelo de negócio", valor: 72 },
+  { dimensao: "Solução / Tecnologia", valor: 65 },
+  { dimensao: "Time e gestão", valor: 61 },
+  { dimensao: "Mercado e clientes", valor: 58 },
+  { dimensao: "Financeiro", valor: 48 },
+  { dimensao: "Propriedade intelectual", valor: 39 }
+];
+
+// Séries mensais — somas batem com os KPIs (142 mentorias, 5 aulas ministradas).
+window.APP_DATA.incubadora.serieMensal = {
+  mentorias: [8, 10, 12, 14, 18, 20, 16, 22, 22],
+  aulas: [0, 0, 0, 1, 1, 1, 0, 1, 1],
+  startupsAtivas: [18, 21, 23, 25, 27, 29, 30, 32, 34]
+};
