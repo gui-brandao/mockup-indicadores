@@ -62,15 +62,37 @@
     });
   }
 
-  // Registra as views no router.
+  // Registra as views no router. Cada registro é isolado: se o script de uma
+  // view falhar ao carregar (ex.: arquivo bloqueado na rede), a referência
+  // global (VIEW_X) fica indefinida e lançaria ReferenceError — sem o
+  // try/catch aqui, isso abortava o restante do boot (inclusive ROUTER.init())
+  // e derrubava a navegação inteira, não só a tela problemática.
   function registerViews() {
-    ROUTER.register("visao-geral", VIEW_VISAO_GERAL);
-    ROUTER.register("incubadora", VIEW_INCUBADORA);
-    ROUTER.register("espacos", VIEW_ESPACOS);
-    ROUTER.register("operacao", VIEW_OPERACAO);
-    ROUTER.register("relacionamento", VIEW_RELACIONAMENTO);
-    ROUTER.register("educacao", VIEW_EDUCACAO);
-    ROUTER.register("metas", VIEW_METAS);
+    const views = [
+      ["visao-geral", "VIEW_VISAO_GERAL"],
+      ["incubadora", "VIEW_INCUBADORA"],
+      ["espacos", "VIEW_ESPACOS"],
+      ["operacao", "VIEW_OPERACAO"],
+      ["relacionamento", "VIEW_RELACIONAMENTO"],
+      ["educacao", "VIEW_EDUCACAO"],
+      ["metas", "VIEW_METAS"],
+    ];
+    views.forEach(([route, globalName]) => {
+      try {
+        const view = window[globalName];
+        if (!view) throw new Error(`${globalName} indisponível — script da tela não carregou.`);
+        ROUTER.register(route, view);
+      } catch (err) {
+        console.error(`Falha ao registrar a tela "${route}":`, err);
+        ROUTER.register(route, {
+          title: "Tela indisponível",
+          subtitle: "Falha ao carregar esta tela",
+          render: () =>
+            '<div class="card"><div class="chart-fallback"><strong>Esta tela não carregou.</strong>' +
+            "<span>Recarregue a página; se persistir, pode ser bloqueio de rede a um dos arquivos do painel.</span></div></div>",
+        });
+      }
+    });
   }
 
   // A biblioteca de gráficos é servida pelo próprio site (assets/js/vendor).
@@ -87,13 +109,24 @@
     document.querySelector(".content").prepend(banner);
   }
 
+  // Cada etapa do boot é isolada: uma falha em qualquer uma (ex.: elemento
+  // ausente, script externo bloqueado) não pode impedir ROUTER.init() de
+  // rodar — sem isso, um único erro travava a navegação inteira do painel.
+  function safeBoot(fn, label) {
+    try {
+      fn();
+    } catch (err) {
+      console.error(`Falha ao inicializar "${label}":`, err);
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
-    initSidebar();
-    initPeriodSelect();
-    initExportButtons();
-    initPresentMode();
-    registerViews();
-    checkChartsLibrary();
-    ROUTER.init();
+    safeBoot(initSidebar, "sidebar");
+    safeBoot(initPeriodSelect, "seletor de período");
+    safeBoot(initExportButtons, "botões de exportação");
+    safeBoot(initPresentMode, "modo apresentação");
+    safeBoot(registerViews, "registro de telas");
+    safeBoot(checkChartsLibrary, "verificação do ECharts");
+    safeBoot(() => ROUTER.init(), "inicialização do roteador");
   });
 })();
