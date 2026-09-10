@@ -11,6 +11,9 @@ trabalho **FINEP** da incubadora.
 > onde ainda não existe integração ou histórico. O objetivo é validar a ideia do produto
 > antes de investir em integração real.
 
+📐 Para a arquitetura técnica (camadas, contratos entre dados/período/views/gráficos,
+como adicionar uma tela nova), veja [ARCHITECTURE.md](ARCHITECTURE.md).
+
 ## Como abrir
 
 Não precisa de servidor nem de `npm install`: é HTML/CSS/JS puro com o ECharts
@@ -59,23 +62,19 @@ funcional de verdade, não decorativo.
 ## Estrutura do projeto
 
 ```
-index.html              shell único (sidebar + topbar + área de conteúdo)
-assets/css/tokens.css    variáveis da identidade visual (cores, raios, sombras)
-assets/css/app.css       layout, componentes, responsivo, modo apresentação
-assets/js/vendor/        ECharts 5.5.1 (UMD), vendorizado — funciona offline
-assets/js/theme.js       paleta e defaults de gráfico compartilhados
-assets/js/format.js      formatação pt-BR (número, %, data)
-assets/js/components.js  kpiCard, sectionCard, progressBar, dataTable, etc.
-assets/js/period.js      estado do seletor de período + agregação das séries mensais
-assets/js/router.js      hash router (troca de tela sem reload)
-assets/js/app.js         bootstrap: sidebar, período, apresentação, exportar
-data/*.js                dados mockados de cada fonte (ver tabela acima)
-views/*.js               uma view por tela, cada uma com render() + mount()
+index.html    shell único (sidebar + topbar + área de conteúdo)
+assets/css/    identidade visual, layout, responsivo, modo apresentação
+assets/js/     utilitários compartilhados (tema, formatação, componentes,
+               período, router) + ECharts vendorizado em assets/js/vendor/
+data/*.js      dados mockados de cada fonte (ver tabela acima)
+views/*.js     uma view por tela, cada uma com render() + mount()
 ```
 
 Cada dataset guarda **séries mensais** (Jan–Set/2026); nenhum KPI é digitado como total
 fixo — tudo é somado em runtime pelo `period.js` conforme o período escolhido, então os
-números nunca divergem entre a Visão Geral e as telas de detalhe.
+números nunca divergem entre a Visão Geral e as telas de detalhe. Os contratos entre
+essas peças (o que cada view precisa implementar, como o router gerencia os gráficos,
+como adicionar uma tela nova) estão em [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Como isto vira sistema real
 
@@ -92,3 +91,9 @@ números nunca divergem entre a Visão Geral e as telas de detalhe.
 O próximo passo natural é priorizar 1–2 integrações (Agenda e O.S. já têm API, então são
 o caminho mais curto) e manter o restante como "mockup" até termos volume que justifique
 a integração automatizada.
+
+## Documentação relacionada
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — arquitetura técnica: camadas, contratos entre
+  dados/período/views/gráficos, decisões deliberadas.
+- [AGENTS.md](AGENTS.md) — convenções para quem (humano ou agente) for editar o código.
