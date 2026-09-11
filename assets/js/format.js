@@ -2,6 +2,8 @@
 (function () {
   const nf0 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
   const nf1 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 });
+  const nfCurrency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  const nfCurrencyCompact = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", notation: "compact", maximumFractionDigits: 1 });
 
   function num(v) {
     if (v === null || v === undefined || Number.isNaN(v)) return "—";
@@ -28,5 +30,15 @@
     return Math.max(min, Math.min(max, v));
   }
 
-  window.fmt = { num, num1, pct, compact, clamp };
+  function currency(v) {
+    if (v === null || v === undefined || Number.isNaN(v)) return "—";
+    return nfCurrency.format(v);
+  }
+
+  function currencyCompact(v) {
+    if (v === null || v === undefined || Number.isNaN(v)) return "—";
+    return nfCurrencyCompact.format(v);
+  }
+
+  window.fmt = { num, num1, pct, compact, clamp, currency, currencyCompact };
 })();

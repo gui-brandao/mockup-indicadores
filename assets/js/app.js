@@ -76,6 +76,11 @@
       ["relacionamento", "VIEW_RELACIONAMENTO"],
       ["educacao", "VIEW_EDUCACAO"],
       ["metas", "VIEW_METAS"],
+      ["parcerias", "VIEW_PARCERIAS"],
+      ["monitoramento-uso", "VIEW_MONITORAMENTO_USO"],
+      ["eventos", "VIEW_EVENTOS"],
+      ["posatendimento", "VIEW_POSATENDIMENTO"],
+      ["laboratorios", "VIEW_LABORATORIOS"],
     ];
     views.forEach(([route, globalName]) => {
       try {

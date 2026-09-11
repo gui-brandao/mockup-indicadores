@@ -898,6 +898,329 @@ table.data-table {
   display: inline-flex;
 }
 
+/* Avatar de iniciais (parceiros sem logo cadastrado) */
+
+.avatar-initials {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+.avatar-tone-navy { background: #2f7ab8; }
+.avatar-tone-gold { background: #d9a91c; }
+.avatar-tone-aqua { background: #1baf7a; }
+.avatar-tone-coral { background: #eb6834; }
+.avatar-tone-violet { background: #4a3aa7; }
+.avatar-tone-green { background: #1f8a4d; }
+
+/* Cartão de parceiro — clicável, expande contrapartidas inline (sem modal) */
+
+.partner-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  overflow: hidden;
+}
+
+.partner-card-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+}
+
+.partner-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.partner-card-name {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--gray-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.partner-card-meta {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 2px;
+}
+
+.partner-card-toggle {
+  color: var(--gray-500);
+  font-size: 14px;
+  transition: transform 0.15s ease;
+  flex: none;
+}
+
+.partner-card-head[aria-expanded="true"] .partner-card-toggle {
+  transform: rotate(180deg);
+}
+
+.partner-card-detail {
+  border-top: 1px solid var(--gray-100);
+  padding: 14px 16px;
+  background: var(--gray-100);
+}
+
+.partner-detail-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 12.5px;
+}
+
+.partner-detail-row:last-child { border-bottom: none; }
+
+.partner-detail-row .name {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.partner-detail-row .meta {
+  color: var(--gray-500);
+  font-size: 11.5px;
+}
+
+.partner-detail-row .value {
+  font-weight: 700;
+  color: var(--navy-700);
+  white-space: nowrap;
+}
+
+/* Kanban de startups por ciclo (tela Incubadora) */
+
+.kanban-board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.kanban-column {
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  min-width: 220px;
+}
+
+.kanban-column-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 6px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gray-700);
+}
+
+.kanban-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.kanban-column-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kanban-column-count {
+  background: var(--card);
+  border-radius: 999px;
+  padding: 1px 8px;
+  color: var(--gray-500);
+}
+
+.kanban-column-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kanban-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  box-shadow: var(--shadow-card);
+}
+
+.kanban-card-name {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--gray-900);
+}
+
+.kanban-card-desc {
+  font-size: 11.5px;
+  color: var(--gray-500);
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kanban-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--gray-500);
+}
+
+.kanban-empty {
+  font-size: 11.5px;
+  color: var(--gray-500);
+  text-align: center;
+  padding: 16px 4px;
+}
+
+/* Grid de cartões de evento (tela Eventos) */
+
+.event-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.event-card-title {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--gray-900);
+}
+
+.event-card-date {
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+
+.event-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.event-card-stats {
+  font-size: 12px;
+  color: var(--gray-700);
+  font-weight: 600;
+}
+
+/* Cartão de uso de laboratório */
+
+.lab-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  padding: 16px;
+}
+
+.lab-card-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.lab-card-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gray-900);
+}
+
+.lab-card-sub {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin: 2px 0 12px;
+}
+
+.lab-card-pct {
+  font-weight: 800;
+  color: var(--navy-800);
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.lab-card-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lab-card-track .progress-track { flex: 1; }
+
+/* Barra de distribuição de NPS (Pós-Atendimento) */
+
+.nps-bar {
+  display: flex;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--gray-200);
+}
+
+.nps-bar-segment { height: 100%; }
+
+.nps-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--gray-700);
+}
+
+.nps-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
 /* Utility */
 
 .text-muted { color: var(--gray-500); }

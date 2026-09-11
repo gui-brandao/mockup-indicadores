@@ -31,6 +31,38 @@
       }) +
       UI.kpiCard({ label: "Graduandas previstas", value: fmt.num(I.kpis.graduandasPrevistas), sub: "Ciclo Escala/Graduação — 52 semanas" });
 
+    const impactoKpis =
+      UI.kpiCard({
+        label: "Fomento captado pelas startups",
+        value: fmt.currency(PERIOD.last(I.fomentoCaptadoMensal)),
+        sub: "acumulado no ano, pelas 34 startups ativas",
+        hero: true,
+        spark: PERIOD.slice(I.fomentoCaptadoMensal),
+      }) +
+      UI.kpiCard({
+        label: "Empregos gerados",
+        value: fmt.num(PERIOD.last(I.empregosGeradosMensal)),
+        sub: `≈ ${fmt.num(PERIOD.last(I.familiasAtingidasMensal))} famílias atingidas na cidade`,
+        spark: PERIOD.slice(I.empregosGeradosMensal),
+      });
+
+    const kanban = I.ciclos
+      .map((c) =>
+        UI.kanbanColumn({
+          nome: c.nome,
+          cor: T.COLORS.navy500,
+          cards: I.startups
+            .filter((s) => s.cicloAtual === c.nome)
+            .map((s) => ({
+              nome: s.nome,
+              descricao: `${s.setor} · ${fmt.currency(s.fomentoCaptado)} captado`,
+              responsavel: s.responsavel,
+              data: new Date(s.dataEntrada).toLocaleDateString("pt-BR"),
+            })),
+        })
+      )
+      .join("");
+
     const trilho = I.ciclos
       .map(
         (c, idx) => `
@@ -53,11 +85,27 @@
     return `
       <div class="grid kpi-grid">${kpis}</div>
 
+      <div class="grid grid-2">${impactoKpis}</div>
+
       ${UI.sectionCard({
         eyebrow: "Metodologia · 52 semanas",
         title: "Jornada da incubação — 9 ciclos",
         desc: "Da entrada por edital até a graduação, com número de empresas ativas em cada etapa.",
         bodyHtml: `<div class="grid" style="grid-template-columns:repeat(9,minmax(0,1fr));gap:10px">${trilho}</div>`,
+      })}
+
+      ${UI.sectionCard({
+        eyebrow: "34 startups ativas",
+        title: "Kanban da jornada — startup a startup",
+        desc: "Cada cartão é uma startup ativa: setor, fomento captado e responsável, agrupados pelo ciclo atual.",
+        bodyHtml: `<div class="kanban-board">${kanban}</div>`,
+      })}
+
+      ${UI.sectionCard({
+        eyebrow: "Captação por segmento",
+        title: "Fomento captado por setor",
+        desc: "Soma do fomento já captado pelas startups ativas, agrupado por setor de atuação.",
+        bodyHtml: UI.chartBox("chart-inc-fomento-setor", 280),
       })}
 
       <div class="grid grid-main-side">
@@ -183,6 +231,28 @@
           label: { formatter: "{d}%", color: "#fff", fontSize: 11.5, fontWeight: 700, position: "inside" },
           labelLine: { show: false },
           data: I.setores.map((s) => ({ name: s.setor, value: s.valor })),
+        },
+      ],
+    });
+
+    // Fomento captado por setor — soma direta de startups[], mesmo padrão de
+    // agregação estática já usado na rosca de setores acima.
+    const fomentoPorSetor = {};
+    I.startups.forEach((s) => (fomentoPorSetor[s.setor] = (fomentoPorSetor[s.setor] || 0) + s.fomentoCaptado));
+    const setoresOrd = Object.entries(fomentoPorSetor).sort((a, b) => a[1] - b[1]);
+    const chartFomentoSetor = registerChart(echarts.init(document.getElementById("chart-inc-fomento-setor")));
+    chartFomentoSetor.setOption({
+      color: [T.SERIES_PALETTE[3]],
+      tooltip: T.tooltipDefaults({ trigger: "item", formatter: (p) => `${p.name}<br/><b>${fmt.currency(p.value)}</b>` }),
+      grid: T.baseGrid({ top: 10, right: 24 }),
+      xAxis: T.valueAxis({ axisLabel: { ...T.axisText(), formatter: (v) => fmt.currencyCompact(v) } }),
+      yAxis: T.categoryAxis(setoresOrd.map(([nome]) => nome), { axisLabel: { ...T.axisText(), interval: 0 } }),
+      series: [
+        {
+          type: "bar",
+          data: setoresOrd.map(([, valor]) => valor),
+          barMaxWidth: 20,
+          itemStyle: { borderRadius: T.barRadius("horizontal"), color: T.SERIES_PALETTE[3] },
         },
       ],
     });

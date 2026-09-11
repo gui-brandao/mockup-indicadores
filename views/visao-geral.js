@@ -79,6 +79,21 @@
         spark: PERIOD.slice(C.parceriasMensal),
       });
 
+    const impactoKpis =
+      UI.kpiCard({
+        label: "Empregos gerados",
+        value: fmt.num(PERIOD.last(I.empregosGeradosMensal)),
+        sub: "pelas startups da incubadora, acumulado no ano",
+        hero: true,
+        spark: PERIOD.slice(I.empregosGeradosMensal),
+      }) +
+      UI.kpiCard({
+        label: "Famílias atingidas",
+        value: fmt.num(PERIOD.last(I.familiasAtingidasMensal)),
+        sub: "estimado a partir dos empregos gerados",
+        spark: PERIOD.slice(I.familiasAtingidasMensal),
+      });
+
     const fontesCards = [
       { nome: "Sistema de Agenda", serie: A.series.agendamentos, unidade: "agendamentos", icon: "📅" },
       { nome: "Sistema de O.S.", serie: O.series.registros, unidade: "registros", icon: "🛠️" },
@@ -124,6 +139,13 @@
 
     return `
       <div class="grid kpi-grid">${kpis}</div>
+
+      ${UI.sectionCard({
+        eyebrow: "Resumo executivo · para a ADsampa",
+        title: "Impacto para o município",
+        desc: "O que o Parque devolve para Santo André, além dos atendimentos.",
+        bodyHtml: `<div class="grid grid-2">${impactoKpis}</div>`,
+      })}
 
       <div class="grid grid-main-side">
         ${UI.sectionCard({

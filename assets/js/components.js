@@ -120,9 +120,81 @@
       "Agendado": "navy",
       "Aguardando": "gray",
       "Em Andamento": "yellow",
+      "Em andamento": "yellow",
+      "Em atendimento": "yellow",
+      "Ativa": "green",
+      "Encerrada": "gray",
+      "Fora do SLA": "red",
+      "Inscrições abertas": "yellow",
+      "Realizado": "green",
+      "Programado": "navy",
     };
     const tone = map[status] || "gray";
     return `<span class="pill pill-${tone}">${esc(status)}</span>`;
+  }
+
+  // Tons fixos para avatares de iniciais — paleta própria, nunca reaproveita
+  // SERIES_PALETTE (séries de gráfico) nem STATUS (semântica de estado).
+  const AVATAR_TONES = ["navy", "gold", "aqua", "coral", "violet", "green"];
+
+  function hashCode(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+    return h;
+  }
+
+  // Avatar de iniciais coloridas — usado quando não há logo real de parceiro.
+  // O tom é escolhido de forma determinística a partir do nome (mesmo parceiro
+  // sempre com a mesma cor), não aleatório.
+  function avatarInitials(nome, tone) {
+    const parts = (nome || "").trim().split(/\s+/).filter(Boolean);
+    const initials = parts.length >= 2 ? parts[0][0] + parts[1][0] : (parts[0] || "?").slice(0, 2);
+    const chosenTone = tone || AVATAR_TONES[Math.abs(hashCode(nome || "")) % AVATAR_TONES.length];
+    return `<span class="avatar-initials avatar-tone-${chosenTone}">${esc(initials.toUpperCase())}</span>`;
+  }
+
+  // Cartão de parceiro clicável (tela de Parcerias) — expande/recolhe as
+  // contrapartidas via toggle de classe (sem biblioteca de modal).
+  function partnerCard({ id, nome, sigla, valorLabel, itens, status, detailHtml }) {
+    return `
+      <div class="partner-card" data-partner-id="${esc(id)}">
+        <button class="partner-card-head" type="button" aria-expanded="false">
+          ${avatarInitials(sigla || nome)}
+          <div class="partner-card-info">
+            <div class="partner-card-name">${esc(nome)}</div>
+            <div class="partner-card-meta">${fmt.num(itens)} ite${itens === 1 ? "m" : "ns"} de apoio · ${esc(valorLabel)}</div>
+          </div>
+          ${status ? statusPill(status) : ""}
+          <span class="partner-card-toggle">▾</span>
+        </button>
+        <div class="partner-card-detail" hidden>${detailHtml || ""}</div>
+      </div>`;
+  }
+
+  // Coluna do Kanban de startups por ciclo — somente leitura, sem drag-and-drop.
+  function kanbanColumn({ nome, cor, cards }) {
+    const cardsHtml = (cards || [])
+      .map(
+        (c) => `
+      <div class="kanban-card">
+        <div class="kanban-card-name">${esc(c.nome)}</div>
+        ${c.descricao ? `<div class="kanban-card-desc">${esc(c.descricao)}</div>` : ""}
+        <div class="kanban-card-foot">
+          ${c.responsavel ? `<span>👤 ${esc(c.responsavel)}</span>` : ""}
+          ${c.data ? `<span>${esc(c.data)}</span>` : ""}
+        </div>
+      </div>`
+      )
+      .join("");
+    return `
+      <div class="kanban-column">
+        <div class="kanban-column-head">
+          <span class="kanban-dot" style="background:${esc(cor)}"></span>
+          <span class="kanban-column-name">${esc(nome)}</span>
+          <span class="kanban-column-count">${fmt.num((cards || []).length)}</span>
+        </div>
+        <div class="kanban-column-body">${cardsHtml || '<div class="kanban-empty">Sem startups nesta fase</div>'}</div>
+      </div>`;
   }
 
   function dataTable({ columns, rows, numericCols }) {
@@ -153,5 +225,19 @@
       </div>`;
   }
 
-  window.UI = { esc, kpiCard, sectionCard, chartBox, progressBar, statusPill, dataTable, axisTile, sparkline, miniBar };
+  window.UI = {
+    esc,
+    kpiCard,
+    sectionCard,
+    chartBox,
+    progressBar,
+    statusPill,
+    dataTable,
+    axisTile,
+    sparkline,
+    miniBar,
+    avatarInitials,
+    partnerCard,
+    kanbanColumn,
+  };
 })();

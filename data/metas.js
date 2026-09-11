@@ -196,20 +196,20 @@ window.APP_DATA.metas = {
       "objetivo": "Eventos de ciência, tecnologia e empreendedorismo no CITE",
       "eixo": 3,
       "meta": 10,
-      "realizado": 0,
-      "status": "Não iniciada",
+      "realizado": 6,
+      "status": "Em execução",
       "unidade": "eventos/ano",
-      "pct": 0.0
+      "pct": 60.0
     },
     {
       "cod": "3.6.1",
       "objetivo": "Participação em eventos externos de CT&I",
       "eixo": 3,
       "meta": 6,
-      "realizado": 0,
-      "status": "Não iniciada",
+      "realizado": 4,
+      "status": "Em execução",
       "unidade": "eventos/ano",
-      "pct": 0.0
+      "pct": 66.7
     },
     {
       "cod": "4.1.1",
