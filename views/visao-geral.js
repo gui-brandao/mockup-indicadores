@@ -141,7 +141,7 @@
       <div class="grid kpi-grid">${kpis}</div>
 
       ${UI.sectionCard({
-        eyebrow: "Resumo executivo · para a ADsampa",
+        eyebrow: "Resumo executivo",
         title: "Impacto para o município",
         desc: "O que o Parque devolve para Santo André, além dos atendimentos.",
         bodyHtml: `<div class="grid grid-2">${impactoKpis}</div>`,
