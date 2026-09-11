@@ -10,7 +10,9 @@ window.APP_DATA.parcerias = {
   monthLabels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro"],
   // Valor econômico utilizado, acumulado no ano — métrica de "estoque" (como
   // startupsAtivas), por isso é lida com PERIOD.last(), não PERIOD.sum().
-  valorUtilizadoMensal: [44000, 83000, 122000, 160000, 205000, 250000, 300000, 355000, 413800],
+  // Setembro bate exatamente com o `utilizado` calculado em runtime a partir
+  // de `parceiros[].contrapartidas` (nunca digitar esse total, só conferir).
+  valorUtilizadoMensal: [347600, 655600, 963700, 1263900, 1619300, 1974800, 2369700, 2804200, 3268633],
   parceiros: [
     {
       id: "PRC-01",
@@ -26,6 +28,10 @@ window.APP_DATA.parcerias = {
       ],
     },
     {
+      // Maior parceiro do Parque — valor total declarado por eles mesmos em
+      // ~R$ 5 milhões, mas sem o contrato detalhado por item ainda em mãos.
+      // O total abaixo reflete esse valor real; o detalhamento por categoria
+      // é estimado/fictício até termos o contrato para conferência.
       id: "PRC-02",
       sigla: "VD",
       nome: "Instituto Vetor Digital",
@@ -33,9 +39,9 @@ window.APP_DATA.parcerias = {
       segmento: "ICT / Pesquisa",
       statusFormalizacao: "Ativa",
       contrapartidas: [
-        { categoria: "Bolsa de estudo", descricao: "Bolsas de iniciação científica em tecnologia", quantidadePrevista: 10, quantidadeUtilizada: 6, unidade: "bolsas", valorEconomico: 90000, vigenciaMeses: 12 },
-        { categoria: "Infraestrutura física", descricao: "Cessão de laboratório de prototipagem", quantidadePrevista: 500, quantidadeUtilizada: 210, unidade: "horas técnicas", valorEconomico: 175000, vigenciaMeses: 24 },
-        { categoria: "Serviço", descricao: "Consultoria em propriedade intelectual", quantidadePrevista: 40, quantidadeUtilizada: 12, unidade: "horas", valorEconomico: 20000, vigenciaMeses: 12 },
+        { categoria: "Infraestrutura física", descricao: "Cessão do complexo de laboratórios de pesquisa aplicada (prédio + equipamentos compartilhados)", quantidadePrevista: 24, quantidadeUtilizada: 16, unidade: "meses", valorEconomico: 3200000, vigenciaMeses: 24 },
+        { categoria: "Bolsa de estudo", descricao: "Bolsas de mestrado e doutorado em pesquisa aplicada e inovação", quantidadePrevista: 30, quantidadeUtilizada: 18, unidade: "bolsas", valorEconomico: 900000, vigenciaMeses: 24 },
+        { categoria: "Serviço", descricao: "Consultoria estratégica em propriedade intelectual, transferência de tecnologia e apoio à captação de recursos", quantidadePrevista: 400, quantidadeUtilizada: 140, unidade: "horas", valorEconomico: 900000, vigenciaMeses: 12 },
       ],
     },
     {
