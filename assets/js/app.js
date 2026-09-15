@@ -125,11 +125,30 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  // Variante async do safeBoot acima, só para a etapa que precisa esperar
+  // (busca das fontes com integração real em assets/js/data-loader.js).
+  async function safeBootAsync(fn, label) {
+    try {
+      await fn();
+    } catch (err) {
+      console.error(`Falha ao inicializar "${label}":`, err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
     safeBoot(initSidebar, "sidebar");
     safeBoot(initPeriodSelect, "seletor de período");
     safeBoot(initExportButtons, "botões de exportação");
     safeBoot(initPresentMode, "modo apresentação");
+    // Espera aqui (com timeout curto embutido em loadRemoteData) para que
+    // Agenda/O.S. já cheguem com dado real — quando configurado — no
+    // primeiro render(); se a função não existir (data-loader.js não
+    // carregou) ou falhar, segue direto com o mock já populado pelos
+    // scripts de data/*.js.
+    await safeBootAsync(
+      () => (typeof window.loadRemoteData === "function" ? window.loadRemoteData() : Promise.resolve()),
+      "integração real (Agenda/O.S.)"
+    );
     safeBoot(registerViews, "registro de telas");
     safeBoot(checkChartsLibrary, "verificação do ECharts");
     safeBoot(() => ROUTER.init(), "inicialização do roteador");

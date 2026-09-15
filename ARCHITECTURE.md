@@ -9,19 +9,23 @@ apresentação, veja o [README](README.md).
 
 É um site estático de uma página só (`index.html`), sem bundler, sem build e sem
 módulos ES — tudo roda como `<script>` clássico carregado em ordem, na própria tag
-`<body>`. Não há backend: cada "fonte de dados" é um objeto JavaScript literal em
-`data/*.js`, atribuído a `window.APP_DATA` assim que o script carrega.
+`<body>`. Praticamente não há backend: cada "fonte de dados" é um objeto JavaScript
+literal em `data/*.js`, atribuído a `window.APP_DATA` assim que o script carrega. A
+única exceção é Agenda/O.S., que já têm um encaixe de integração real (funções
+serverless em `/api` + `assets/js/data-loader.js`) — ver
+["Integração real (api/*.js + data-loader.js)"](#integração-real-apijs--data-loaderjs).
 
 ```mermaid
 flowchart LR
   subgraph Carregamento["Ordem de <script> em index.html"]
     direction LR
-    A["assets/js/vendor/echarts.min.js"] --> B["data/*.js<br/>(popula window.APP_DATA)"]
-    B --> C["format.js · theme.js · components.js<br/>(utilitários sem estado)"]
+    A["assets/js/vendor/echarts.min.js"] --> B["data/*.js<br/>(popula window.APP_DATA com o mock)"]
+    B --> B2["data-loader.js<br/>(define window.loadRemoteData, não chama ainda)"]
+    B2 --> C["format.js · theme.js · components.js<br/>(utilitários sem estado)"]
     C --> D["period.js<br/>(estado do período)"]
     D --> E["router.js<br/>(hash router)"]
     E --> F["views/*.js<br/>(registram-se, mas não rodam ainda)"]
-    F --> G["app.js<br/>(bootstrap: registra views, chama ROUTER.init)"]
+    F --> G["app.js<br/>(bootstrap: chama loadRemoteData, registra views, chama ROUTER.init)"]
   end
 ```
 
@@ -46,6 +50,43 @@ Cada arquivo estende `window.APP_DATA` com uma chave por fonte (`agenda`, `os`,
 - Comentários no topo de cada arquivo registram a origem real do número (print,
   planilha, aba) e o que é estimativa — mantenha esse rastro ao editar ou adicionar
   dados; é o que sustenta a tabela "Origem dos dados" do README.
+
+## Integração real (`api/*.js` + `data-loader.js`)
+
+Duas fontes (`agenda`, `os`) têm um segundo caminho, além do mock síncrono acima:
+uma função serverless em `/api` que o Vercel expõe automaticamente, sem config.
+
+```mermaid
+flowchart LR
+  L["assets/js/data-loader.js<br/>loadRemoteData()"] -->|"fetch /api/agenda"| A["api/agenda.js"]
+  L -->|"fetch /api/os"| O["api/os.js"]
+  A --> H["api/_lib/source-proxy.js<br/>(mesma política p/ as duas fontes)"]
+  O --> H
+  H -->|"sem env var"| M1["{ configured: false }"]
+  H -->|"env var + fetchReal() falhou"| M2["{ configured: true, ok: false }"]
+  H -->|"env var + fetchReal() ok"| R["{ configured: true, ok: true, data }"]
+  M1 & M2 -->|"data-loader mantém"| K["window.APP_DATA.agenda / .os<br/>(o que data/agenda.js·data/os.js já popularam)"]
+  R -->|"data-loader substitui"| K
+```
+
+- `api/agenda.js`, `api/os.js` — cada uma só existe de verdade quando
+  `AGENDA_API_BASE_URL`/`AGENDA_API_TOKEN` (ou o par de O.S.) estão configuradas nas
+  variáveis de ambiente do Vercel; sem isso, respondem `{ configured: false }` sempre
+  200 (nunca um HTTP de erro), e `fetchReal()` fica com um `TODO` documentando o
+  formato exato que a resposta precisa moldar — o mesmo shape de
+  `window.APP_DATA.agenda`/`.os` que `data/agenda.js`/`data/os.js` já definem.
+- `api/_lib/source-proxy.js` — política compartilhada pelas duas funções (arquivos/
+  pastas prefixados com `_` dentro de `/api` não viram rota própria no Vercel).
+- `assets/js/data-loader.js` — chamado por `app.js` antes de `registerViews()`/
+  `ROUTER.init()`; busca as duas rotas com timeout de 2,5s e só sobrescreve
+  `window.APP_DATA.<fonte>` quando a resposta vem com `ok: true` e `data` presente.
+  Qualquer outro caso (não configurado, erro, timeout, rede indisponível em
+  `file://` ou servidor local sem `/api`) é tratado como "mantenha o mock" — mesma
+  filosofia de resiliência do `try/catch` de `registerViews()` (ver "Decisões
+  deliberadas" abaixo).
+- Nenhuma view muda: `views/espacos.js`, `views/operacao.js` e `views/visao-geral.js`
+  continuam lendo `APP_DATA.agenda`/`APP_DATA.os` exatamente como antes — a troca de
+  mock por dado real é invisível para a camada de views.
 
 ## Estado de período (`assets/js/period.js`)
 
@@ -170,3 +211,6 @@ quebra uma garantia que o resto do painel depende:
 - Nenhum KPI como número fixo — sempre derivado de série mensal via `PERIOD`.
 - Tema claro fixo, sem dark mode.
 - Paleta de gráfico com ordem fixa e regra de "relief" (ver seção de tema acima).
+- `data-loader.js` nunca deixa `window.APP_DATA.agenda`/`.os` sem valor — qualquer
+  falha da integração real (não configurada, erro, timeout, sem rede) cai de volta
+  no mock de `data/agenda.js`/`data/os.js`, nunca numa tela vazia ou quebrada.

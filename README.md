@@ -5,11 +5,14 @@ Tecnológico, reunindo a leitura de sistemas hoje separados: **Sistema de Agenda
 **Sistema de O.S.**, **Zoho CRM** (onde atendimento = interação), **AVA** e o plano de
 trabalho **FINEP** da incubadora.
 
-> ⚠️ **Isto é um mockup, não um sistema integrado.** Não há backend, API nem automação
-> entre sistemas — os dados vivem em arquivos `.js` estáticos (`/data`). Números reais
+> ⚠️ **Isto é um mockup, não um sistema integrado.** A maior parte dos dados vive em
+> arquivos `.js` estáticos (`/data`); Espaços & Agenda e Operação (O.S.) já têm o
+> encaixe de uma integração real pronto (`/api` + `assets/js/data-loader.js`, ver
+> "Como isto vira sistema real" abaixo), mas ainda **sem credencial configurada** —
+> na prática, hoje o painel inteiro roda 100% com dado ilustrativo. Números reais
 > extraídos dos prints e das planilhas do projeto convivem com estimativas plausíveis
 > onde ainda não existe integração ou histórico. O objetivo é validar a ideia do produto
-> antes de investir em integração real.
+> antes de investir mais fundo na integração real.
 
 📐 Para a arquitetura técnica (camadas, contratos entre dados/período/views/gráficos,
 como adicionar uma tela nova), veja [ARCHITECTURE.md](ARCHITECTURE.md).
@@ -65,9 +68,11 @@ funcional de verdade, não decorativo.
 index.html    shell único (sidebar + topbar + área de conteúdo)
 assets/css/    identidade visual, layout, responsivo, modo apresentação
 assets/js/     utilitários compartilhados (tema, formatação, componentes,
-               período, router) + ECharts vendorizado em assets/js/vendor/
+               período, router, data-loader) + ECharts vendorizado em assets/js/vendor/
 data/*.js      dados mockados de cada fonte (ver tabela acima)
 views/*.js     uma view por tela, cada uma com render() + mount()
+api/*.js       funções serverless (Vercel) da integração real de Agenda/O.S. —
+               sem credencial configurada, não muda nada no mock
 ```
 
 Cada dataset guarda **séries mensais** (Jan–Set/2026); nenhum KPI é digitado como total
@@ -80,17 +85,37 @@ como adicionar uma tela nova) estão em [ARCHITECTURE.md](ARCHITECTURE.md).
 
 | Bloco do mockup | Fonte real a integrar |
 |---|---|
-| Espaços & Agenda | API do Sistema de Agenda (já expõe indicadores — ver chip "API" no header do sistema atual) |
-| Operação (O.S.) | Banco/API do Sistema de O.S. (mesmos indicadores já calculados hoje) |
+| Espaços & Agenda | **Arquitetura pronta** (`api/agenda.js` + `assets/js/data-loader.js`) — falta só configurar `AGENDA_API_BASE_URL`/`AGENDA_API_TOKEN` e implementar o `fetchReal()` contra a API do Sistema de Agenda (já expõe indicadores — ver chip "API" no header do sistema atual) |
+| Operação (O.S.) | **Arquitetura pronta** (`api/os.js` + `assets/js/data-loader.js`) — falta só configurar `OS_API_BASE_URL`/`OS_API_TOKEN` e implementar o `fetchReal()` contra o Banco/API do Sistema de O.S. (mesmos indicadores já calculados hoje) |
 | Relacionamento (CRM) | Zoho CRM API/COQL — módulo de Interações e Deals |
 | Educação & Visitas | Export do AVA + planilha de roteiros pedagógicos, migrando para banco próprio |
 | Incubadora & Jornada | Planilha `Ações dos consultores` e `Cronograma Incubadora` migrando para um board (Zoho Projects ou similar), com webhook para o painel |
 | Metas FINEP | Planilha `Acompanhamento de Metas` migrando para uma base única, com fórmula de "realizado" vindo dos módulos acima (evita preenchimento manual) |
+| Parcerias / Monitoramento de Uso / Eventos / Pós-Atendimento / Laboratórios | Ainda sem fonte real mapeada — hoje são 100% estimativas plausíveis |
 | Catraca | Integração direta com o controlador de acesso físico do Parque |
 
 O próximo passo natural é priorizar 1–2 integrações (Agenda e O.S. já têm API, então são
 o caminho mais curto) e manter o restante como "mockup" até termos volume que justifique
 a integração automatizada.
+
+### Integração real de Agenda e O.S. (arquitetura pronta, credenciais pendentes)
+
+Essas duas fontes já têm o encaixe pronto para dado real, sem nenhuma mudança nas telas:
+
+- `api/agenda.js` e `api/os.js` — funções serverless do Vercel (pasta `/api`, detectada
+  automaticamente, sem config extra). Sem `AGENDA_API_BASE_URL`/`AGENDA_API_TOKEN` (ou o
+  par equivalente de O.S.) configuradas nas variáveis de ambiente do projeto no Vercel,
+  respondem `{ configured: false }` e nada muda visualmente.
+- `assets/js/data-loader.js` — busca essas duas rotas antes do boot da aplicação; se a
+  fonte não estiver configurada, a chamada falhar ou estourar o tempo (2,5s), mantém o
+  mock que `data/agenda.js`/`data/os.js` já populou — a tela nunca fica sem dado por causa
+  desta camada, e o modo `file://`/servidor local continua funcionando exatamente como hoje.
+- `.env.example` documenta as variáveis esperadas.
+
+Para ativar de verdade: preencher `fetchReal()` em `api/agenda.js`/`api/os.js` com a
+chamada real (endpoint e autenticação do sistema de origem), moldando a resposta para o
+mesmo formato que `data/agenda.js`/`data/os.js` já usam hoje (documentado em comentário
+no topo de cada função), e configurar as variáveis de ambiente no Vercel.
 
 ## Documentação relacionada
 

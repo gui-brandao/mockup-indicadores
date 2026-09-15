@@ -1,8 +1,11 @@
 # AGENTS.md
 
 Mockup estático (HTML/CSS/JS puro, sem build) de um painel de indicadores para um
-Parque Tecnológico. Sem backend, sem `package.json`, sem testes automatizados —
-os "dados" são objetos JS literais em `data/*.js`.
+Parque Tecnológico. Sem `package.json`, sem testes automatizados — os "dados" são
+objetos JS literais em `data/*.js`. Única exceção: `api/*.js` são funções serverless
+do Vercel (sem credencial configurada, viram só um `{ configured: false }`, sem
+efeito no mock) — ver [ARCHITECTURE.md → Integração
+real](ARCHITECTURE.md#integração-real-apijs--data-loaderjs).
 
 ## Rodando o projeto
 
@@ -45,6 +48,11 @@ propósito (veja o README, seção "Como abrir").
   inventar ou ajustar um número, confira a tabela "Origem dos dados" no
   [README](README.md#origem-dos-dados) — não troque uma estimativa por um
   número "mais bonito" sem essa base.
+- **`api/agenda.js`/`api/os.js` nunca devem quebrar o boot nem exigir credencial.**
+  Sem variável de ambiente configurada, sempre respondem `{ configured: false }`
+  (HTTP 200) — nunca lance exceção nem exija `AGENDA_API_TOKEN`/`OS_API_TOKEN`
+  para o painel funcionar. Ver
+  [ARCHITECTURE.md → Integração real](ARCHITECTURE.md#integração-real-apijs--data-loaderjs).
 
 ## Documentação de referência
 
