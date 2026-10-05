@@ -1,0 +1,35 @@
+id,nome,setor,descricao_atual,ciclo_atual,fomento_captado,data_entrada,responsavel,empregos_gerados
+STU-01,ForjaTech Automação,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Entrada,0,2026-09-10,Rafael Prado,0
+STU-02,VitaCare Diagnósticos,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Entrada,0,2026-09-17,Diego Nakamura,0
+STU-03,AprendeMais EdTech,EdTech,Plataforma de aprendizagem adaptativa para educação básica,Diagnóstico,5000,2026-09-24,Camila Reis,1
+STU-04,AteliêDigital Design,Economia Criativa,Produção de conteúdo e design para marcas locais,Diagnóstico,4500,2026-09-07,Marina Duarte,0
+STU-05,AgroSensa Monitoramento,AgTech / Meio Ambiente,"Monitoramento remoto de solo, água e clima",Diagnóstico,5500,2026-09-14,Rafael Prado,0
+STU-06,PagaFácil Fintech,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Onboarding,8000,2026-08-21,Diego Nakamura,1
+STU-07,PrimeCorte Robótica,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Onboarding,8000,2026-08-04,Camila Reis,0
+STU-08,BioSinal Saúde,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Pré-Incubação,14000,2026-07-11,Marina Duarte,1
+STU-09,EduTrilha,EdTech,Plataforma de aprendizagem adaptativa para educação básica,Pré-Incubação,16000,2026-07-18,Rafael Prado,2
+STU-10,CenaViva Produções,Economia Criativa,Produção de conteúdo e design para marcas locais,Pré-Incubação,15500,2026-07-25,Diego Nakamura,1
+STU-11,VerdeTech Soluções,AgTech / Meio Ambiente,"Monitoramento remoto de solo, água e clima",Pré-Incubação,14500,2026-07-08,Camila Reis,1
+STU-12,CidadeConecta GovTech,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Pré-Incubação,14000,2026-07-15,Marina Duarte,2
+STU-13,AçoNova Manufatura,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Pré-Incubação,16500,2026-07-22,Rafael Prado,1
+STU-14,MedaVida Telemedicina,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Pré-Incubação,15500,2026-07-05,Diego Nakamura,1
+STU-15,SabTech Educação,EdTech,Plataforma de aprendizagem adaptativa para educação básica,Pré-Incubação,15000,2026-07-12,Camila Reis,2
+STU-16,ArteCode Studio,Economia Criativa,Produção de conteúdo e design para marcas locais,Pré-Incubação,14000,2026-07-19,Marina Duarte,1
+STU-17,HidroVerde Irrigação,AgTech / Meio Ambiente,"Monitoramento remoto de solo, água e clima",Validação,38500,2026-06-26,Rafael Prado,2
+STU-18,FinPonto Pagamentos,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Validação,37000,2026-06-09,Diego Nakamura,3
+STU-19,ModulaPeças,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Validação,35000,2026-06-16,Camila Reis,2
+STU-20,SaúdeConecta,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Validação,33500,2026-06-23,Marina Duarte,2
+STU-21,MentoraEdu,EdTech,Plataforma de aprendizagem adaptativa para educação básica,Validação,31500,2026-06-06,Rafael Prado,3
+STU-22,CriaLab Design,Economia Criativa,Produção de conteúdo e design para marcas locais,Validação,37000,2026-06-13,Diego Nakamura,2
+STU-23,TerraClima Análises,AgTech / Meio Ambiente,"Monitoramento remoto de solo, água e clima",Validação,35500,2026-06-20,Camila Reis,2
+STU-24,GovDigital ABC,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Operação,57500,2026-05-03,Marina Duarte,4
+STU-25,FormaTech Industrial,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Operação,54500,2026-05-10,Rafael Prado,3
+STU-26,PulseHealth Monitoramento,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Operação,64000,2026-05-17,Diego Nakamura,3
+STU-27,ClassePlay,EdTech,Plataforma de aprendizagem adaptativa para educação básica,Operação,61000,2026-05-24,Camila Reis,4
+STU-28,MosaicoMídia,Economia Criativa,Produção de conteúdo e design para marcas locais,Operação,58000,2026-05-07,Marina Duarte,3
+STU-29,PayLoop Soluções,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Operação,55000,2026-05-14,Rafael Prado,3
+STU-30,PrecisaMake,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Tração,102500,2026-04-21,Diego Nakamura,5
+STU-31,NeuroScan Labs,HealthTech,Solução digital para diagnóstico e acompanhamento de pacientes,Tração,98000,2026-04-04,Camila Reis,4
+STU-32,RegulaTech Compliance,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Tração,93000,2026-04-11,Marina Duarte,4
+STU-33,MetalFlex Componentes,IndTech / Manufatura,Automação de linha de produção e controle de qualidade,Escala,130000,2026-03-18,Rafael Prado,7
+STU-34,ImpactoPay Social,"Outros (GovTech, Fintech)",Solução digital de pagamentos e serviços públicos,Graduação,196000,2026-02-25,Diego Nakamura,8

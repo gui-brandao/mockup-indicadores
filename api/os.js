@@ -18,15 +18,15 @@
 // views/visao-geral.js enxergam; mantendo-o, nenhuma view muda.
 const { handleSource } = require("./_lib/source-proxy");
 
-async function fetchReal(baseUrl, token) {
+async function fetchReal(env) {
   // TODO: chamada real ao Sistema de O.S., ex.:
-  //   const r = await fetch(`${baseUrl}/indicadores`, { headers: { Authorization: `Bearer ${token}` } });
+  //   const r = await fetch(`${env.OS_API_BASE_URL}/indicadores`, { headers: { Authorization: `Bearer ${env.OS_API_TOKEN}` } });
   //   if (!r.ok) throw new Error(`Sistema de O.S. respondeu ${r.status}`);
   //   const raw = await r.json();
-  //   return moldarParaFormatoDoPainel(raw); // ver contrato no comentário acima
+  //   return { data: moldarParaFormatoDoPainel(raw) }; // ver contrato no comentário acima
   throw new Error("Integração real do Sistema de O.S. ainda não implementada");
 }
 
 module.exports = async (req, res) => {
-  await handleSource(res, { baseUrlEnv: "OS_API_BASE_URL", tokenEnv: "OS_API_TOKEN", fetchReal });
+  await handleSource(res, { requiredEnv: ["OS_API_BASE_URL", "OS_API_TOKEN"], fetchReal });
 };

@@ -1,29 +1,34 @@
 // Camada de integração real (funções serverless em /api) para as fontes que
-// já têm API no sistema de origem — hoje só Agenda e O.S. (ver README.md §
-// "Como isto vira sistema real"). Busca /api/agenda e /api/os antes do boot
-// da aplicação (chamado por app.js); se a fonte não estiver configurada, a
-// chamada falhar ou estourar o tempo limite, mantém o que data/agenda.js e
-// data/os.js já popularam de forma síncrona em window.APP_DATA — a tela
-// nunca fica sem dado por causa desta camada.
+// já têm um caminho real — Agenda e O.S. (API dos sistemas) e Incubadora
+// (planilha Google Sheets); ver README.md § "Como isto vira sistema real".
+// Busca as rotas /api antes do boot da aplicação (chamado por app.js); se a
+// fonte não estiver configurada, a chamada falhar ou estourar o tempo limite,
+// mantém o que data/*.js já popularam de forma síncrona em window.APP_DATA —
+// a tela nunca fica sem dado por causa desta camada.
 (function () {
   const TIMEOUT_MS = 2500;
+  // Planilha: troca de token + leitura no Google levam mais que uma API simples.
+  const TIMEOUT_PLANILHA_MS = 4500;
 
-  function fetchWithTimeout(url) {
+  function fetchWithTimeout(url, timeoutMs) {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
   }
 
   // body.configured === false (sem credencial ainda) ou body.ok === false
   // (credencial configurada, mas a chamada real falhou): em ambos os casos,
   // não mexe em window.APP_DATA — o mock que já está lá continua valendo.
-  async function loadSource(endpoint, key) {
+  async function loadSource(endpoint, key, timeoutMs) {
     try {
-      const res = await fetchWithTimeout(endpoint);
+      const res = await fetchWithTimeout(endpoint, timeoutMs);
       if (!res.ok) return;
       const body = await res.json();
       if (body && body.ok && body.data) {
         window.APP_DATA[key] = body.data;
+        (body.avisos || []).forEach((aviso) => console.warn(`Dados de "${key}" — ${aviso}`));
+      } else if (body && body.configured && !body.ok) {
+        console.warn(`Integração real de "${key}" falhou, usando dados ilustrativos: ${body.error}`);
       }
     } catch (err) {
       console.warn(`Integração real de "${key}" indisponível, usando dados ilustrativos:`, err);
@@ -35,7 +40,11 @@
     // responder — pular aqui evita o ruído de CORS/rede no console sem mudar
     // o resultado (o fetch cairia no mesmo catch de qualquer forma).
     if (window.location.protocol === "file:") return;
-    await Promise.all([loadSource("/api/agenda", "agenda"), loadSource("/api/os", "os")]);
+    await Promise.all([
+      loadSource("/api/agenda", "agenda", TIMEOUT_MS),
+      loadSource("/api/os", "os", TIMEOUT_MS),
+      loadSource("/api/incubadora", "incubadora", TIMEOUT_PLANILHA_MS),
+    ]);
   }
 
   window.loadRemoteData = loadRemoteData;

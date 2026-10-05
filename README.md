@@ -6,8 +6,8 @@ Tecnológico, reunindo a leitura de sistemas hoje separados: **Sistema de Agenda
 trabalho **FINEP** da incubadora.
 
 > ⚠️ **Isto é um mockup, não um sistema integrado.** A maior parte dos dados vive em
-> arquivos `.js` estáticos (`/data`); Espaços & Agenda e Operação (O.S.) já têm o
-> encaixe de uma integração real pronto (`/api` + `assets/js/data-loader.js`, ver
+> arquivos `.js` estáticos (`/data`); Espaços & Agenda, Operação (O.S.) e Incubadora já
+> têm o encaixe de uma integração real pronto (`/api` + `assets/js/data-loader.js`, ver
 > "Como isto vira sistema real" abaixo), mas ainda **sem credencial configurada** —
 > na prática, hoje o painel inteiro roda 100% com dado ilustrativo. Números reais
 > extraídos dos prints e das planilhas do projeto convivem com estimativas plausíveis
@@ -71,8 +71,9 @@ assets/js/     utilitários compartilhados (tema, formatação, componentes,
                período, router, data-loader) + ECharts vendorizado em assets/js/vendor/
 data/*.js      dados mockados de cada fonte (ver tabela acima)
 views/*.js     uma view por tela, cada uma com render() + mount()
-api/*.js       funções serverless (Vercel) da integração real de Agenda/O.S. —
-               sem credencial configurada, não muda nada no mock
+api/*.js       funções serverless (Vercel) da integração real (Agenda, O.S.,
+               Incubadora via Google Sheets) — sem credencial, não muda nada no mock
+docs/          CSVs de partida da planilha da Incubadora
 ```
 
 Cada dataset guarda **séries mensais** (Jan–Set/2026); nenhum KPI é digitado como total
@@ -89,7 +90,7 @@ como adicionar uma tela nova) estão em [ARCHITECTURE.md](ARCHITECTURE.md).
 | Operação (O.S.) | **Arquitetura pronta** (`api/os.js` + `assets/js/data-loader.js`) — falta só configurar `OS_API_BASE_URL`/`OS_API_TOKEN` e implementar o `fetchReal()` contra o Banco/API do Sistema de O.S. (mesmos indicadores já calculados hoje) |
 | Relacionamento (CRM) | Zoho CRM API/COQL — módulo de Interações e Deals |
 | Educação & Visitas | Export do AVA + planilha de roteiros pedagógicos, migrando para banco próprio |
-| Incubadora & Jornada | Planilha `Ações dos consultores` e `Cronograma Incubadora` migrando para um board (Zoho Projects ou similar), com webhook para o painel |
+| Incubadora & Jornada | **Arquitetura pronta** (`api/incubadora.js`, lê uma planilha Google Sheets) — falta criar a planilha e configurar a conta de serviço; ver "Planilha da Incubadora" abaixo |
 | Metas FINEP | Planilha `Acompanhamento de Metas` migrando para uma base única, com fórmula de "realizado" vindo dos módulos acima (evita preenchimento manual) |
 | Parcerias / Monitoramento de Uso / Eventos / Pós-Atendimento / Laboratórios | Ainda sem fonte real mapeada — hoje são 100% estimativas plausíveis |
 | Catraca | Integração direta com o controlador de acesso físico do Parque |
@@ -116,6 +117,44 @@ Para ativar de verdade: preencher `fetchReal()` em `api/agenda.js`/`api/os.js` c
 chamada real (endpoint e autenticação do sistema de origem), moldando a resposta para o
 mesmo formato que `data/agenda.js`/`data/os.js` já usam hoje (documentado em comentário
 no topo de cada função), e configurar as variáveis de ambiente no Vercel.
+
+### Planilha da Incubadora (Google Sheets, somente leitura)
+
+A tela **Incubadora & Jornada** pode ler uma planilha Google Sheets em vez de
+`data/incubadora.js` (que continua como mock/fallback). A equipe edita no Google Sheets; o
+painel só lê. Totais que dá para derivar (nº de startups, empresas por ciclo, setores,
+mentorias, aulas) **não são digitados** — `api/_lib/montar-incubadora.js` calcula a partir
+das linhas e avisa no console se as séries mensais não baterem com a aba `Startups`.
+
+Passo a passo:
+
+1. **Criar a planilha** no Google Sheets e importar cada CSV de
+   [`docs/planilha-incubadora/`](docs/planilha-incubadora/) como uma aba com o **mesmo nome
+   do arquivo** (Arquivo → Importar → "Inserir nova planilha"). Os CSVs vêm do mock atual,
+   então servem de ponto de partida; depois é só substituir pelos dados reais.
+2. **Conta de serviço**: no Google Cloud, criar um projeto, ativar a *Google Sheets API*,
+   criar uma conta de serviço e baixar a chave JSON.
+3. **Compartilhar a planilha** (como *Leitor*) com o e-mail da conta de serviço.
+4. **Variáveis no Vercel** (Settings → Environment Variables): `INCUBADORA_SHEET_ID`
+   (trecho entre `/d/` e `/edit` da URL), `GOOGLE_SERVICE_ACCOUNT_EMAIL` (`client_email`
+   do JSON) e `GOOGLE_SERVICE_ACCOUNT_KEY` (`private_key` do JSON).
+5. Abrir `/api/incubadora` no site publicado: `"ok": true` e `avisos` vazio = tudo certo.
+
+| Aba | Colunas (1ª linha = cabeçalho, em minúsculas) | Observação |
+|---|---|---|
+| `Startups` | id, nome, setor, descricao_atual, ciclo_atual, fomento_captado, data_entrada, responsavel, empregos_gerados | uma linha por startup; `ciclo_atual` deve ser um nome da aba `Ciclos`; data como `2026-09-10` |
+| `Ciclos` | ordem, nome, semanas, entrega | nº de empresas por ciclo é contado em `Startups` |
+| `Fases` | id, nome, estagio, individual, coletivo | S1–S6 |
+| `AulasColetivas` | fase, total, prontas | |
+| `PlanoTrabalho` | status, quantidade | status: `concluida`, `emExecucao`, `naoIniciada`, `semStatus` |
+| `Maturidade` | dimensao, valor | 0 a 100 |
+| `Mensal` | mes, startups_ativas, mentorias, aulas, empregos_gerados, familias_atingidas, fomento_captado_acum | **9 linhas** (mês 1–9, Jan–Set); `fomento_captado_acum` e `empregos_gerados` são acumulados do ano |
+| `Parametros` | chave, valor | `acoesTransversais`, `totalAcoesIndividual`, `totalAcoesColetivo`, `graduandasPrevistas` |
+
+> ⚠️ **O site é público.** Com a credencial configurada, `/api/incubadora` entrega nomes de
+> startups e valores de fomento a qualquer pessoa com a URL. Ative a proteção de acesso do
+> Vercel (senha ou SSO) **antes** de configurar as variáveis. O cache do endpoint é de 60 s
+> (a planilha pode levar até 1 minuto para refletir uma edição).
 
 ## Documentação relacionada
 

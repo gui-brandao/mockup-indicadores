@@ -4,7 +4,7 @@ Mockup estático (HTML/CSS/JS puro, sem build) de um painel de indicadores para 
 Parque Tecnológico. Sem `package.json`, sem testes automatizados — os "dados" são
 objetos JS literais em `data/*.js`. Única exceção: `api/*.js` são funções serverless
 do Vercel (sem credencial configurada, viram só um `{ configured: false }`, sem
-efeito no mock) — ver [ARCHITECTURE.md → Integração
+efeito no mock; sem dependências npm) — ver [ARCHITECTURE.md → Integração
 real](ARCHITECTURE.md#integração-real-apijs--data-loaderjs).
 
 ## Rodando o projeto
@@ -48,10 +48,13 @@ propósito (veja o README, seção "Como abrir").
   inventar ou ajustar um número, confira a tabela "Origem dos dados" no
   [README](README.md#origem-dos-dados) — não troque uma estimativa por um
   número "mais bonito" sem essa base.
-- **`api/agenda.js`/`api/os.js` nunca devem quebrar o boot nem exigir credencial.**
-  Sem variável de ambiente configurada, sempre respondem `{ configured: false }`
-  (HTTP 200) — nunca lance exceção nem exija `AGENDA_API_TOKEN`/`OS_API_TOKEN`
-  para o painel funcionar. Ver
+- **`api/*.js` (agenda, os, incubadora) nunca devem quebrar o boot nem exigir
+  credencial.** Sem variável de ambiente configurada, sempre respondem
+  `{ configured: false }` (HTTP 200) — nunca lance exceção nem exija token/chave
+  para o painel funcionar; erro na chamada real também volta como 200 com
+  `ok: false`. Qualquer fonte nova passa por `handleSource`. Se mudar o formato de
+  `data/incubadora.js`, atualize junto `api/_lib/montar-incubadora.js` e os CSVs de
+  `docs/planilha-incubadora/` (o mock é o contrato). Ver
   [ARCHITECTURE.md → Integração real](ARCHITECTURE.md#integração-real-apijs--data-loaderjs).
 
 ## Documentação de referência

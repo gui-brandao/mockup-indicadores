@@ -53,8 +53,10 @@ Cada arquivo estende `window.APP_DATA` com uma chave por fonte (`agenda`, `os`,
 
 ## Integração real (`api/*.js` + `data-loader.js`)
 
-Duas fontes (`agenda`, `os`) têm um segundo caminho, além do mock síncrono acima:
-uma função serverless em `/api` que o Vercel expõe automaticamente, sem config.
+Três fontes (`agenda`, `os`, `incubadora`) têm um segundo caminho, além do mock
+síncrono acima: uma função serverless em `/api` que o Vercel expõe automaticamente,
+sem config. Agenda e O.S. apontam para a API dos sistemas de origem (ainda `TODO`);
+`incubadora` já está implementada contra uma planilha Google Sheets.
 
 ```mermaid
 flowchart LR
@@ -75,8 +77,16 @@ flowchart LR
   200 (nunca um HTTP de erro), e `fetchReal()` fica com um `TODO` documentando o
   formato exato que a resposta precisa moldar — o mesmo shape de
   `window.APP_DATA.agenda`/`.os` que `data/agenda.js`/`data/os.js` já definem.
-- `api/_lib/source-proxy.js` — política compartilhada pelas duas funções (arquivos/
-  pastas prefixados com `_` dentro de `/api` não viram rota própria no Vercel).
+- `api/_lib/source-proxy.js` — política compartilhada por todas as funções (arquivos/
+  pastas prefixados com `_` dentro de `/api` não viram rota própria no Vercel):
+  `requiredEnv` (todas preenchidas, senão `{ configured: false }`), `fetchReal(env)`
+  devolvendo `{ data, avisos? }` e `cacheSeconds` opcional (`Cache-Control` do CDN).
+- `api/incubadora.js` — lê a planilha com `api/_lib/google-sheets.js` (conta de
+  serviço, sem dependências: JWT RS256 via `crypto` + `fetch`) e monta o objeto com
+  `api/_lib/montar-incubadora.js`, **função pura** que também deriva o que não deve
+  ser digitado (startups ativas, empresas por ciclo, setores, mentorias, aulas) e
+  devolve `avisos` quando as abas se contradizem. O modelo de abas/colunas está no
+  README; os CSVs em `docs/planilha-incubadora/` reproduzem exatamente o mock.
 - `assets/js/data-loader.js` — chamado por `app.js` antes de `registerViews()`/
   `ROUTER.init()`; busca as duas rotas com timeout de 2,5s e só sobrescreve
   `window.APP_DATA.<fonte>` quando a resposta vem com `ok: true` e `data` presente.

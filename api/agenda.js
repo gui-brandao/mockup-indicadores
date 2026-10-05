@@ -17,15 +17,15 @@
 // views/visao-geral.js enxergam; mantendo-o, nenhuma view muda.
 const { handleSource } = require("./_lib/source-proxy");
 
-async function fetchReal(baseUrl, token) {
+async function fetchReal(env) {
   // TODO: chamada real ao Sistema de Agenda, ex.:
-  //   const r = await fetch(`${baseUrl}/indicadores`, { headers: { Authorization: `Bearer ${token}` } });
+  //   const r = await fetch(`${env.AGENDA_API_BASE_URL}/indicadores`, { headers: { Authorization: `Bearer ${env.AGENDA_API_TOKEN}` } });
   //   if (!r.ok) throw new Error(`Sistema de Agenda respondeu ${r.status}`);
   //   const raw = await r.json();
-  //   return moldarParaFormatoDoPainel(raw); // ver contrato no comentário acima
+  //   return { data: moldarParaFormatoDoPainel(raw) }; // ver contrato no comentário acima
   throw new Error("Integração real do Sistema de Agenda ainda não implementada");
 }
 
 module.exports = async (req, res) => {
-  await handleSource(res, { baseUrlEnv: "AGENDA_API_BASE_URL", tokenEnv: "AGENDA_API_TOKEN", fetchReal });
+  await handleSource(res, { requiredEnv: ["AGENDA_API_BASE_URL", "AGENDA_API_TOKEN"], fetchReal });
 };

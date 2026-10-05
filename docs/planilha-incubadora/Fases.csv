@@ -1,0 +1,7 @@
+id,nome,estagio,individual,coletivo
+S1,S1 · Sentir,Ideação,12,14
+S2,S2 · Arquitetar,Início da Validação,69,27
+S3,S3 · Validar,Conclusão da Validação,70,26
+S4,S4 · Operar,Operação,71,25
+S5,S5 · Colher Resultados,Tração,70,26
+S6,S6 · Ampliar,Escala,69,27
