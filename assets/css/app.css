@@ -595,6 +595,22 @@ a { color: inherit; }
   line-height: 1.5;
 }
 
+.load-warning summary {
+  cursor: pointer;
+}
+
+.load-warning ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.mock-badge.is-real {
+  background: var(--green-600);
+  border-color: transparent;
+}
+
 .load-warning code {
   font-size: 12px;
   background: rgba(0, 0, 0, 0.06);

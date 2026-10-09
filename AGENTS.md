@@ -14,6 +14,13 @@ Não há instalação nem build.
 - Abrir `index.html` direto no navegador (`file://`), ou
 - `python3 -m http.server 8080` na raiz e acessar `http://localhost:8080`
 
+São duas páginas sobre o mesmo código: `index.html` (apresentação, 12 telas, sempre
+ilustrativo) e `equipe.html` (painel da equipe, só a Incubadora, lendo a planilha Google
+Sheets via `/api/incubadora`). O que muda entre elas é o `window.APP_CONFIG` de cada uma
+— não duplique view nem lógica por página. Na Incubadora, todo número e texto variável
+vem de `APP_DATA.incubadora` (derivado da planilha); não escreva contagem, data ou nome
+de mês fixo em `views/incubadora.js`.
+
 Não sugira `npm install`, bundler ou transpilador — não existe toolchain aqui de
 propósito (veja o README, seção "Como abrir").
 

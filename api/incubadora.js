@@ -7,16 +7,22 @@
 // { configured: false } e o painel segue no mock de data/incubadora.js.
 const { handleSource } = require("./_lib/source-proxy");
 const { lerAbas } = require("./_lib/google-sheets");
-const { montarIncubadora, ABAS_OBRIGATORIAS } = require("./_lib/montar-incubadora");
+const { montarIncubadora, ABAS_LIDAS } = require("./_lib/montar-incubadora");
+
+// "Hoje" no fuso do Parque (o servidor do Vercel roda em UTC): é o que define
+// o mês corrente do painel.
+function hojeEmSaoPaulo() {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(new Date());
+}
 
 async function fetchReal(env) {
   const abas = await lerAbas({
     planilhaId: env.INCUBADORA_SHEET_ID,
     email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
     chavePrivada: env.GOOGLE_SERVICE_ACCOUNT_KEY,
-    abas: ABAS_OBRIGATORIAS,
+    abas: ABAS_LIDAS,
   });
-  return montarIncubadora(abas);
+  return montarIncubadora(abas, hojeEmSaoPaulo());
 }
 
 module.exports = async (req, res) => {

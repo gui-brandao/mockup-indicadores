@@ -1,7 +1,8 @@
-id,nome,estagio,individual,coletivo
-S1,S1 · Sentir,Ideação,12,14
-S2,S2 · Arquitetar,Início da Validação,69,27
-S3,S3 · Validar,Conclusão da Validação,70,26
-S4,S4 · Operar,Operação,71,25
-S5,S5 · Colher Resultados,Tração,70,26
-S6,S6 · Ampliar,Escala,69,27
+id,nome,estagio,objetivo
+S1,S1 · Sentir,Ideação,"Descobrir dores reais, compreender o público e formular hipóteses."
+S2,S2 · Arquitetar,Início da Validação,Estruturar a solução e transformar a hipótese em Prova de Conceito ou Produto Mínimo Viável testável.
+S3,S3 · Validar,Conclusão da Validação,"Testar com clientes reais, registrar aprendizados e comprovar demanda."
+S4,S4 · Operar,Operação,"Estruturar processos, gestão, finanças e relacionamento com clientes."
+S5,S5 · Colher Resultados,Tração,"Ampliar canais, gerar previsibilidade comercial e melhorar retenção."
+S6,S6 · Ampliar,Escala,"Preparar governança, equipe, automação e expansão sustentável."
+TRANSVERSAL,Transversal,Todas,Ações que acompanham a startup em toda a jornada

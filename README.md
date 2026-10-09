@@ -65,7 +65,7 @@ funcional de verdade, não decorativo.
 ## Estrutura do projeto
 
 ```
-index.html    shell único (sidebar + topbar + área de conteúdo)
+index.html    apresentação: shell com as 12 telas (sidebar + topbar + conteúdo)
 assets/css/    identidade visual, layout, responsivo, modo apresentação
 assets/js/     utilitários compartilhados (tema, formatação, componentes,
                período, router, data-loader) + ECharts vendorizado em assets/js/vendor/
@@ -73,10 +73,12 @@ data/*.js      dados mockados de cada fonte (ver tabela acima)
 views/*.js     uma view por tela, cada uma com render() + mount()
 api/*.js       funções serverless (Vercel) da integração real (Agenda, O.S.,
                Incubadora via Google Sheets) — sem credencial, não muda nada no mock
-docs/          CSVs de partida da planilha da Incubadora
+equipe.html   painel da equipe: só a tela Incubadora, lendo a planilha Google Sheets
+docs/          CSVs com o modelo da planilha da Incubadora
 ```
 
-Cada dataset guarda **séries mensais** (Jan–Set/2026); nenhum KPI é digitado como total
+Cada dataset guarda **séries mensais** (Jan–Set/2026 no mock; no painel da equipe, Jan até o
+mês corrente, vindo da planilha); nenhum KPI é digitado como total
 fixo — tudo é somado em runtime pelo `period.js` conforme o período escolhido, então os
 números nunca divergem entre a Visão Geral e as telas de detalhe. Os contratos entre
 essas peças (o que cada view precisa implementar, como o router gerencia os gráficos,
@@ -90,7 +92,7 @@ como adicionar uma tela nova) estão em [ARCHITECTURE.md](ARCHITECTURE.md).
 | Operação (O.S.) | **Arquitetura pronta** (`api/os.js` + `assets/js/data-loader.js`) — falta só configurar `OS_API_BASE_URL`/`OS_API_TOKEN` e implementar o `fetchReal()` contra o Banco/API do Sistema de O.S. (mesmos indicadores já calculados hoje) |
 | Relacionamento (CRM) | Zoho CRM API/COQL — módulo de Interações e Deals |
 | Educação & Visitas | Export do AVA + planilha de roteiros pedagógicos, migrando para banco próprio |
-| Incubadora & Jornada | **Arquitetura pronta** (`api/incubadora.js`, lê uma planilha Google Sheets) — falta criar a planilha e configurar a conta de serviço; ver "Planilha da Incubadora" abaixo |
+| Incubadora & Jornada | **Planilha pronta** (`api/incubadora.js` lê a planilha Google Sheets da equipe; `equipe.html` é o painel de uso diário) — falta só a conta de serviço e as variáveis no Vercel; ver "Planilha da Incubadora" abaixo |
 | Metas FINEP | Planilha `Acompanhamento de Metas` migrando para uma base única, com fórmula de "realizado" vindo dos módulos acima (evita preenchimento manual) |
 | Parcerias / Monitoramento de Uso / Eventos / Pós-Atendimento / Laboratórios | Ainda sem fonte real mapeada — hoje são 100% estimativas plausíveis |
 | Catraca | Integração direta com o controlador de acesso físico do Parque |
@@ -118,43 +120,66 @@ chamada real (endpoint e autenticação do sistema de origem), moldando a respos
 mesmo formato que `data/agenda.js`/`data/os.js` já usam hoje (documentado em comentário
 no topo de cada função), e configurar as variáveis de ambiente no Vercel.
 
-### Planilha da Incubadora (Google Sheets, somente leitura)
+### Planilha da Incubadora e painel da equipe (Google Sheets, somente leitura)
 
-A tela **Incubadora & Jornada** pode ler uma planilha Google Sheets em vez de
-`data/incubadora.js` (que continua como mock/fallback). A equipe edita no Google Sheets; o
-painel só lê. Totais que dá para derivar (nº de startups, empresas por ciclo, setores,
-mentorias, aulas) **não são digitados** — `api/_lib/montar-incubadora.js` calcula a partir
-das linhas e avisa no console se as séries mensais não baterem com a aba `Startups`.
+A tela **Incubadora & Jornada** tem uma versão de uso diário para a equipe,
+[`equipe.html`](equipe.html), que mostra **só essa tela** e lê tudo de uma planilha Google
+Sheets. `index.html` (a apresentação com as 12 telas) continua 100% ilustrativo e **não**
+busca a planilha, para não misturar dado real com dado de exemplo.
 
-Passo a passo:
+**Princípio: a planilha só tem cadastros e registros, nunca totais.** Cada número, gráfico,
+cartão do Kanban e texto variável da tela é calculado em `api/_lib/montar-incubadora.js` a
+partir das linhas: registrou uma mentoria, o KPI, o gráfico de cadência e o filtro de período
+mudam juntos; mudou o ciclo de uma startup, o trilho, o Kanban e a distribuição por etapa
+acompanham. Não há aba de "resumo" para manter em dia.
 
-1. **Criar a planilha** no Google Sheets e importar cada CSV de
-   [`docs/planilha-incubadora/`](docs/planilha-incubadora/) como uma aba com o **mesmo nome
-   do arquivo** (Arquivo → Importar → "Inserir nova planilha"). Os CSVs vêm do mock atual,
-   então servem de ponto de partida; depois é só substituir pelos dados reais.
-2. **Conta de serviço**: no Google Cloud, criar um projeto, ativar a *Google Sheets API*,
+**Período = calendário real.** O seletor vai de janeiro do ano até o mês corrente (fuso de
+São Paulo): "Acumulado {ano}", "Últimos 3 meses" e o mês atual. Para olhar um ano anterior,
+preencha `ano` na aba `Config`.
+
+| Aba | Colunas (1ª linha = cabeçalho) | O que alimenta no painel |
+|---|---|---|
+| `Startups` | id, nome, cnpj, setor, descricao, ciclo_atual, status, data_entrada, data_saida, responsavel, observacoes | Kanban (só `status` = Ativa), trilho e distribuição por ciclo, setores, KPI e série mensal de startups ativas (entrada ≤ fim do mês < saída), graduandas previstas (ativas no último ciclo) |
+| `Mentorias` | data, startup_id, consultor, fase, tema, horas | KPI "Mentorias realizadas" e gráfico de cadência (por mês) |
+| `AulasColetivas` | fase, semana, formato, atividade, elaborador, prazo_material, material_pronto, data_realizada | tabela de material pronto por fase; KPI "Aulas ministradas" e cadência contam `data_realizada` |
+| `Diagnosticos` | data, startup_id, avaliador + 6 notas 0–100 (modelo_negocio, solucao_tecnologia, time_gestao, mercado_clientes, financeiro, propriedade_intelectual) | radar de maturidade: média do diagnóstico **mais recente** de cada startup ativa |
+| `Fomento` | data, startup_id, fonte, descricao, valor | KPI de fomento (no período + acumulado do ano), fomento por setor, valor em cada cartão |
+| `Empregos` | data, startup_id, variacao (+contratação / −desligamento), observacao | KPI de empregos e famílias atingidas (empregos × `multiplicador_familias`) |
+| `PlanoTrabalho` | cod_finep, tarefa, responsavel, status, inicio, termino, prioridade | KPI "Entregas do plano concluídas" (contagem por status) |
+| `Metodologia` | fase, semana, acao, tipo, periodicidade | gráfico de ações por fase (Individual × Coletivo) e nº de ações mapeadas |
+| `Ciclos` | ordem, nome, semana_inicio, semana_fim, entrega | colunas do Kanban, trilho, cronograma de entregas, duração da jornada |
+| `Fases` | id, nome, estagio, objetivo | nomes das fases S1–S6 |
+| `Equipe` | nome, funcao, email, ativo | lista suspensa de consultor/responsável |
+| `Listas` *(opcional)* | setores, status_startup, fontes_fomento, formatos_aula, status_tarefa, sim_nao | listas suspensas e ordem dos setores no painel |
+| `Config` *(opcional)* | chave, valor, descricao | `ano` (vazio = ano atual), `multiplicador_familias` (padrão 1,6) |
+
+Linhas inconsistentes (startup inexistente, ciclo ou status fora da lista, nota fora de
+0–100, data futura, Ativa com data de saída, id repetido…) **não derrubam o painel**: a
+linha é ignorada e aparece numa faixa amarela "A planilha tem N ponto(s) a conferir" no
+topo do `equipe.html`, com aba e número da linha. O selo do topo mostra
+"PLANILHA DA INCUBADORA · data" quando o dado é real, ou "DADOS ILUSTRATIVOS" (não conectada
+/ falha ao ler) quando o painel caiu no mock de `data/incubadora.js`.
+
+Os CSVs em [`docs/planilha-incubadora/`](docs/planilha-incubadora/) são o mesmo modelo
+(com os nomes de responsáveis do plano de trabalho apagados) — servem para recriar a
+planilha do zero, importando cada um como uma aba com o **mesmo nome do arquivo**. As abas
+`Metodologia`, `Ciclos`, `Fases`, `AulasColetivas` e `PlanoTrabalho` vêm das planilhas
+reais do projeto; `Startups`, `Mentorias`, `Diagnosticos`, `Fomento` e `Empregos` são
+**exemplos coerentes**, para a equipe substituir.
+
+Para ligar o painel à planilha:
+
+1. **Conta de serviço**: no Google Cloud, criar um projeto, ativar a *Google Sheets API*,
    criar uma conta de serviço e baixar a chave JSON.
-3. **Compartilhar a planilha** (como *Leitor*) com o e-mail da conta de serviço.
+2. **Compartilhar a planilha** (como *Leitor*) com o e-mail da conta de serviço.
+3. ⚠️ **Proteger o site antes**: ative a proteção de acesso do Vercel (senha ou SSO). O
+   site é público e, com a credencial, `/api/incubadora` entrega nomes de startups e
+   valores de fomento a qualquer pessoa com a URL.
 4. **Variáveis no Vercel** (Settings → Environment Variables): `INCUBADORA_SHEET_ID`
    (trecho entre `/d/` e `/edit` da URL), `GOOGLE_SERVICE_ACCOUNT_EMAIL` (`client_email`
-   do JSON) e `GOOGLE_SERVICE_ACCOUNT_KEY` (`private_key` do JSON).
-5. Abrir `/api/incubadora` no site publicado: `"ok": true` e `avisos` vazio = tudo certo.
-
-| Aba | Colunas (1ª linha = cabeçalho, em minúsculas) | Observação |
-|---|---|---|
-| `Startups` | id, nome, setor, descricao_atual, ciclo_atual, fomento_captado, data_entrada, responsavel, empregos_gerados | uma linha por startup; `ciclo_atual` deve ser um nome da aba `Ciclos`; data como `2026-09-10` |
-| `Ciclos` | ordem, nome, semanas, entrega | nº de empresas por ciclo é contado em `Startups` |
-| `Fases` | id, nome, estagio, individual, coletivo | S1–S6 |
-| `AulasColetivas` | fase, total, prontas | |
-| `PlanoTrabalho` | status, quantidade | status: `concluida`, `emExecucao`, `naoIniciada`, `semStatus` |
-| `Maturidade` | dimensao, valor | 0 a 100 |
-| `Mensal` | mes, startups_ativas, mentorias, aulas, empregos_gerados, familias_atingidas, fomento_captado_acum | **9 linhas** (mês 1–9, Jan–Set); `fomento_captado_acum` e `empregos_gerados` são acumulados do ano |
-| `Parametros` | chave, valor | `acoesTransversais`, `totalAcoesIndividual`, `totalAcoesColetivo`, `graduandasPrevistas` |
-
-> ⚠️ **O site é público.** Com a credencial configurada, `/api/incubadora` entrega nomes de
-> startups e valores de fomento a qualquer pessoa com a URL. Ative a proteção de acesso do
-> Vercel (senha ou SSO) **antes** de configurar as variáveis. O cache do endpoint é de 60 s
-> (a planilha pode levar até 1 minuto para refletir uma edição).
+   do JSON) e `GOOGLE_SERVICE_ACCOUNT_KEY` (`private_key` do JSON). Fazer um redeploy.
+5. Abrir `/api/incubadora` no site publicado (`"ok": true`) e depois `/equipe.html` — o selo
+   deve ficar verde. O cache é de 60 s: uma edição na planilha aparece em até 1 minuto.
 
 ## Documentação relacionada
 

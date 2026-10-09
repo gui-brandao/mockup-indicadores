@@ -4,6 +4,12 @@
 
 window.APP_DATA = window.APP_DATA || {};
 window.APP_DATA.incubadora = {
+  // Período e data de referência — com a planilha conectada (equipe.html), vêm
+  // do servidor (Jan até o mês corrente); aqui, o recorte do mock (Jan–Set/2026).
+  "months": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set"],
+  "monthLabels": ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro"],
+  "periodo": { "ano": 2026, "mesReferencia": 9 },
+  "dataReferencia": "2026-09-10",
   "fases": [
     {
       "id": "S1",
@@ -51,6 +57,7 @@ window.APP_DATA.incubadora = {
   "acoesTransversais": 5,
   "totalAcoesIndividual": 363,
   "totalAcoesColetivo": 147,
+  "totalAcoes": 511,
   "ciclos": [
     {
       "nome": "Entrada",
@@ -144,7 +151,9 @@ window.APP_DATA.incubadora = {
     "mentoriasRealizadas": 142,
     "aulasMinistradas": 5,
     "entregasConcluidas": 30,
-    "graduandasPrevistas": 1
+    "graduandasPrevistas": 1,
+    "aulasPlanejadas": 37,
+    "startupsDiagnosticadas": 34
   },
   "planoTrabalho": {
     "concluida": 30,

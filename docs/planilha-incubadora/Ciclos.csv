@@ -1,10 +1,10 @@
-ordem,nome,semanas,entrega
-1,Entrada,Semana 1,Startup credenciada
-2,Diagnóstico,Semana 2,Diagnóstico concluído
-3,Onboarding,Semana 3,Plano Individual de Incubação (PII) aprovado
-4,Pré-Incubação,Semanas 4 a 15,Modelo de negócio validado
-5,Validação,Semanas 16 a 27,MVP validado com clientes
-6,Operação,Semanas 28 a 37,Operação estruturada
-7,Tração,Semanas 38 a 47,Crescimento consistente
-8,Escala,Semanas 48 a 51,Empresa preparada para expansão
-9,Graduação,Semana 52,Avaliação final
+ordem,nome,semana_inicio,semana_fim,entrega
+1,Entrada,1,1,Startup credenciada
+2,Diagnóstico,2,2,Diagnóstico concluído
+3,Onboarding,3,3,Plano Individual de Incubação (PII) aprovado
+4,Pré-Incubação,4,15,Modelo de negócio validado
+5,Validação,16,27,MVP validado com clientes
+6,Operação,28,37,Operação estruturada
+7,Tração,38,47,Crescimento consistente
+8,Escala,48,51,Empresa preparada para expansão
+9,Graduação,52,52,Avaliação final

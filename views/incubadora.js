@@ -1,48 +1,73 @@
-// Tela 2 — Incubadora & Jornada: metodologia replicável (S1–S6, 9 ciclos).
+// Tela 2 — Incubadora & Jornada: metodologia (fases e ciclos) e carteira de
+// startups. Também é a única tela do painel da equipe (equipe.html).
 (function () {
   const T = APP_THEME;
 
+  // "2026-09-10" → "10/09/2026" sem passar por Date (que converteria de UTC e
+  // mostraria o dia anterior no fuso de Brasília).
+  function dataBr(iso) {
+    const [a, m, d] = String(iso || "").split("-");
+    return d ? `${d}/${m}/${a}` : "";
+  }
+
+  // Nada de número escrito à mão aqui: contagens, datas e meses vêm de
+  // APP_DATA.incubadora (planilha ou mock) e do período selecionado.
   function render() {
     const I = APP_DATA.incubadora;
+    const soma = (arr) => arr.reduce((s, v) => s + v, 0);
+    const mesFim = PERIOD.slice(I.monthLabels).slice(-1)[0] || "";
+    const ultimoCiclo = I.ciclos.length ? I.ciclos[I.ciclos.length - 1].nome : "";
+    const aulasPlanejadas = soma(I.aulasColetivas.map((a) => a.total));
+    const totalAcoes = I.totalAcoes ?? soma(I.fases.map((f) => f.individual + f.coletivo)) + I.acoesTransversais;
+    const diagnosticadas = I.kpis.startupsDiagnosticadas ?? I.kpis.startupsAtivas;
+    const plano = I.planoTrabalho;
+    const fomentoPeriodo = PERIOD.delta(I.fomentoCaptadoMensal);
+    const empregosPeriodo = PERIOD.delta(I.empregosGeradosMensal);
+    const familiasPeriodo = PERIOD.delta(I.familiasAtingidasMensal);
 
     const kpis =
       UI.kpiCard({
         label: "Startups ativas",
-        value: fmt.num(I.kpis.startupsAtivas),
-        sub: "Entrada → Escala, em 10/09/2026",
+        value: fmt.num(PERIOD.last(I.serieMensal.startupsAtivas)),
+        sub: `no fim de ${mesFim.toLowerCase()} · hoje ${fmt.num(I.kpis.startupsAtivas)} (${dataBr(I.dataReferencia)})`,
         hero: true,
-        spark: I.serieMensal.startupsAtivas,
+        spark: PERIOD.slice(I.serieMensal.startupsAtivas),
       }) +
       UI.kpiCard({
         label: "Mentorias realizadas",
-        value: fmt.num(I.kpis.mentoriasRealizadas),
-        sub: "Atendimentos individuais no ano",
-        spark: I.serieMensal.mentorias,
+        value: fmt.num(PERIOD.sum(I.serieMensal.mentorias)),
+        sub: "atendimentos individuais no período",
+        spark: PERIOD.slice(I.serieMensal.mentorias),
       }) +
       UI.kpiCard({
         label: "Aulas coletivas ministradas",
-        value: fmt.num(I.kpis.aulasMinistradas),
-        sub: `de ${fmt.num(I.aulasColetivas.reduce((s, a) => s + a.total, 0))} planejadas`,
+        value: fmt.num(PERIOD.sum(I.serieMensal.aulas)),
+        sub: `no período · ${fmt.num(aulasPlanejadas)} planejadas na metodologia`,
+        spark: PERIOD.slice(I.serieMensal.aulas),
       }) +
       UI.kpiCard({
         label: "Entregas do plano concluídas",
-        value: fmt.num(I.planoTrabalho.concluida),
-        sub: `de ${fmt.num(I.planoTrabalho.concluida + I.planoTrabalho.emExecucao + I.planoTrabalho.naoIniciada)} com status definido`,
+        value: fmt.num(plano.concluida),
+        sub: `de ${fmt.num(plano.concluida + plano.emExecucao + plano.naoIniciada)} com status definido`,
       }) +
-      UI.kpiCard({ label: "Graduandas previstas", value: fmt.num(I.kpis.graduandasPrevistas), sub: "Ciclo Escala/Graduação — 52 semanas" });
+      UI.kpiCard({
+        label: "Graduandas previstas",
+        value: fmt.num(I.kpis.graduandasPrevistas),
+        sub: `startups ativas no ciclo ${ultimoCiclo}`,
+      });
 
     const impactoKpis =
       UI.kpiCard({
-        label: "Fomento captado pelas startups",
-        value: fmt.currency(PERIOD.last(I.fomentoCaptadoMensal)),
-        sub: "acumulado no ano, pelas 34 startups ativas",
+        label: "Fomento captado no período",
+        value: fmt.currency(fomentoPeriodo),
+        sub: `${fmt.currency(PERIOD.last(I.fomentoCaptadoMensal))} acumulado em ${I.periodo.ano} até ${mesFim.toLowerCase()}`,
         hero: true,
         spark: PERIOD.slice(I.fomentoCaptadoMensal),
       }) +
       UI.kpiCard({
-        label: "Empregos gerados",
-        value: fmt.num(PERIOD.last(I.empregosGeradosMensal)),
-        sub: `≈ ${fmt.num(PERIOD.last(I.familiasAtingidasMensal))} famílias atingidas na cidade`,
+        label: "Empregos gerados no período",
+        value: fmt.num(empregosPeriodo),
+        sub: `≈ ${fmt.num(familiasPeriodo)} famílias atingidas · ${fmt.num(PERIOD.last(I.empregosGeradosMensal))} em ${I.periodo.ano} até ${mesFim.toLowerCase()}`,
         spark: PERIOD.slice(I.empregosGeradosMensal),
       });
 
@@ -57,7 +82,7 @@
               nome: s.nome,
               descricao: `${s.setor} · ${fmt.currency(s.fomentoCaptado)} captado`,
               responsavel: s.responsavel,
-              data: new Date(s.dataEntrada).toLocaleDateString("pt-BR"),
+              data: dataBr(s.dataEntrada),
             })),
         })
       )
@@ -77,10 +102,11 @@
 
     const entregasRows = I.ciclos.map((c) => [UI.esc(c.nome), UI.esc(c.semanas), UI.esc(c.entrega), `<span class="td-strong">${fmt.num(c.empresas)}</span>`]);
 
-    const aulasRows = I.aulasColetivas.map((a) => {
-      const pct = (a.prontas / a.total) * 100;
-      return [UI.esc(a.fase), `${a.prontas}/${a.total}`, UI.miniBar(a.prontas, a.total)];
-    });
+    const aulasRows = I.aulasColetivas.map((a) => [UI.esc(a.fase), `${a.prontas}/${a.total}`, UI.miniBar(a.prontas, a.total)]);
+    const semanasJornada = Math.max(0, ...I.ciclos.map((c) => Number((String(c.semanas).match(/\d+/g) || [0]).slice(-1)[0])));
+    const nCiclos = I.ciclos.length;
+    const primeiraFase = I.fases[0] ? I.fases[0].nome : "";
+    const ultimaFase = I.fases.length ? I.fases[I.fases.length - 1].nome : "";
 
     return `
       <div class="grid kpi-grid">${kpis}</div>
@@ -88,14 +114,14 @@
       <div class="grid grid-2">${impactoKpis}</div>
 
       ${UI.sectionCard({
-        eyebrow: "Metodologia · 52 semanas",
-        title: "Jornada da incubação — 9 ciclos",
+        eyebrow: `Metodologia · ${fmt.num(semanasJornada)} semanas`,
+        title: `Jornada da incubação — ${fmt.num(nCiclos)} ciclos`,
         desc: "Da entrada por edital até a graduação, com número de empresas ativas em cada etapa.",
-        bodyHtml: `<div class="grid" style="grid-template-columns:repeat(9,minmax(0,1fr));gap:10px">${trilho}</div>`,
+        bodyHtml: `<div class="grid" style="grid-template-columns:repeat(${nCiclos},minmax(0,1fr));gap:10px">${trilho}</div>`,
       })}
 
       ${UI.sectionCard({
-        eyebrow: "34 startups ativas",
+        eyebrow: `${fmt.num(I.kpis.startupsAtivas)} startups ativas · situação em ${dataBr(I.dataReferencia)}`,
         title: "Kanban da jornada — startup a startup",
         desc: "Cada cartão é uma startup ativa: setor, fomento captado e responsável, agrupados pelo ciclo atual.",
         bodyHtml: `<div class="kanban-board">${kanban}</div>`,
@@ -110,9 +136,9 @@
 
       <div class="grid grid-main-side">
         ${UI.sectionCard({
-          eyebrow: "511 ações mapeadas",
+          eyebrow: `${fmt.num(totalAcoes)} ações mapeadas`,
           title: "Ações por fase — Individual × Coletivo",
-          desc: "S1 Sentir → S6 Ampliar, consultoria semana a semana.",
+          desc: `${primeiraFase} → ${ultimaFase}, consultoria semana a semana.`,
           bodyHtml: UI.chartBox("chart-inc-fases", 300),
         })}
         ${UI.sectionCard({
@@ -126,7 +152,7 @@
       <div class="grid grid-main-side">
         ${UI.sectionCard({
           eyebrow: "Distribuição por etapa",
-          title: "Empresas ativas nos 9 ciclos",
+          title: `Empresas ativas nos ${fmt.num(nCiclos)} ciclos`,
           desc: "Da entrada à graduação — ciclos mais longos concentram mais empresas simultâneas, não é atrito de uma única turma.",
           bodyHtml: UI.chartBox("chart-inc-funil", 320),
         })}
@@ -141,13 +167,13 @@
         ${UI.sectionCard({
           eyebrow: "Cadência de apoio",
           title: "Mentorias e aulas coletivas por mês",
-          desc: "Volume de atendimentos individuais e de encontros coletivos ministrados.",
+          desc: "Mentorias individuais e aulas coletivas ministradas em cada mês do período.",
           bodyHtml: UI.chartBox("chart-inc-cadencia", 280),
         })}
         ${UI.sectionCard({
           eyebrow: "Diagnóstico multidimensional",
           title: "Maturidade média das startups",
-          desc: "Média das 34 startups ativas, por dimensão avaliada (0 a 100).",
+          desc: `Diagnóstico mais recente de ${fmt.num(diagnosticadas)} startups ativas, por dimensão (0 a 100).`,
           bodyHtml: UI.chartBox("chart-inc-maturidade", 280),
         })}
       </div>
@@ -265,11 +291,11 @@
       tooltip: T.tooltipDefaults(),
       legend: T.legendDefaults(),
       grid: T.baseGrid({ top: 40 }),
-      xAxis: T.categoryAxis(APP_DATA.agenda.monthLabels),
+      xAxis: T.categoryAxis(PERIOD.slice(I.monthLabels)),
       yAxis: T.valueAxis(),
       series: [
-        { name: "Mentorias individuais", type: "bar", data: I.serieMensal.mentorias, barMaxWidth: 16, itemStyle: { borderRadius: T.barRadius() } },
-        { name: "Aulas coletivas", type: "bar", data: I.serieMensal.aulas, barMaxWidth: 16, itemStyle: { borderRadius: T.barRadius() } },
+        { name: "Mentorias individuais", type: "bar", data: PERIOD.slice(I.serieMensal.mentorias), barMaxWidth: 16, itemStyle: { borderRadius: T.barRadius() } },
+        { name: "Aulas coletivas", type: "bar", data: PERIOD.slice(I.serieMensal.aulas), barMaxWidth: 16, itemStyle: { borderRadius: T.barRadius() } },
       ],
     });
 

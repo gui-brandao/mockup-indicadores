@@ -1,0 +1,175 @@
+data,startup_id,consultor,fase,tema,horas
+2026-01-01,STU-06,Diego Nakamura,S1,Design Sprint,2
+2026-01-02,STU-05,Rafael Prado,S1,Design Sprint,2
+2026-01-02,STU-08,Camila Reis,S1,Crescimento para Startups (Growth),2
+2026-01-05,STU-04,Diego Nakamura,S1,Marketing Digital para Startups,1
+2026-01-05,STU-09,Camila Reis,S1,Proposta de Valor,1
+2026-01-06,STU-01,Camila Reis,S5,Propriedade Intelectual,2
+2026-01-15,STU-06,Diego Nakamura,S1,Gestão Financeira para Startups,1.5
+2026-01-23,STU-05,Marina Duarte,S1,Proposta de Valor,1.5
+2026-01-23,STU-08,Camila Reis,S1,Indicadores Financeiros e de Desempenho,1
+2026-01-26,STU-04,Diego Nakamura,S1,Pitch de Validação,2
+2026-01-26,STU-09,Camila Reis,S1,Proposta de Valor,1.5
+2026-01-29,STU-06,Camila Reis,S1,Crescimento para Startups (Growth),1
+2026-02-02,STU-10,Marina Duarte,S1,Proposta de Valor,1.5
+2026-02-03,STU-01,Camila Reis,S6,Pitch de Validação,2
+2026-02-06,STU-05,Rafael Prado,S2,Crescimento para Startups (Growth),1
+2026-02-06,STU-08,Camila Reis,S1,Design Sprint,1
+2026-02-09,STU-04,Diego Nakamura,S2,Pitch de Validação,2
+2026-02-16,STU-10,Marina Duarte,S1,Pitch de Validação,1
+2026-02-17,STU-01,Camila Reis,S6,Marketing Digital para Startups,1.5
+2026-02-20,STU-05,Rafael Prado,S2,Vendas para Startups,1
+2026-02-23,STU-04,Diego Nakamura,S2,Proposta de Valor,2
+2026-02-23,STU-09,Camila Reis,S1,Propriedade Intelectual,1
+2026-02-26,STU-06,Diego Nakamura,S1,CRM e Gestão Comercial,1.5
+2026-02-27,STU-08,Camila Reis,S1,Indicadores Financeiros e de Desempenho,2
+2026-03-02,STU-10,Camila Reis,S1,Indicadores Financeiros e de Desempenho,1
+2026-03-06,STU-05,Marina Duarte,S2,Proposta de Valor,1
+2026-03-10,STU-13,Diego Nakamura,S1,Marketing Digital para Startups,1
+2026-03-13,STU-08,Camila Reis,S2,Marketing Digital para Startups,2
+2026-03-16,STU-04,Rafael Prado,S2,Pitch de Validação,1.5
+2026-03-16,STU-10,Marina Duarte,S1,Pitch de Validação,2
+2026-03-20,STU-05,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,1
+2026-03-23,STU-09,Camila Reis,S1,Crescimento para Startups (Growth),1
+2026-03-24,STU-13,Diego Nakamura,S1,Dashboards e Indicadores,1.5
+2026-03-26,STU-06,Diego Nakamura,S2,Marketing Digital para Startups,1.5
+2026-03-30,STU-04,Diego Nakamura,S2,Indicadores Financeiros e de Desempenho,1
+2026-03-30,STU-10,Marina Duarte,S1,Dashboards e Indicadores,2
+2026-04-03,STU-08,Camila Reis,S2,Gestão Financeira para Startups,1
+2026-04-06,STU-15,Rafael Prado,S1,Proposta de Valor,1
+2026-04-13,STU-04,Diego Nakamura,S2,Gestão Financeira para Startups,2
+2026-04-13,STU-17,Camila Reis,S1,Gestão Financeira para Startups,1.5
+2026-04-14,STU-13,Diego Nakamura,S1,Design Sprint,1.5
+2026-04-16,STU-06,Diego Nakamura,S2,Dashboards e Indicadores,1
+2026-04-17,STU-05,Rafael Prado,S2,Propriedade Intelectual,1.5
+2026-04-20,STU-09,Camila Reis,S2,Gestão Financeira para Startups,1.5
+2026-04-20,STU-15,Rafael Prado,S1,Marketing Digital para Startups,1
+2026-04-27,STU-10,Marina Duarte,S1,Dashboards e Indicadores,2
+2026-04-27,STU-17,Camila Reis,S1,Dashboards e Indicadores,1
+2026-04-28,STU-18,Camila Reis,S1,Propriedade Intelectual,1
+2026-04-30,STU-19,Rafael Prado,S1,Propriedade Intelectual,1.5
+2026-05-01,STU-08,Camila Reis,S2,Propriedade Intelectual,1
+2026-05-04,STU-15,Rafael Prado,S1,Dashboards e Indicadores,1
+2026-05-05,STU-13,Diego Nakamura,S1,Crescimento para Startups (Growth),1
+2026-05-08,STU-05,Rafael Prado,S4,CRM e Gestão Comercial,2
+2026-05-11,STU-04,Diego Nakamura,S4,Propriedade Intelectual,1
+2026-05-11,STU-09,Camila Reis,S2,Pitch de Validação,1
+2026-05-14,STU-06,Diego Nakamura,S2,Marketing Digital para Startups,1
+2026-05-14,STU-19,Rafael Prado,S1,Design Sprint,1.5
+2026-05-15,STU-08,Camila Reis,S2,Marketing Digital para Startups,2
+2026-05-18,STU-10,Marina Duarte,S2,Gestão Financeira para Startups,1
+2026-05-19,STU-13,Rafael Prado,S1,CRM e Gestão Comercial,1
+2026-05-19,STU-18,Rafael Prado,S1,Marketing Digital para Startups,1
+2026-05-25,STU-17,Marina Duarte,S1,Pitch de Validação,1
+2026-05-29,STU-08,Camila Reis,S2,CRM e Gestão Comercial,1
+2026-06-01,STU-09,Camila Reis,S2,Pitch de Validação,2
+2026-06-01,STU-10,Marina Duarte,S2,Indicadores Financeiros e de Desempenho,1
+2026-06-01,STU-15,Rafael Prado,S1,Design Sprint,1
+2026-06-04,STU-06,Diego Nakamura,S4,Propriedade Intelectual,1
+2026-06-05,STU-05,Rafael Prado,S4,Marketing Digital para Startups,1
+2026-06-08,STU-04,Diego Nakamura,S4,CRM e Gestão Comercial,1.5
+2026-06-09,STU-13,Diego Nakamura,S1,CRM e Gestão Comercial,2
+2026-06-09,STU-18,Rafael Prado,S1,CRM e Gestão Comercial,1.5
+2026-06-11,STU-19,Rafael Prado,S1,Pitch de Validação,1.5
+2026-06-12,STU-08,Rafael Prado,S4,Proposta de Valor,1.5
+2026-06-15,STU-09,Camila Reis,S2,Proposta de Valor,2
+2026-06-15,STU-10,Marina Duarte,S2,Design Sprint,1
+2026-06-15,STU-17,Camila Reis,S1,Design Sprint,1.5
+2026-06-17,STU-21,Camila Reis,S1,Crescimento para Startups (Growth),1.5
+2026-06-18,STU-06,Diego Nakamura,S4,Pitch de Validação,1
+2026-06-22,STU-15,Rafael Prado,S1,Pitch de Validação,1
+2026-06-23,STU-18,Rafael Prado,S1,Proposta de Valor,1.5
+2026-06-23,STU-22,Diego Nakamura,S1,Proposta de Valor,2
+2026-06-26,STU-05,Rafael Prado,S4,Vendas para Startups,1.5
+2026-06-29,STU-04,Diego Nakamura,S4,Dashboards e Indicadores,1.5
+2026-06-30,STU-13,Diego Nakamura,S2,Dashboards e Indicadores,2
+2026-07-03,STU-23,Diego Nakamura,S1,Indicadores Financeiros e de Desempenho,2
+2026-07-06,STU-17,Camila Reis,S1,Proposta de Valor,2
+2026-07-07,STU-22,Diego Nakamura,S1,Dashboards e Indicadores,1
+2026-07-08,STU-21,Marina Duarte,S1,Dashboards e Indicadores,1.5
+2026-07-09,STU-06,Diego Nakamura,S4,Indicadores Financeiros e de Desempenho,2
+2026-07-09,STU-19,Rafael Prado,S1,Pitch de Validação,1
+2026-07-10,STU-05,Rafael Prado,S5,Indicadores Financeiros e de Desempenho,1
+2026-07-13,STU-09,Camila Reis,S4,Vendas para Startups,1.5
+2026-07-13,STU-10,Marina Duarte,S2,Propriedade Intelectual,1
+2026-07-20,STU-04,Rafael Prado,S5,Marketing Digital para Startups,2
+2026-07-20,STU-15,Rafael Prado,S2,Business Model Canvas,1
+2026-07-21,STU-13,Diego Nakamura,S2,Design Sprint,2
+2026-07-21,STU-18,Rafael Prado,S1,Vendas para Startups,1
+2026-07-21,STU-22,Rafael Prado,S1,Indicadores Financeiros e de Desempenho,1
+2026-07-23,STU-26,Rafael Prado,S1,Marketing Digital para Startups,1.5
+2026-07-24,STU-23,Diego Nakamura,S1,Proposta de Valor,2
+2026-07-27,STU-27,Marina Duarte,S1,Marketing Digital para Startups,1
+2026-07-29,STU-25,Diego Nakamura,S1,Pitch de Validação,1
+2026-07-30,STU-06,Diego Nakamura,S4,Gestão Financeira para Startups,1
+2026-07-31,STU-05,Rafael Prado,S5,Indicadores Financeiros e de Desempenho,2
+2026-08-03,STU-04,Diego Nakamura,S5,Indicadores Financeiros e de Desempenho,2
+2026-08-03,STU-09,Camila Reis,S4,Business Model Canvas,1
+2026-08-03,STU-10,Marina Duarte,S4,Crescimento para Startups (Growth),1
+2026-08-03,STU-17,Camila Reis,S2,Marketing Digital para Startups,1.5
+2026-08-04,STU-18,Rafael Prado,S1,Pitch de Validação,2
+2026-08-05,STU-21,Marina Duarte,S1,Proposta de Valor,2
+2026-08-06,STU-19,Rafael Prado,S1,Indicadores Financeiros e de Desempenho,1
+2026-08-07,STU-23,Diego Nakamura,S1,Pitch de Validação,2
+2026-08-10,STU-15,Rafael Prado,S2,Marketing Digital para Startups,1.5
+2026-08-11,STU-13,Diego Nakamura,S2,Gestão Financeira para Startups,2
+2026-08-11,STU-22,Diego Nakamura,S1,Gestão Financeira para Startups,2
+2026-08-12,STU-25,Diego Nakamura,S1,Crescimento para Startups (Growth),2
+2026-08-13,STU-26,Rafael Prado,S1,CRM e Gestão Comercial,1.5
+2026-08-13,STU-30,Diego Nakamura,S1,Dashboards e Indicadores,1
+2026-08-14,STU-29,Camila Reis,S1,Propriedade Intelectual,1.5
+2026-08-17,STU-17,Camila Reis,S2,Indicadores Financeiros e de Desempenho,1
+2026-08-18,STU-18,Marina Duarte,S2,Design Sprint,1
+2026-08-20,STU-06,Diego Nakamura,S5,Crescimento para Startups (Growth),1.5
+2026-08-24,STU-09,Camila Reis,S4,Propriedade Intelectual,1.5
+2026-08-24,STU-10,Marina Duarte,S4,Gestão Financeira para Startups,1
+2026-08-24,STU-27,Marina Duarte,S1,Gestão Financeira para Startups,1
+2026-08-26,STU-25,Camila Reis,S1,Proposta de Valor,1
+2026-08-27,STU-26,Rafael Prado,S1,Pitch de Validação,1.5
+2026-08-28,STU-05,Rafael Prado,S5,Crescimento para Startups (Growth),1
+2026-08-28,STU-23,Diego Nakamura,S1,Propriedade Intelectual,1
+2026-08-28,STU-29,Rafael Prado,S1,Marketing Digital para Startups,1.5
+2026-08-31,STU-04,Diego Nakamura,S5,Design Sprint,1
+2026-08-31,STU-15,Rafael Prado,S2,Vendas para Startups,1
+2026-08-31,STU-17,Camila Reis,S2,CRM e Gestão Comercial,1
+2026-09-01,STU-13,Diego Nakamura,S2,Propriedade Intelectual,1
+2026-09-01,STU-22,Diego Nakamura,S1,CRM e Gestão Comercial,2
+2026-09-02,STU-21,Marina Duarte,S1,Gestão Financeira para Startups,2
+2026-09-03,STU-06,Diego Nakamura,S5,Propriedade Intelectual,1.5
+2026-09-03,STU-19,Camila Reis,S2,Vendas para Startups,1
+2026-09-03,STU-30,Diego Nakamura,S1,Indicadores Financeiros e de Desempenho,2
+2026-09-08,STU-18,Diego Nakamura,S2,Propriedade Intelectual,1
+2026-09-08,STU-31,Diego Nakamura,S1,Design Sprint,1.5
+2026-09-14,STU-04,Diego Nakamura,S6,Business Model Canvas,1
+2026-09-14,STU-17,Camila Reis,S2,Indicadores Financeiros e de Desempenho,2
+2026-09-14,STU-27,Marina Duarte,S1,Vendas para Startups,1
+2026-09-15,STU-13,Diego Nakamura,S4,Business Model Canvas,2
+2026-09-15,STU-22,Diego Nakamura,S1,Marketing Digital para Startups,1
+2026-09-17,STU-06,Diego Nakamura,S5,Business Model Canvas,1
+2026-09-17,STU-26,Rafael Prado,S1,Vendas para Startups,2
+2026-09-18,STU-05,Rafael Prado,S6,Propriedade Intelectual,1.5
+2026-09-21,STU-09,Camila Reis,S5,Marketing Digital para Startups,1.5
+2026-09-21,STU-10,Marina Duarte,S4,Proposta de Valor,1.5
+2026-09-21,STU-15,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,2
+2026-09-22,STU-31,Diego Nakamura,S1,Crescimento para Startups (Growth),1.5
+2026-09-23,STU-21,Marina Duarte,S2,Marketing Digital para Startups,1
+2026-09-23,STU-25,Diego Nakamura,S1,Design Sprint,1
+2026-09-24,STU-19,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,2
+2026-09-24,STU-30,Marina Duarte,S1,CRM e Gestão Comercial,2
+2026-09-25,STU-23,Diego Nakamura,S1,Pitch de Validação,1.5
+2026-09-25,STU-29,Camila Reis,S1,Marketing Digital para Startups,1
+2026-09-28,STU-04,Marina Duarte,S6,Dashboards e Indicadores,1
+2026-09-28,STU-27,Marina Duarte,S1,CRM e Gestão Comercial,1
+2026-09-29,STU-18,Rafael Prado,S2,Dashboards e Indicadores,1
+2026-10-02,STU-34,Diego Nakamura,S1,Pitch de Validação,1.5
+2026-10-05,STU-09,Camila Reis,S5,Dashboards e Indicadores,2
+2026-10-05,STU-36,Marina Duarte,S1,Business Model Canvas,1.5
+2026-10-06,STU-22,Diego Nakamura,S2,Crescimento para Startups (Growth),1.5
+2026-10-07,STU-21,Marina Duarte,S2,Business Model Canvas,1
+2026-10-07,STU-35,Marina Duarte,S1,CRM e Gestão Comercial,1
+2026-10-07,STU-37,Rafael Prado,S1,Propriedade Intelectual,1.5
+2026-10-08,STU-06,Camila Reis,S5,Design Sprint,1.5
+2026-10-08,STU-19,Rafael Prado,S2,Proposta de Valor,1.5
+2026-10-08,STU-26,Rafael Prado,S1,Marketing Digital para Startups,2
+2026-10-08,STU-38,Diego Nakamura,S1,Proposta de Valor,1
+2026-10-09,STU-29,Camila Reis,S1,Crescimento para Startups (Growth),1.5

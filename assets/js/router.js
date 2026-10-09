@@ -5,6 +5,7 @@
   let activeCharts = [];
   let activeRoute = null;
   let periodUnsub = null;
+  let rotaInicial = "visao-geral";
 
   function register(path, view) {
     routes[path] = view;
@@ -28,7 +29,7 @@
 
   function currentPath() {
     const hash = window.location.hash.replace(/^#\/?/, "");
-    return hash || "visao-geral";
+    return hash || rotaInicial;
   }
 
   // Preenche todo .chart-box que ficou sem conteúdo com um aviso legível.
@@ -48,8 +49,8 @@
   function render() {
     teardown();
     const path = currentPath();
-    const view = routes[path] || routes["visao-geral"];
-    activeRoute = path in routes ? path : "visao-geral";
+    const view = routes[path] || routes[rotaInicial];
+    activeRoute = path in routes ? path : rotaInicial;
 
     const main = document.getElementById("view");
     main.innerHTML = view.render();
@@ -88,7 +89,8 @@
     });
   }
 
-  function init() {
+  function init(opcoes) {
+    if (opcoes && opcoes.rotaInicial) rotaInicial = opcoes.rotaInicial;
     window.addEventListener("hashchange", render);
     window.addEventListener("resize", resizeCharts);
     if (PERIOD && !periodUnsub) {

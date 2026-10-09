@@ -2,18 +2,35 @@
 // Nenhuma view guarda total "fixo": tudo é somado a partir dos arrays mensais
 // em data/*.js conforme o período selecionado, então os números nunca
 // divergem entre a Visão Geral e as telas de detalhe.
+//
+// Os meses disponíveis vêm dos dados: por padrão Jan–Set/2026 (o mock da
+// apresentação); o painel da equipe chama PERIOD.configurar() com o ano e os
+// meses que a planilha trouxe (Jan até o mês corrente).
 (function () {
-  const PRESETS = {
-    ytd: { label: "Acumulado 2026 (até Set)", from: 0, to: 8 },
-    q3: { label: "3º trimestre 2026 (Jul–Set)", from: 6, to: 8 },
-    mes: { label: "Setembro/2026", from: 8, to: 8 },
-  };
+  const MESES_CURTOS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
+  function montarPresets(ano, monthLabels) {
+    const ultimo = monthLabels.length - 1;
+    const inicioTri = Math.max(0, ultimo - 2);
+    return {
+      ytd: { label: `Acumulado ${ano} (até ${MESES_CURTOS[ultimo]})`, from: 0, to: ultimo },
+      tri: { label: `Últimos 3 meses (${MESES_CURTOS[inicioTri]}–${MESES_CURTOS[ultimo]})`, from: inicioTri, to: ultimo },
+      mes: { label: `${monthLabels[ultimo]}/${ano}`, from: ultimo, to: ultimo },
+    };
+  }
+
+  let presets = montarPresets(2026, ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro"]);
   let current = "ytd";
   const listeners = [];
 
+  function configurar({ ano, monthLabels }) {
+    if (!ano || !monthLabels || !monthLabels.length) return;
+    presets = montarPresets(ano, monthLabels);
+    if (!presets[current]) current = "ytd";
+  }
+
   function range() {
-    return PRESETS[current];
+    return presets[current];
   }
 
   function key() {
@@ -21,7 +38,7 @@
   }
 
   function set(k) {
-    if (!PRESETS[k] || k === current) return;
+    if (!presets[k] || k === current) return;
     current = k;
     listeners.forEach((fn) => fn(k));
   }
@@ -30,7 +47,7 @@
     listeners.push(fn);
   }
 
-  // Soma um array mensal (9 posições, Jan–Set) dentro do período ativo.
+  // Soma um array mensal dentro do período ativo.
   function sum(arr) {
     if (!arr) return 0;
     const { from, to } = range();
@@ -61,6 +78,13 @@
     return arr[to];
   }
 
+  // Quanto uma série acumulada do ano cresceu dentro do período ativo.
+  function delta(arr) {
+    if (!arr) return 0;
+    const { from, to } = range();
+    return (arr[to] || 0) - (from > 0 ? arr[from - 1] || 0 : 0);
+  }
+
   // Fatia os meses (labels/valores) dentro do período ativo, preservando o
   // eixo temporal — usado nos gráficos de tendência.
   function slice(arr) {
@@ -74,5 +98,20 @@
     return to - from + 1;
   }
 
-  window.PERIOD = { PRESETS, range, key, set, onChange, sum, avg, last, slice, monthsInRange };
+  window.PERIOD = {
+    get PRESETS() {
+      return presets;
+    },
+    configurar,
+    range,
+    key,
+    set,
+    onChange,
+    sum,
+    avg,
+    last,
+    delta,
+    slice,
+    monthsInRange,
+  };
 })();

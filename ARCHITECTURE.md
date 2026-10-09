@@ -7,11 +7,13 @@ apresentação, veja o [README](README.md).
 
 ## Visão geral
 
-É um site estático de uma página só (`index.html`), sem bundler, sem build e sem
+São duas páginas estáticas que compartilham o mesmo código — `index.html` (a
+apresentação, com as 12 telas e dado ilustrativo) e `equipe.html` (o painel de uso
+diário da equipe: só a Incubadora, lendo a planilha Google Sheets) —, sem bundler, sem build e sem
 módulos ES — tudo roda como `<script>` clássico carregado em ordem, na própria tag
 `<body>`. Praticamente não há backend: cada "fonte de dados" é um objeto JavaScript
-literal em `data/*.js`, atribuído a `window.APP_DATA` assim que o script carrega. A
-única exceção é Agenda/O.S., que já têm um encaixe de integração real (funções
+literal em `data/*.js`, atribuído a `window.APP_DATA` assim que o script carrega. As
+exceções são Agenda/O.S./Incubadora, que têm um encaixe de integração real (funções
 serverless em `/api` + `assets/js/data-loader.js`) — ver
 ["Integração real (api/*.js + data-loader.js)"](#integração-real-apijs--data-loaderjs).
 
@@ -29,6 +31,15 @@ flowchart LR
   end
 ```
 
+Cada página declara, antes de `app.js`, um `window.APP_CONFIG` opcional —
+`rotas` (`[rota, global da view]`), `rotaInicial`, `fontes` (o que `data-loader.js`
+busca em `/api`), `periodoDe` (fonte cujos meses definem o seletor de período) e
+`seloDe` (fonte que define o selo "planilha / dados ilustrativos"). Sem ele vale a
+configuração da apresentação (12 telas, `fontes: ["agenda", "os"]`, período Jan–Set
+do mock). `equipe.html` usa `{ rotas: [["incubadora", "VIEW_INCUBADORA"]],
+rotaInicial: "incubadora", fontes: ["incubadora"], periodoDe: "incubadora", seloDe:
+"incubadora" }` e carrega só os scripts que essa tela usa.
+
 A ordem importa: um script que lê `APP_DATA`, `APP_THEME`, `UI`, `fmt` ou `PERIOD`
 antes dele ter sido definido quebra silenciosamente (variável `undefined`). Ao
 adicionar um arquivo novo, insira a tag `<script>` no bloco certo — veja
@@ -40,8 +51,8 @@ Cada arquivo estende `window.APP_DATA` com uma chave por fonte (`agenda`, `os`,
 `crm`, `incubadora`, `educacao`, `metas`). A convenção que atravessa todos eles:
 
 - **Séries mensais, nunca totais fixos.** Toda métrica que varia no tempo é um
-  array de 9 posições, índice `0`–`8` = Janeiro–Setembro/2026, alinhado com
-  `months`/`monthLabels`. Nenhuma view digita um total pronto — tudo é somado em
+  array mensal alinhado com `months`/`monthLabels` — no mock, 9 posições
+  (Janeiro–Setembro/2026); vindo da planilha da Incubadora, Janeiro até o mês corrente. Nenhuma view digita um total pronto — tudo é somado em
   runtime por `period.js` a partir dessas séries, então Visão Geral e as telas de
   detalhe nunca divergem entre si.
 - Estruturas auxiliares (tabelas de "próximos agendamentos", rankings, listas por
@@ -82,13 +93,25 @@ flowchart LR
   `requiredEnv` (todas preenchidas, senão `{ configured: false }`), `fetchReal(env)`
   devolvendo `{ data, avisos? }` e `cacheSeconds` opcional (`Cache-Control` do CDN).
 - `api/incubadora.js` — lê a planilha com `api/_lib/google-sheets.js` (conta de
-  serviço, sem dependências: JWT RS256 via `crypto` + `fetch`) e monta o objeto com
-  `api/_lib/montar-incubadora.js`, **função pura** que também deriva o que não deve
-  ser digitado (startups ativas, empresas por ciclo, setores, mentorias, aulas) e
-  devolve `avisos` quando as abas se contradizem. O modelo de abas/colunas está no
-  README; os CSVs em `docs/planilha-incubadora/` reproduzem exatamente o mock.
-- `assets/js/data-loader.js` — chamado por `app.js` antes de `registerViews()`/
-  `ROUTER.init()`; busca as duas rotas com timeout de 2,5s e só sobrescreve
+  serviço, sem dependências: JWT RS256 via `crypto` + `fetch`; primeiro lista as abas
+  que existem e só pede essas, porque um `batchGet` com aba inexistente falha inteiro)
+  e monta o objeto com `api/_lib/montar-incubadora.js`, **função pura**
+  `montarIncubadora(abas, hoje)`. A planilha só tem cadastros e registros (startups,
+  mentorias, diagnósticos, fomento, empregos, aulas, plano, metodologia); **tudo** o
+  que a tela mostra — KPIs, séries mensais, Kanban, ciclos, setores, maturidade,
+  textos como "34 startups ativas" ou "511 ações" — é derivado ali. `hoje` (fuso de
+  São Paulo) define o período: Jan → mês corrente, devolvido em `months`,
+  `monthLabels`, `periodo { ano, mesReferencia }` e `dataReferencia`. Linha
+  inconsistente é ignorada e vira um item de `avisos` (aba + linha), nunca exceção;
+  só aba obrigatória ausente derruba a leitura (→ `ok: false`). O modelo de
+  abas/colunas está no README. **O mock é o contrato**: `data/incubadora.js` tem o
+  mesmo formato de saída de `montarIncubadora`, e os CSVs em
+  `docs/planilha-incubadora/` reproduzem o modelo de abas — mudou um, mude os três.
+- `assets/js/data-loader.js` — `loadRemoteData(fontes)` é chamado por `app.js`
+  antes de `registerViews()`/`ROUTER.init()` com as `fontes` do `APP_CONFIG` da
+  página; timeout de 2,5 s (Agenda/O.S.) e 6 s (Incubadora: token + Sheets). Registra
+  o resultado em `window.APP_FONTES[fonte] = { origem: "real" | "ilustrativo",
+  avisos, erro? }`, que `app.js` usa no selo do topo e na faixa de avisos. Só sobrescreve
   `window.APP_DATA.<fonte>` quando a resposta vem com `ok: true` e `data` presente.
   Qualquer outro caso (não configurado, erro, timeout, rede indisponível em
   `file://` ou servidor local sem `/api`) é tratado como "mantenha o mock" — mesma
@@ -101,8 +124,11 @@ flowchart LR
 ## Estado de período (`assets/js/period.js`)
 
 `window.PERIOD` é a única fonte de verdade sobre qual recorte de tempo está ativo
-(`ytd`, `q3`, `mes` — ver `PRESETS`). Ele expõe apenas operações de agregação sobre
-um array mensal de 9 posições:
+(`ytd`, `tri`, `mes` — ver `PRESETS`). Os presets são gerados a partir dos meses
+disponíveis: por padrão Jan–Set/2026 (o mock); `PERIOD.configurar({ ano, monthLabels })`,
+chamado por `app.js` quando a página tem `periodoDe`, troca para os meses que a fonte
+trouxe ("Acumulado 2026 (até Out)", "Últimos 3 meses (Ago–Out)", "Outubro/2026").
+Ele expõe apenas operações de agregação sobre a série mensal:
 
 | Função | Uso |
 |---|---|
@@ -110,6 +136,7 @@ um array mensal de 9 posições:
 | `PERIOD.avg(arr)` | média do período |
 | `PERIOD.last(arr)` | último mês do período — indicadores tipo "snapshot" |
 | `PERIOD.slice(arr)` | recorte preservando o eixo do tempo — séries para gráficos |
+| `PERIOD.delta(arr)` | quanto uma série **acumulada no ano** cresceu dentro do período (fomento, empregos) |
 | `PERIOD.monthsInRange()` | quantos meses o período cobre |
 
 `PERIOD.onChange(fn)` é assinado pelo router; trocar o período dispara um
@@ -207,8 +234,9 @@ Todas as sete views seguem a mesma forma interna, exemplificada em
    (depois de `router.js`, antes de `app.js`).
 4. Em `index.html`, adicionar o item de navegação em `.sidebar-nav` com o
    `data-route` correspondente.
-5. Em `assets/js/app.js`, registrar a rota dentro de `registerViews()`:
-   `ROUTER.register("<tela>", VIEW_<NOME>)`.
+5. Em `assets/js/app.js`, acrescentar `["<tela>", "VIEW_<NOME>"]` em
+   `TODAS_AS_ROTAS` — `registerViews()` registra cada uma com isolamento de falha.
+   (Para uma página enxuta como `equipe.html`, liste as rotas em `window.APP_CONFIG`.)
 
 ## Decisões deliberadas (não "corrigir" sem contexto)
 
@@ -221,6 +249,8 @@ quebra uma garantia que o resto do painel depende:
 - Nenhum KPI como número fixo — sempre derivado de série mensal via `PERIOD`.
 - Tema claro fixo, sem dark mode.
 - Paleta de gráfico com ordem fixa e regra de "relief" (ver seção de tema acima).
-- `data-loader.js` nunca deixa `window.APP_DATA.agenda`/`.os` sem valor — qualquer
+- `index.html` não busca a planilha da Incubadora: a apresentação nunca mistura dado
+  real com ilustrativo; o dado real vive em `equipe.html`.
+- `data-loader.js` nunca deixa `window.APP_DATA.agenda`/`.os`/`.incubadora` sem valor — qualquer
   falha da integração real (não configurada, erro, timeout, sem rede) cai de volta
   no mock de `data/agenda.js`/`data/os.js`, nunca numa tela vazia ou quebrada.

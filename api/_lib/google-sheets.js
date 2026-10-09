@@ -45,21 +45,30 @@ function abaParaObjetos(valores) {
     .map((linha) => Object.fromEntries(colunas.map((nome, i) => [nome, linha[i] ?? ""])));
 }
 
-// Devolve { NomeDaAba: [ { coluna: valor } ] } para as abas pedidas.
-async function lerAbas({ planilhaId, email, chavePrivada, abas }) {
-  const token = await obterToken(email, chavePrivada);
-  const parametros = new URLSearchParams({ valueRenderOption: "UNFORMATTED_VALUE", dateTimeRenderOption: "SERIAL_NUMBER" });
-  abas.forEach((nome) => parametros.append("ranges", nome));
-  const resposta = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(planilhaId)}/values:batchGet?${parametros}`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+async function chamarSheets(url, token) {
+  const resposta = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (resposta.status === 403 || resposta.status === 404) {
     throw new Error(`Google Sheets respondeu ${resposta.status} — confira o ID e se a planilha está compartilhada com a conta de serviço`);
   }
   if (!resposta.ok) throw new Error(`Google Sheets respondeu ${resposta.status}`);
-  const { valueRanges = [] } = await resposta.json();
-  return Object.fromEntries(abas.map((nome, i) => [nome, abaParaObjetos(valueRanges[i] && valueRanges[i].values)]));
+  return resposta.json();
+}
+
+// Devolve { NomeDaAba: [ { coluna: valor } ] } para as abas pedidas que
+// existem na planilha. Aba ausente simplesmente não aparece no resultado (quem
+// chama decide se é obrigatória) — pedir uma aba que não existe faria o
+// batchGet inteiro falhar com 400, derrubando também as abas que existem.
+async function lerAbas({ planilhaId, email, chavePrivada, abas }) {
+  const token = await obterToken(email, chavePrivada);
+  const base = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(planilhaId)}`;
+  const { sheets = [] } = await chamarSheets(`${base}?fields=sheets.properties.title`, token);
+  const existentes = new Set(sheets.map((s) => s.properties && s.properties.title));
+  const pedidas = abas.filter((nome) => existentes.has(nome));
+  if (!pedidas.length) return {};
+  const parametros = new URLSearchParams({ valueRenderOption: "UNFORMATTED_VALUE", dateTimeRenderOption: "SERIAL_NUMBER" });
+  pedidas.forEach((nome) => parametros.append("ranges", `'${nome}'`));
+  const { valueRanges = [] } = await chamarSheets(`${base}/values:batchGet?${parametros}`, token);
+  return Object.fromEntries(pedidas.map((nome, i) => [nome, abaParaObjetos(valueRanges[i] && valueRanges[i].values)]));
 }
 
 module.exports = { lerAbas, abaParaObjetos, normalizarChave };

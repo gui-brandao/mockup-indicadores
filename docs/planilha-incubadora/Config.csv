@@ -1,0 +1,3 @@
+chave,valor,descricao
+ano,,Ano exibido no painel. Vazio = ano atual (o painel vai de janeiro até o mês corrente).
+multiplicador_familias,1.6,Pessoas por família usadas para estimar famílias atingidas a partir dos empregos gerados.

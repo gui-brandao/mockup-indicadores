@@ -1,6 +1,33 @@
 // Bootstrap do shell: sidebar, seletor de período, modo apresentação e
 // as ações "de mentira" (exportar) que só existem para a demonstração.
+//
+// Cada página define window.APP_CONFIG antes deste script (ver equipe.html);
+// sem isso vale a configuração da apresentação completa (index.html).
 (function () {
+  const TODAS_AS_ROTAS = [
+    ["visao-geral", "VIEW_VISAO_GERAL"],
+    ["incubadora", "VIEW_INCUBADORA"],
+    ["espacos", "VIEW_ESPACOS"],
+    ["operacao", "VIEW_OPERACAO"],
+    ["relacionamento", "VIEW_RELACIONAMENTO"],
+    ["educacao", "VIEW_EDUCACAO"],
+    ["metas", "VIEW_METAS"],
+    ["parcerias", "VIEW_PARCERIAS"],
+    ["monitoramento-uso", "VIEW_MONITORAMENTO_USO"],
+    ["eventos", "VIEW_EVENTOS"],
+    ["posatendimento", "VIEW_POSATENDIMENTO"],
+    ["laboratorios", "VIEW_LABORATORIOS"],
+  ];
+
+  // rotas: [rota, global da view]; rotaInicial: tela sem hash;
+  // fontes: o que data-loader.js busca em /api; periodoDe: fonte cujos meses
+  // definem o seletor de período (vazio = Jan–Set/2026 do mock);
+  // seloDe: fonte que define o selo "dados ilustrativos / planilha".
+  const CONFIG = Object.assign(
+    { rotas: TODAS_AS_ROTAS, rotaInicial: "visao-geral", fontes: ["agenda", "os"], periodoDe: null, seloDe: null },
+    window.APP_CONFIG || {}
+  );
+
   function initSidebar() {
     const shell = document.getElementById("app-shell");
     const toggle = document.getElementById("sidebar-toggle");
@@ -9,6 +36,15 @@
       toggle.textContent = shell.classList.contains("is-collapsed") ? "›" : "‹";
       setTimeout(ROUTER.resizeCharts, 210);
     });
+  }
+
+  // O período segue os meses que a fonte trouxe (no painel da equipe, a
+  // planilha: Jan até o mês corrente). Precisa rodar antes do seletor.
+  function configurarPeriodo() {
+    const dados = CONFIG.periodoDe && APP_DATA[CONFIG.periodoDe];
+    if (dados && dados.periodo && dados.monthLabels) {
+      PERIOD.configurar({ ano: dados.periodo.ano, monthLabels: dados.monthLabels });
+    }
   }
 
   function initPeriodSelect() {
@@ -32,12 +68,10 @@
   }
 
   function initExportButtons() {
-    document.getElementById("btn-export-excel").addEventListener("click", () => {
-      showToast("Exportação em Excel disponível na versão integrada.");
-    });
-    document.getElementById("btn-export-pdf").addEventListener("click", () => {
-      showToast("Exportação em PDF disponível na versão integrada.");
-    });
+    const excel = document.getElementById("btn-export-excel");
+    const pdf = document.getElementById("btn-export-pdf");
+    if (excel) excel.addEventListener("click", () => showToast("Exportação em Excel disponível na versão integrada."));
+    if (pdf) pdf.addEventListener("click", () => showToast("Exportação em PDF disponível na versão integrada."));
   }
 
   function initPresentMode() {
@@ -68,21 +102,7 @@
   // try/catch aqui, isso abortava o restante do boot (inclusive ROUTER.init())
   // e derrubava a navegação inteira, não só a tela problemática.
   function registerViews() {
-    const views = [
-      ["visao-geral", "VIEW_VISAO_GERAL"],
-      ["incubadora", "VIEW_INCUBADORA"],
-      ["espacos", "VIEW_ESPACOS"],
-      ["operacao", "VIEW_OPERACAO"],
-      ["relacionamento", "VIEW_RELACIONAMENTO"],
-      ["educacao", "VIEW_EDUCACAO"],
-      ["metas", "VIEW_METAS"],
-      ["parcerias", "VIEW_PARCERIAS"],
-      ["monitoramento-uso", "VIEW_MONITORAMENTO_USO"],
-      ["eventos", "VIEW_EVENTOS"],
-      ["posatendimento", "VIEW_POSATENDIMENTO"],
-      ["laboratorios", "VIEW_LABORATORIOS"],
-    ];
-    views.forEach(([route, globalName]) => {
+    CONFIG.rotas.forEach(([route, globalName]) => {
       try {
         const view = window[globalName];
         if (!view) throw new Error(`${globalName} indisponível — script da tela não carregou.`);
@@ -98,6 +118,38 @@
         });
       }
     });
+  }
+
+  // Selo do topo e lista de inconsistências da planilha: a equipe precisa ver,
+  // sem abrir o console, se o painel está com dado real e o que conferir.
+  function atualizarSelo() {
+    if (!CONFIG.seloDe) return;
+    const fonte = (window.APP_FONTES || {})[CONFIG.seloDe] || { origem: "ilustrativo", avisos: [] };
+    const dados = APP_DATA[CONFIG.seloDe] || {};
+    const selo = document.querySelector(".mock-badge");
+    if (selo) {
+      if (fonte.origem === "real") {
+        const [a, m, d] = String(dados.dataReferencia || "").split("-");
+        selo.textContent = `● PLANILHA DA INCUBADORA · ${d}/${m}/${a}`;
+        selo.title = "Dados lidos agora da planilha Google Sheets da Incubadora (atualização a cada 1 minuto).";
+        selo.classList.add("is-real");
+      } else {
+        selo.textContent = fonte.erro ? "● DADOS ILUSTRATIVOS — falha ao ler a planilha" : "● DADOS ILUSTRATIVOS — planilha não conectada";
+        selo.title = fonte.erro
+          ? `A leitura da planilha falhou: ${fonte.erro}`
+          : "A planilha ainda não está conectada (variáveis de ambiente no Vercel) — exibindo dados de exemplo.";
+      }
+    }
+    if (fonte.avisos && fonte.avisos.length) {
+      const aviso = document.createElement("div");
+      aviso.className = "load-warning";
+      aviso.innerHTML =
+        `<details><summary><strong>A planilha tem ${fmt.num(fonte.avisos.length)} ponto(s) a conferir</strong> — ` +
+        "linhas ignoradas ou dados inconsistentes. Clique para ver.</summary><ul>" +
+        fonte.avisos.map((a) => `<li>${UI.esc(a)}</li>`).join("") +
+        "</ul></details>";
+      document.querySelector(".content").prepend(aviso);
+    }
   }
 
   // A biblioteca de gráficos é servida pelo próprio site (assets/js/vendor).
@@ -137,20 +189,20 @@
 
   document.addEventListener("DOMContentLoaded", async () => {
     safeBoot(initSidebar, "sidebar");
-    safeBoot(initPeriodSelect, "seletor de período");
     safeBoot(initExportButtons, "botões de exportação");
     safeBoot(initPresentMode, "modo apresentação");
-    // Espera aqui (com timeout curto embutido em loadRemoteData) para que
-    // Agenda/O.S. já cheguem com dado real — quando configurado — no
-    // primeiro render(); se a função não existir (data-loader.js não
-    // carregou) ou falhar, segue direto com o mock já populado pelos
-    // scripts de data/*.js.
+    // Espera aqui (com timeout embutido em loadRemoteData) para que as fontes
+    // reais já cheguem no primeiro render(); se a função não existir
+    // (data-loader.js não carregou) ou falhar, segue com o mock de data/*.js.
     await safeBootAsync(
-      () => (typeof window.loadRemoteData === "function" ? window.loadRemoteData() : Promise.resolve()),
-      "integração real (Agenda/O.S.)"
+      () => (typeof window.loadRemoteData === "function" ? window.loadRemoteData(CONFIG.fontes) : Promise.resolve()),
+      "integração real"
     );
+    safeBoot(configurarPeriodo, "período");
+    safeBoot(initPeriodSelect, "seletor de período");
     safeBoot(registerViews, "registro de telas");
+    safeBoot(atualizarSelo, "selo da fonte de dados");
     safeBoot(checkChartsLibrary, "verificação do ECharts");
-    safeBoot(() => ROUTER.init(), "inicialização do roteador");
+    safeBoot(() => ROUTER.init({ rotaInicial: CONFIG.rotaInicial }), "inicialização do roteador");
   });
 })();
