@@ -2,7 +2,7 @@
 
 > **Status:** planejamento para o futuro. Nada aqui está implementado.
 > A V1 (este repositório, HTML/CSS/JS puro) continua sendo o painel em uso e fica
-> congelada na tag **`v1-html`** — qualquer ajuste pequeno segue sendo feito nela até a
+> congelada no commit **`fb4c0a6`** (marcado com a tag **`v1-html`**) — qualquer ajuste pequeno segue sendo feito nela até a
 > V2 estar pronta para substituí-la.
 >
 > **Escopo:** só o painel da equipe (`equipe.html`: Startups, Tarefas, Mentorias,
@@ -142,7 +142,7 @@ Regras que deixam isso seguro:
 
 | Fase | Entrega | Critério de pronto |
 |---|---|---|
-| **0. Congelar a V1** | Tag `v1-html` (feita). V1 segue no ar. | — |
+| **0. Congelar a V1** | Tag `v1-html` no commit `fb4c0a6` (no GitHub: Releases → "Draft a new release" → tag `v1-html`, alvo `fb4c0a6`). V1 segue no ar. | Tag visível no GitHub. |
 | **1. Fundação** | Repositório novo `painel-incubadora-v2`, Next.js + TS + Tailwind + shadcn, login Google com a aba `Equipe`, leitura da planilha com o cálculo da V1 portado e testado. | Login funciona; os números batem 100% com a V1 sobre a mesma planilha. |
 | **2. Paridade (só leitura)** | As 5 telas da V1 refeitas com componentes. | Tudo que a V1 mostra, a V2 mostra igual (comparação lado a lado), no celular e no computador. |
 | **3. Edição — Tarefas** | Criar/mover/editar tarefas + aba `Historico` + detecção de conflito. | Editar no painel aparece na planilha e vice-versa; teste de conflito simulado. |
