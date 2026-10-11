@@ -71,6 +71,14 @@
         spark: PERIOD.slice(I.empregosGeradosMensal),
       });
 
+    // No painel da equipe (onde existe a tela Tarefas), cada cartão mostra a
+    // tarefa "da vez" da startup e leva direto a ela no quadro de tarefas.
+    const comQuadro = window.ROUTER && ROUTER.has("tarefas");
+    const tarefaDoCartao = (s) => {
+      if (!comQuadro) return "";
+      if (s.tarefaAtual) return UI.tarefaChip(s.tarefaAtual, s.tarefasAbertas, `#/tarefas?tarefa=${encodeURIComponent(s.tarefaAtual.id)}`);
+      return '<div class="tarefa-chip-vazio">Sem tarefa aberta</div>';
+    };
     const kanban = I.ciclos
       .map((c) =>
         UI.kanbanColumn({
@@ -83,6 +91,7 @@
               descricao: `${s.setor} · ${fmt.currency(s.fomentoCaptado)} captado`,
               responsavel: s.responsavel,
               data: dataBr(s.dataEntrada),
+              extraHtml: tarefaDoCartao(s),
             })),
         })
       )
@@ -123,7 +132,9 @@
       ${UI.sectionCard({
         eyebrow: `${fmt.num(I.kpis.startupsAtivas)} startups ativas · situação em ${dataBr(I.dataReferencia)}`,
         title: "Kanban da jornada — startup a startup",
-        desc: "Cada cartão é uma startup ativa: setor, fomento captado e responsável, agrupados pelo ciclo atual.",
+        desc: comQuadro
+          ? "Cada cartão é uma startup ativa, agrupada pelo ciclo atual, com a tarefa em andamento no quadro de tarefas — toque nela para abrir."
+          : "Cada cartão é uma startup ativa: setor, fomento captado e responsável, agrupados pelo ciclo atual.",
         bodyHtml: `<div class="kanban-board">${kanban}</div>`,
       })}
 

@@ -124,13 +124,20 @@ no topo de cada função), e configurar as variáveis de ambiente no Vercel.
 ### Planilha da Incubadora e painel da equipe (Google Sheets, somente leitura)
 
 A Incubadora tem um painel de uso diário para a equipe, [`equipe.html`](equipe.html), que
-lê tudo de uma planilha Google Sheets e funciona no computador e no celular. Tem quatro
+lê tudo de uma planilha Google Sheets e funciona no computador e no celular. Tem cinco
 telas:
 
 - **Startups** (tela inicial): cartão de cada startup ativa, com a etapa da jornada, a última
   e a próxima mentoria, o responsável e a maturidade, mais um alerta para quem está há mais de
   N dias sem mentoria e sem nada agendado. Tem busca e filtros por ciclo, responsável e
   "precisam de atenção". Ao lado, as **próximas mentorias** da semana.
+- **Tarefas**: o quadro de tarefas da equipe (A fazer / Fazendo / Pendente / Feito), com
+  filtros por pessoa, startup e prioridade, atrasadas em destaque, carga por pessoa e prazos
+  da semana. Cada cartão traz só o essencial; o detalhe fica no **Zoho CRM** (botão "Abrir no
+  Zoho" a partir da coluna `link_zoho`). As telas **conversam**: o cartão de cada startup (em
+  Startups e no Kanban de Indicadores) mostra a tarefa da vez — "🛠 Guilherme está fazendo:
+  …" — e tocar nela abre o quadro já com aquela tarefa aberta e destacada
+  (`#/tarefas?tarefa=TAR-001`; `#/tarefas?startup=STU-05` filtra as de uma startup).
 - **Mentorias**: o cronograma da equipe. Calendário do mês com as mentorias realizadas,
   agendadas, a confirmar e canceladas, filtros por consultor, startup e situação, as startups
   há mais tempo sem mentoria e as mentorias por consultor no período.
@@ -159,6 +166,7 @@ preencha `ano` na aba `Config`.
 | `Startups` | id, nome, cnpj, setor, descricao, ciclo_atual, status, data_entrada, data_saida, responsavel, observacoes | Kanban (só `status` = Ativa), trilho e distribuição por ciclo, setores, KPI e série mensal de startups ativas (entrada ≤ fim do mês < saída), graduandas previstas (ativas no último ciclo) |
 | `Mentorias` | data, startup_id, consultor, fase, tema, horas, hora, formato, status | **o cronograma**: uma linha por mentoria. Com `status` = Agendada (data futura) ela entra na agenda; Realizada conta nos indicadores; Cancelada fica só no histórico. Sem `status`, o painel deduz pela data. Agendada cuja data já passou vira "a confirmar" (no painel e em amarelo na planilha). Alimenta a última e a próxima mentoria de cada startup, o alerta de atenção, o KPI e a cadência. `hora`, `formato` e `status` são opcionais (planilhas antigas sem essas colunas continuam funcionando) |
 | `AulasColetivas` | fase, semana, formato, atividade, elaborador, prazo_material, material_pronto, data_realizada | tabela de material pronto por fase; KPI "Aulas ministradas" e cadência contam `data_realizada` |
+| `Tarefas` *(opcional)* | id, titulo, startup_id, responsavel, status, prioridade, prazo, concluida_em, link_zoho, observacao | quadro de tarefas (status A fazer / Fazendo / Pendente / Feito; prioridade Alta / Média / Baixa) e a "tarefa da vez" de cada startup: a que está Fazendo, senão a Pendente, senão a próxima A fazer. Prazo vencido sem estar Feito = atrasada |
 | `Diagnosticos` | data, startup_id, avaliador + 6 notas 0–100 (modelo_negocio, solucao_tecnologia, time_gestao, mercado_clientes, financeiro, propriedade_intelectual) | radar de maturidade: média do diagnóstico **mais recente** de cada startup ativa |
 | `Fomento` | data, startup_id, fonte, descricao, valor | KPI de fomento (no período + acumulado do ano), fomento por setor, valor em cada cartão |
 | `Empregos` | data, startup_id, variacao (+contratação / −desligamento), observacao | KPI de empregos e famílias atingidas (empregos × `multiplicador_familias`) |

@@ -27,9 +27,19 @@
     activeCharts = [];
   }
 
+  // "#/tarefas?tarefa=TAR-001" → rota "tarefas"; o que vem depois do "?" são
+  // parâmetros da tela (ROUTER.params()), usados para abrir um item específico.
   function currentPath() {
-    const hash = window.location.hash.replace(/^#\/?/, "");
+    const hash = window.location.hash.replace(/^#\/?/, "").split("?")[0];
     return hash || rotaInicial;
+  }
+
+  function params() {
+    return new URLSearchParams(window.location.hash.split("?")[1] || "");
+  }
+
+  function has(path) {
+    return path in routes;
   }
 
   // Preenche todo .chart-box que ficou sem conteúdo com um aviso legível.
@@ -100,5 +110,5 @@
     render();
   }
 
-  window.ROUTER = { register, init, render, resizeCharts, currentPath };
+  window.ROUTER = { register, init, render, resizeCharts, currentPath, params, has };
 })();

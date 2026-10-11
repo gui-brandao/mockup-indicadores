@@ -2043,3 +2043,260 @@ table.data-table {
   .cal-num { width: 20px; height: 20px; font-size: 11px; }
   .data-table th, .data-table td { padding: 8px 8px; }
 }
+
+/* ======================================================================
+   Quadro de tarefas (equipe.html → Tarefas) e resumo da tarefa nos cartões
+   ====================================================================== */
+
+/* Resumo da tarefa "da vez" de uma startup (cartões de Startups e Kanban). */
+.tarefa-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: relative;
+  text-decoration: none;
+  color: var(--gray-900);
+  border-radius: var(--radius-sm);
+  padding: 7px 26px 7px 9px;
+  background: var(--gray-100);
+  border-left: 3px solid var(--gray-500);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+a.tarefa-chip:hover { filter: brightness(0.97); }
+.tarefa-chip.is-fazendo { background: #e3edf6; border-left-color: var(--navy-500); }
+.tarefa-chip.is-pendente { background: var(--yellow-100); border-left-color: var(--yellow-600); }
+.tarefa-chip.is-afazer { background: var(--gray-100); border-left-color: var(--gray-500); }
+
+.tarefa-chip-topo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  width: 100%;
+  font-weight: 700;
+  color: var(--navy-800);
+}
+
+.tarefa-chip.is-pendente .tarefa-chip-topo { color: #6b520c; }
+
+.tarefa-chip-titulo {
+  width: 100%;
+  color: var(--gray-700);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tarefa-chip-mais {
+  background: var(--card);
+  border-radius: 999px;
+  padding: 0 6px;
+  font-size: 10.5px;
+  color: var(--gray-700);
+}
+
+.tarefa-chip-atraso { color: var(--red-600); font-size: 10.5px; }
+
+.tarefa-chip-ir {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gray-500);
+}
+
+.tarefa-chip-vazio { font-size: 11px; color: var(--gray-500); padding: 2px 0; }
+.kanban-card .tarefa-chip,
+.kanban-card .tarefa-chip-vazio { margin-top: 8px; }
+
+.startup-card-tarefas { justify-content: center; margin-top: 12px; }
+
+.link-botao {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--navy-600);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.td-alerta { color: var(--red-600); font-weight: 700; }
+
+/* Quadro: 4 colunas no computador, 2 no tablet, empilhado no celular. */
+
+.quadro {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.quadro-coluna {
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  border-top: 4px solid var(--gray-500);
+  min-width: 0;
+}
+
+.quadro-coluna.is-fazendo { border-top-color: var(--navy-500); }
+.quadro-coluna.is-pendente { border-top-color: var(--yellow-600); }
+.quadro-coluna.is-feito { border-top-color: var(--green-600); }
+
+.quadro-coluna header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--gray-900);
+  padding: 2px 4px;
+}
+
+.quadro-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gray-500); flex: none; }
+.is-fazendo .quadro-dot { background: var(--navy-500); }
+.is-pendente .quadro-dot { background: var(--yellow-600); }
+.is-feito .quadro-dot { background: var(--green-600); }
+.quadro-coluna-nome { flex: 1; }
+.quadro-ajuda { font-size: 11px; color: var(--gray-500); padding: 0 4px 8px; }
+.quadro-coluna-corpo { display: flex; flex-direction: column; gap: 8px; }
+
+.tarefa-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 11px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  scroll-margin-top: 90px;
+}
+
+.tarefa-card.is-atrasada { border-left: 4px solid var(--red-500); }
+.tarefa-card.is-open { border-color: var(--navy-400); }
+.quadro-coluna.is-feito .tarefa-card { opacity: 0.85; }
+.quadro-coluna.is-feito .tarefa-card-titulo { text-decoration: line-through; text-decoration-color: var(--gray-300); }
+
+.tarefa-card.is-destaque {
+  border-color: var(--navy-600);
+  animation: destaque-tarefa 2.4s ease-out 1;
+}
+
+@keyframes destaque-tarefa {
+  0%, 40% { box-shadow: 0 0 0 4px rgba(242, 194, 48, 0.85); }
+  100% { box-shadow: var(--shadow-card); }
+}
+
+.tarefa-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  color: inherit;
+}
+
+.tarefa-card-head:focus-visible { outline: 2px solid var(--navy-400); outline-offset: 2px; }
+.tarefa-card-titulo { flex: 1; font-weight: 700; font-size: 13px; line-height: 1.3; color: var(--gray-900); }
+.tarefa-card.is-open .startup-card-toggle { transform: rotate(180deg); }
+
+.tarefa-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.tarefa-card-meta .pill { font-size: 10px; padding: 2px 7px; }
+
+.tarefa-card-startup {
+  color: var(--navy-700);
+  font-weight: 600;
+  text-decoration: none;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarefa-card-startup:hover { text-decoration: underline; }
+
+.tarefa-card-rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--gray-700);
+  border-top: 1px solid var(--gray-100);
+  padding-top: 6px;
+}
+
+.tarefa-card.is-atrasada .tarefa-card-prazo { color: var(--red-600); }
+
+.tarefa-card-detalhe {
+  border-top: 1px solid var(--gray-100);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.tarefa-card-detalhe dl { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+.tarefa-card-detalhe dt { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--gray-500); }
+.tarefa-card-detalhe dd { margin: 0; font-weight: 600; }
+.tarefa-card-detalhe .btn { justify-content: center; }
+.tarefa-card-obs { margin: 0; background: #f6f9fc; border-radius: 6px; padding: 6px 8px; color: var(--gray-700); }
+.tarefa-card-dica { font-size: 11px; color: var(--gray-500); }
+.tarefa-card-dica code { font-size: 11px; }
+
+/* Prazos dos próximos 7 dias */
+
+.prazos-lista { display: flex; flex-direction: column; gap: 6px; }
+
+.prazo-item {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: #f6f9fc;
+  border-left: 3px solid var(--navy-400);
+}
+
+.prazo-item:hover { background: #ecf2f8; }
+.prazo-item.is-atrasada { background: var(--red-100); border-left-color: var(--red-500); }
+.prazo-data { font-weight: 800; font-size: 12px; color: var(--navy-800); text-transform: capitalize; }
+.prazo-info { display: flex; flex-direction: column; min-width: 0; font-size: 12.5px; }
+.prazo-info strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prazo-info span { font-size: 11px; color: var(--gray-500); }
+.prazo-quando { font-size: 11px; font-weight: 700; color: var(--gray-700); white-space: nowrap; }
+.prazo-item.is-atrasada .prazo-quando { color: var(--red-600); }
+
+@media (max-width: 1180px) {
+  .quadro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .quadro { grid-template-columns: 1fr; }
+  .prazo-item { grid-template-columns: 64px minmax(0, 1fr); }
+  .prazo-quando { grid-column: 2; }
+}

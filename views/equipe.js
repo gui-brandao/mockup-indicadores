@@ -149,6 +149,11 @@
           <div><dt>Última mentoria</dt><dd>${ultima}</dd></div>
           <div><dt>Próxima</dt><dd>${proxima}</dd></div>
         </dl>
+        ${
+          s.tarefaAtual
+            ? UI.tarefaChip(s.tarefaAtual, s.tarefasAbertas, `#/tarefas?tarefa=${encodeURIComponent(s.tarefaAtual.id)}`)
+            : '<div class="tarefa-chip-vazio">Sem tarefa aberta</div>'
+        }
         <div class="startup-card-rodape">
           <span>👤 ${s.responsavel ? UI.esc(s.responsavel) : '<span class="muted">sem responsável</span>'}</span>
           <span title="Maturidade (média do último diagnóstico, 0 a 100)">${s.maturidade === null || s.maturidade === undefined ? '<span class="muted">sem diagnóstico</span>' : `🧭 ${fmt.num(s.maturidade)}<span class="muted">/100</span>`}</span>
@@ -178,6 +183,7 @@
               : '<div class="muted">Nenhuma mentoria registrada.</div>'
           }</div>
           ${s.dataDiagnostico ? `<div class="startup-card-sub">Último diagnóstico em ${UI.esc(fmt.dataBr(s.dataDiagnostico))}</div>` : ""}
+          <a class="btn btn-outline w-full startup-card-tarefas" href="#/tarefas?startup=${encodeURIComponent(s.id)}">📋 Tarefas desta startup${s.tarefasAbertas ? ` (${fmt.num(s.tarefasAbertas)} aberta${s.tarefasAbertas > 1 ? "s" : ""})` : ""}</a>
         </div>
       </article>`;
   }

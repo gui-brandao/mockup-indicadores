@@ -36,8 +36,9 @@ Cada página declara, antes de `app.js`, um `window.APP_CONFIG` opcional —
 busca em `/api`), `periodoDe` (fonte cujos meses definem o seletor de período) e
 `seloDe` (fonte que define o selo "planilha / dados ilustrativos"). Sem ele vale a
 configuração da apresentação (12 telas, `fontes: ["agenda", "os"]`, período Jan–Set
-do mock). `equipe.html` registra quatro rotas: `inicio` (`VIEW_EQUIPE_INICIO`) e
-`mentorias` (`VIEW_MENTORIAS`), ambas em `views/equipe.js`; `incubadora`
+do mock). `equipe.html` registra cinco rotas: `inicio` (`VIEW_EQUIPE_INICIO`) e
+`mentorias` (`VIEW_MENTORIAS`), ambas em `views/equipe.js`; `tarefas`
+(`VIEW_TAREFAS`, em `views/tarefas.js`); `incubadora`
 (`VIEW_INCUBADORA`, a mesma tela da apresentação); e `guia` (`VIEW_GUIA`, em
 `views/guia.js`). Usa `rotaInicial: "inicio"` e `fontes`, `periodoDe` e `seloDe` iguais a
 `"incubadora"`, e carrega só os scripts dessas telas.
@@ -47,6 +48,14 @@ abertos) guardado no módulo da view. Ele redesenha só o trecho afetado e sobre
 re-render que o router faz quando o período muda. O período continua valendo só para os
 números "no período"; a agenda e o calendário são relativos a `dataReferencia` (hoje no
 fuso de São Paulo, vindo do servidor), nunca ao relógio do navegador.
+
+As telas se ligam por **parâmetros no hash**: `#/tarefas?tarefa=TAR-001` abre e destaca
+uma tarefa, `#/tarefas?startup=STU-05` filtra as tarefas de uma startup.
+`ROUTER.currentPath()` ignora o que vem depois do `?` e `ROUTER.params()` devolve esses
+parâmetros. `UI.tarefaChip()` (em `components.js`) é o resumo da "tarefa da vez" usado nos
+cartões de startup das telas Startups e Indicadores. Ele só vira link quando
+`ROUTER.has("tarefas")`, por isso a apresentação (`index.html`), que não tem quadro,
+continua igual.
 
 A ordem importa: um script que lê `APP_DATA`, `APP_THEME`, `UI`, `fmt` ou `PERIOD`
 antes dele ter sido definido quebra silenciosamente (variável `undefined`). Ao
@@ -112,7 +121,10 @@ flowchart LR
   deduzido pela data) e vira um item de `mentorias[]`; só as realizadas entram em
   `serieMensal.mentorias`. Cada startup ganha os campos de acompanhamento
   `ultimaMentoria`, `proximaMentoria`, `diasSemMentoria`, `precisaAtencao` (acima de
-  `parametros.alertaDiasSemMentoria` dias e sem nada agendado) e `maturidade`. `hoje` (fuso de
+  `parametros.alertaDiasSemMentoria` dias e sem nada agendado) e `maturidade`. A aba
+  opcional `Tarefas` vira `tarefas[]` e os `kpis.tarefas*`, e cada startup ganha
+  `tarefasAbertas` e `tarefaAtual`: a que está Fazendo, senão a Pendente, senão a A fazer,
+  desempatando por prioridade e prazo. `hoje` (fuso de
   São Paulo) define o período: Jan → mês corrente, devolvido em `months`,
   `monthLabels`, `periodo { ano, mesReferencia }` e `dataReferencia`. Linha
   inconsistente é ignorada e vira um item de `avisos` (aba + linha), nunca exceção;

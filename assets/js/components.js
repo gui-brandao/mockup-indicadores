@@ -183,6 +183,7 @@
           ${c.responsavel ? `<span>👤 ${esc(c.responsavel)}</span>` : ""}
           ${c.data ? `<span>${esc(c.data)}</span>` : ""}
         </div>
+        ${c.extraHtml || ""}
       </div>`
       )
       .join("");
@@ -195,6 +196,32 @@
         </div>
         <div class="kanban-column-body">${cardsHtml || '<div class="kanban-empty">Sem startups nesta fase</div>'}</div>
       </div>`;
+  }
+
+  // Resumo da tarefa "da vez" de uma startup (vem do quadro de tarefas). Com
+  // href, vira link para a tarefa no quadro; sem tarefa, devolve "".
+  const TAREFA_ROTULO = {
+    Fazendo: ["🛠", "fazendo"],
+    Pendente: ["⏳", "pendente"],
+    "A fazer": ["📋", "afazer"],
+  };
+  function tarefaChip(tarefa, abertas, href) {
+    if (!tarefa) return "";
+    const [icone, tom] = TAREFA_ROTULO[tarefa.status] || TAREFA_ROTULO["A fazer"];
+    // "Guilherme está fazendo" / "Pendente · Natália" / "A fazer · Cristiano"
+    const quem =
+      tarefa.status === "Fazendo"
+        ? tarefa.responsavel ? `${esc(tarefa.responsavel)} está fazendo` : "Em andamento"
+        : `${esc(tarefa.status)}${tarefa.responsavel ? ` · ${esc(tarefa.responsavel)}` : ""}`;
+    const extra = abertas > 1 ? `<span class="tarefa-chip-mais">+${fmt.num(abertas - 1)}</span>` : "";
+    const atraso = tarefa.atrasada ? '<span class="tarefa-chip-atraso">⚠ atrasada</span>' : "";
+    const corpo = `
+      <span class="tarefa-chip-topo"><span class="tarefa-chip-quem"><span aria-hidden="true">${icone}</span> ${quem}</span>${extra}${atraso}</span>
+      <span class="tarefa-chip-titulo">${esc(tarefa.titulo)}</span>`;
+    const titulo = `Tarefa ${esc(tarefa.id)} — ${esc(tarefa.status)}${href ? " · abrir no quadro de tarefas" : ""}`;
+    return href
+      ? `<a class="tarefa-chip is-${tom}" href="${esc(href)}" title="${titulo}">${corpo}<span class="tarefa-chip-ir" aria-hidden="true">›</span></a>`
+      : `<div class="tarefa-chip is-${tom}" title="${titulo}">${corpo}</div>`;
   }
 
   function dataTable({ columns, rows, numericCols }) {
@@ -239,5 +266,6 @@
     avatarInitials,
     partnerCard,
     kanbanColumn,
+    tarefaChip,
   };
 })();

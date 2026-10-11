@@ -31,6 +31,7 @@
 
     <nav class="sidebar-nav" id="sidebar-nav">
       <a class="nav-item" data-route="inicio" href="#/inicio"><span class="nav-icon">🏠</span><span class="nav-label">Startups</span></a>
+      <a class="nav-item" data-route="tarefas" href="#/tarefas"><span class="nav-icon">✅</span><span class="nav-label">Tarefas</span></a>
       <a class="nav-item" data-route="mentorias" href="#/mentorias"><span class="nav-icon">📅</span><span class="nav-label">Mentorias</span></a>
       <a class="nav-item" data-route="incubadora" href="#/incubadora"><span class="nav-icon">📊</span><span class="nav-label">Indicadores &amp; Jornada</span></a>
       <a class="nav-item" data-route="guia" href="#/guia"><span class="nav-icon">📘</span><span class="nav-label">Como usar</span></a>
@@ -89,12 +90,14 @@
 
 <script src="views/incubadora.js"></script>
 <script src="views/equipe.js"></script>
+<script src="views/tarefas.js"></script>
 <script src="views/guia.js"></script>
 
 <script>
   window.APP_CONFIG = {
     rotas: [
       ["inicio", "VIEW_EQUIPE_INICIO"],
+      ["tarefas", "VIEW_TAREFAS"],
       ["mentorias", "VIEW_MENTORIAS"],
       ["incubadora", "VIEW_INCUBADORA"],
       ["guia", "VIEW_GUIA"],

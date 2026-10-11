@@ -16,7 +16,8 @@ const ABAS_OBRIGATORIAS = [
   "Startups", "Ciclos", "Fases", "Metodologia", "AulasColetivas", "PlanoTrabalho",
   "Mentorias", "Diagnosticos", "Fomento", "Empregos",
 ];
-const ABAS_OPCIONAIS = ["Config", "Listas"];
+// Tarefas é opcional para planilhas criadas antes do quadro de tarefas existir.
+const ABAS_OPCIONAIS = ["Config", "Listas", "Tarefas"];
 
 const MESES_CURTOS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const MESES_LONGOS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
@@ -33,6 +34,9 @@ const STATUS_STARTUP = ["Ativa", "Graduada", "Desligada"];
 const STATUS_MENTORIA = ["Realizada", "Agendada", "Cancelada"];
 const FORMATOS_MENTORIA = ["Presencial", "Online"];
 const ALERTA_DIAS_PADRAO = 21;
+// Ordem das colunas do quadro; "Pendente" = parada esperando algo/alguém.
+const STATUS_TAREFA = ["A fazer", "Fazendo", "Pendente", "Feito"];
+const PRIORIDADES = ["Alta", "Média", "Baixa"];
 const STATUS_PLANO = { "concluida": "concluida", "em execucao": "emExecucao", "nao iniciada": "naoIniciada" };
 const MAX_AVISOS = 60;
 
@@ -373,6 +377,67 @@ function montarIncubadora(abas, hoje) {
   const posicao = (setor) => (setoresLista.includes(setor) ? setoresLista.indexOf(setor) : setoresLista.length);
   setores.sort((a, b) => posicao(a.setor) - posicao(b.setor));
 
+  // ---------------------------------------------------------------- tarefas da equipe
+  // Quadro de tarefas (A fazer / Fazendo / Pendente / Feito). Só o essencial:
+  // o detalhe de cada registro fica no Zoho CRM (coluna link_zoho).
+  const tarefas = [];
+  const idsTarefa = new Set();
+  abas.Tarefas.forEach((r, i) => {
+    if (!Object.values(r).some((v) => texto(v))) return;
+    const linha = `Tarefas, linha ${i + 2}`;
+    const titulo = texto(r.titulo);
+    if (!titulo) return avisar(`${linha}: tarefa sem título — linha ignorada`);
+    let id = texto(r.id) || `linha-${i + 2}`;
+    if (idsTarefa.has(id)) {
+      avisar(`${linha}: id "${id}" repetido — usando "linha-${i + 2}"`);
+      id = `linha-${i + 2}`;
+    }
+    idsTarefa.add(id);
+    let status = STATUS_TAREFA.find((s) => semAcento(s) === semAcento(r.status));
+    if (!status) {
+      avisar(`${linha}: status "${texto(r.status)}" inválido (use A fazer, Fazendo, Pendente ou Feito) — tratada como A fazer`);
+      status = "A fazer";
+    }
+    let prioridade = PRIORIDADES.find((p) => semAcento(p) === semAcento(r.prioridade)) || "";
+    if (texto(r.prioridade) && !prioridade) avisar(`${linha}: prioridade "${texto(r.prioridade)}" inválida (use Alta, Média ou Baixa)`);
+    const prazo = dataIso(r.prazo);
+    if (texto(r.prazo) && !prazo) avisar(`${linha}: prazo inválido — tarefa sem prazo`);
+    const concluidaEm = dataIso(r.concluida_em);
+    let startup = null;
+    if (texto(r.startup_id)) {
+      startup = porId.get(texto(r.startup_id));
+      if (!startup) avisar(`${linha}: startup_id "${texto(r.startup_id)}" não existe na aba Startups — tarefa mantida sem startup`);
+    }
+    const linkZoho = texto(r.link_zoho);
+    tarefas.push({
+      id,
+      titulo,
+      startupId: startup ? startup.id : "",
+      startup: startup ? startup.nome : "",
+      responsavel: texto(r.responsavel),
+      status,
+      prioridade,
+      prazo,
+      concluidaEm,
+      linkZoho: /^https?:\/\//i.test(linkZoho) ? linkZoho : "",
+      observacao: texto(r.observacao),
+      atrasada: status !== "Feito" && !!prazo && prazo < hojeIso,
+    });
+  });
+  // Tarefa "da vez" de cada startup: a que está andando (Fazendo), depois a
+  // travada (Pendente), depois a próxima (A fazer); empate = prioridade, prazo.
+  const pesoStatus = { Fazendo: 0, Pendente: 1, "A fazer": 2 };
+  const pesoPrioridade = { Alta: 0, "Média": 1, Baixa: 2, "": 3 };
+  const ordemTarefa = (a, b) =>
+    pesoStatus[a.status] - pesoStatus[b.status] ||
+    pesoPrioridade[a.prioridade] - pesoPrioridade[b.prioridade] ||
+    (a.prazo || "9999").localeCompare(b.prazo || "9999");
+  const abertasPorStartup = new Map();
+  tarefas.filter((x) => x.status !== "Feito" && x.startupId).forEach((x) => {
+    abertasPorStartup.set(x.startupId, [...(abertasPorStartup.get(x.startupId) || []), x]);
+  });
+  abertasPorStartup.forEach((lista) => lista.sort(ordemTarefa));
+
   // Acompanhamento: dias desde a última mentoria realizada (ou desde a
   // entrada, se ainda não teve nenhuma). Sem mentoria agendada e acima do
   // limite da aba Config = precisa de atenção.
@@ -405,6 +470,10 @@ function montarIncubadora(abas, hoje) {
       mentoriasAgendadas: agenda.filter((m) => m.status === "Agendada" && !m.aConfirmar).length,
       mentoriasAConfirmar: agenda.filter((m) => m.aConfirmar).length,
       startupsPrecisandoAtencao: [...acompanhamento.values()].filter((a) => a.atencao).length,
+      tarefasAFazer: tarefas.filter((x) => x.status === "A fazer").length,
+      tarefasFazendo: tarefas.filter((x) => x.status === "Fazendo").length,
+      tarefasPendentes: tarefas.filter((x) => x.status === "Pendente").length,
+      tarefasAtrasadas: tarefas.filter((x) => x.atrasada).length,
     },
     parametros: { alertaDiasSemMentoria },
     planoTrabalho,
@@ -430,9 +499,15 @@ function montarIncubadora(abas, hoje) {
         precisaAtencao: acompanhamento.get(s.id).atencao,
         maturidade: diag ? mediaDiag(diag) : null,
         dataDiagnostico: diag ? diag.data : "",
+        tarefasAbertas: (abertasPorStartup.get(s.id) || []).length,
+        tarefaAtual: (() => {
+          const t = (abertasPorStartup.get(s.id) || [])[0];
+          return t ? { id: t.id, titulo: t.titulo, responsavel: t.responsavel, status: t.status, prazo: t.prazo, atrasada: t.atrasada } : null;
+        })(),
       };
     }),
     mentorias: agenda,
+    tarefas,
     empregosGeradosMensal,
     familiasAtingidasMensal,
     fomentoCaptadoMensal,

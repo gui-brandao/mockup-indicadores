@@ -49,6 +49,8 @@
     const dataAg = fmt.dataBr(somarDias(hoje, 3));
     const ontem = fmt.dataBr(somarDias(hoje, -1));
     const COL_MENTORIA = ["data", "startup_id", "consultor", "fase", "tema", "horas", "hora", "formato", "status"];
+    const COL_TAREFA = ["id", "titulo", "startup_id", "responsavel", "status", "prioridade", "prazo", "concluida_em", "link_zoho"];
+    const proxTarefa = `TAR-${String((I.tarefas || []).length + 1).padStart(3, "0")}`;
 
     const abrir = I.planilhaUrl
       ? `<a class="btn btn-primary" href="${UI.esc(I.planilhaUrl)}" target="_blank" rel="noopener">📄 Abrir a planilha da Incubadora</a>`
@@ -90,6 +92,39 @@
           { data: ontem, startup_id: s.id, consultor: s.responsavel, fase: "S2", tema: "Pitch de Validação", horas: "1,5", hora: "14:00", formato: "Presencial", status: "Realizada" },
         ]),
         painel: `KPI "Mentorias realizadas", gráfico de cadência, "Última mentoria" do cartão e o alerta de ${fmt.num(alerta)} dias sem mentoria.`,
+      }),
+      tarefa({
+        id: "criar-tarefa",
+        icone: "➕",
+        titulo: "Criar uma tarefa no quadro",
+        quando: "sempre que alguém da equipe assumir algo para fazer",
+        aba: "Tarefas",
+        passos: [
+          `Na aba ${b("Tarefas")}, use a primeira linha vazia e crie um ${col("id")} novo seguindo a sequência (ex.: ${UI.esc(proxTarefa)}).`,
+          `Escreva um ${col("titulo")} curto — o detalhe fica no Zoho CRM.`,
+          `Em ${col("startup_id")}, escolha a startup (ou deixe vazio para tarefa interna da equipe). Com startup, a tarefa aparece no cartão dela.`,
+          `Escolha ${col("responsavel")}, ${col("status")} = ${b("A fazer")}, a ${col("prioridade")} e o ${col("prazo")}.`,
+          `Opcional: cole em ${col("link_zoho")} o endereço do registro no Zoho CRM — vira o botão "Abrir no Zoho".`,
+        ],
+        exemplo: planilhaMini("Tarefas", COL_TAREFA, [
+          { id: proxTarefa, titulo: "Revisar pitch para a banca", startup_id: s.id, responsavel: s.responsavel, status: "A fazer", prioridade: "Alta", prazo: fmt.dataBr(somarDias(hoje, 7)), concluida_em: "", link_zoho: "https://crm.zoho.com/…" },
+        ]),
+        painel: "Tela Tarefas (coluna A fazer) e no cartão da startup, em Startups e em Indicadores: “📋 A fazer · responsável”.",
+      }),
+      tarefa({
+        id: "mover-tarefa",
+        icone: "🔄",
+        titulo: "Andar com a tarefa (Fazendo, Pendente, Feito)",
+        quando: "quando começar, travar ou terminar",
+        aba: "Tarefas",
+        passos: [
+          `Começou? Troque ${col("status")} para ${b("Fazendo")}. O cartão da startup passa a mostrar “responsável está fazendo”.`,
+          `Travou esperando algo ou alguém? Use ${b("Pendente")} e explique em ${col("observacao")}.`,
+          `Terminou? ${b("Feito")} e, se quiser, a data em ${col("concluida_em")}. Não apague a linha.`,
+          "Prazo vencido sem estar Feito fica em vermelho na planilha e com ⚠ no painel.",
+        ],
+        exemplo: planilhaMini("Tarefas", ["id", "titulo", "status", "concluida_em"], [{ id: proxTarefa, titulo: "Revisar pitch para a banca", status: "Fazendo → Feito", concluida_em: fmt.dataBr(hoje) }]),
+        painel: "O cartão muda de coluna no quadro de tarefas e o resumo no cartão da startup acompanha.",
       }),
       tarefa({
         id: "nova-startup",
@@ -212,6 +247,7 @@
       ["está Ativa mas tem data_saida", "Startup ativa não tem data de saída: apague a data, ou troque o status para Graduada/Desligada."],
       ["data_saida anterior à data_entrada", "Confira as duas datas — muitas vezes é um arrasto acidental que criou uma sequência de datas."],
       ["notas devem ser números de 0 a 100", "Em Diagnosticos, cada nota tem de ser um número entre 0 e 100."],
+      ["Tarefas … status inválido", "Na aba Tarefas, o status tem de ser A fazer, Fazendo, Pendente ou Feito (use a lista suspensa)."],
     ];
 
     return `
@@ -263,6 +299,7 @@
               <details><summary>Posso usar filtros e ordenar a planilha?</summary><p>Pode. Prefira "Criar visualização com filtro" (Dados → Visualizações de filtro), que não bagunça a tela dos colegas.</p></details>
               <details><summary>Posso apagar uma linha?</summary><p>Só se ela foi digitada por engano. Para startups e mentorias reais, mude o status em vez de apagar.</p></details>
               <details><summary>A mentoria não teve horário definido.</summary><p>Tudo bem: <code>hora</code>, <code>formato</code> e <code>horas</code> são opcionais. Sem <code>status</code>, o painel considera Realizada se a data já passou e Agendada se ainda vai acontecer.</p></details>
+              <details><summary>Onde fica o detalhe de cada tarefa ou startup?</summary><p>No Zoho CRM. O painel mostra só o essencial (quem, o quê, até quando, em que pé está). Cole o endereço do registro do Zoho na coluna <code>link_zoho</code> da aba Tarefas para ter o botão "Abrir no Zoho".</p></details>
               <details><summary>Quem pode ver o painel?</summary><p>Quem tem o link do painel. Os dados só vêm da planilha, que continua privada — compartilhe a planilha apenas com a equipe.</p></details>
             </div>`,
         })}
