@@ -22,7 +22,11 @@ async function fetchReal(env) {
     chavePrivada: env.GOOGLE_SERVICE_ACCOUNT_KEY,
     abas: ABAS_LIDAS,
   });
-  return montarIncubadora(abas, hojeEmSaoPaulo());
+  const resultado = montarIncubadora(abas, hojeEmSaoPaulo());
+  // Botão "Abrir planilha" do painel. A planilha continua privada: o link só
+  // abre para quem ela foi compartilhada.
+  resultado.data.planilhaUrl = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(env.INCUBADORA_SHEET_ID)}/edit`;
+  return resultado;
 }
 
 module.exports = async (req, res) => {

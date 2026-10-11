@@ -9,7 +9,7 @@ apresentação, veja o [README](README.md).
 
 São duas páginas estáticas que compartilham o mesmo código — `index.html` (a
 apresentação, com as 12 telas e dado ilustrativo) e `equipe.html` (o painel de uso
-diário da equipe: só a Incubadora, lendo a planilha Google Sheets) —, sem bundler, sem build e sem
+diário da equipe da Incubadora, lendo a planilha Google Sheets) —, sem bundler, sem build e sem
 módulos ES — tudo roda como `<script>` clássico carregado em ordem, na própria tag
 `<body>`. Praticamente não há backend: cada "fonte de dados" é um objeto JavaScript
 literal em `data/*.js`, atribuído a `window.APP_DATA` assim que o script carrega. As
@@ -36,9 +36,17 @@ Cada página declara, antes de `app.js`, um `window.APP_CONFIG` opcional —
 busca em `/api`), `periodoDe` (fonte cujos meses definem o seletor de período) e
 `seloDe` (fonte que define o selo "planilha / dados ilustrativos"). Sem ele vale a
 configuração da apresentação (12 telas, `fontes: ["agenda", "os"]`, período Jan–Set
-do mock). `equipe.html` usa `{ rotas: [["incubadora", "VIEW_INCUBADORA"]],
-rotaInicial: "incubadora", fontes: ["incubadora"], periodoDe: "incubadora", seloDe:
-"incubadora" }` e carrega só os scripts que essa tela usa.
+do mock). `equipe.html` registra quatro rotas: `inicio` (`VIEW_EQUIPE_INICIO`) e
+`mentorias` (`VIEW_MENTORIAS`), ambas em `views/equipe.js`; `incubadora`
+(`VIEW_INCUBADORA`, a mesma tela da apresentação); e `guia` (`VIEW_GUIA`, em
+`views/guia.js`). Usa `rotaInicial: "inicio"` e `fontes`, `periodoDe` e `seloDe` iguais a
+`"incubadora"`, e carrega só os scripts dessas telas.
+
+As telas da equipe têm estado de tela próprio (busca, filtros, mês do calendário, cartões
+abertos) guardado no módulo da view. Ele redesenha só o trecho afetado e sobrevive ao
+re-render que o router faz quando o período muda. O período continua valendo só para os
+números "no período"; a agenda e o calendário são relativos a `dataReferencia` (hoje no
+fuso de São Paulo, vindo do servidor), nunca ao relógio do navegador.
 
 A ordem importa: um script que lê `APP_DATA`, `APP_THEME`, `UI`, `fmt` ou `PERIOD`
 antes dele ter sido definido quebra silenciosamente (variável `undefined`). Ao
@@ -99,7 +107,12 @@ flowchart LR
   `montarIncubadora(abas, hoje)`. A planilha só tem cadastros e registros (startups,
   mentorias, diagnósticos, fomento, empregos, aulas, plano, metodologia); **tudo** o
   que a tela mostra — KPIs, séries mensais, Kanban, ciclos, setores, maturidade,
-  textos como "34 startups ativas" ou "511 ações" — é derivado ali. `hoje` (fuso de
+  textos como "34 startups ativas" ou "511 ações" — é derivado ali. A aba `Mentorias`
+  é também o cronograma: cada linha tem `status` (Agendada / Realizada / Cancelada, ou
+  deduzido pela data) e vira um item de `mentorias[]`; só as realizadas entram em
+  `serieMensal.mentorias`. Cada startup ganha os campos de acompanhamento
+  `ultimaMentoria`, `proximaMentoria`, `diasSemMentoria`, `precisaAtencao` (acima de
+  `parametros.alertaDiasSemMentoria` dias e sem nada agendado) e `maturidade`. `hoje` (fuso de
   São Paulo) define o período: Jan → mês corrente, devolvido em `months`,
   `monthLabels`, `periodo { ano, mesReferencia }` e `dataReferencia`. Linha
   inconsistente é ignorada e vira um item de `avisos` (aba + linha), nunca exceção;

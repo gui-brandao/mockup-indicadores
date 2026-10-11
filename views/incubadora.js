@@ -3,11 +3,11 @@
 (function () {
   const T = APP_THEME;
 
-  // "2026-09-10" → "10/09/2026" sem passar por Date (que converteria de UTC e
-  // mostraria o dia anterior no fuso de Brasília).
-  function dataBr(iso) {
-    const [a, m, d] = String(iso || "").split("-");
-    return d ? `${d}/${m}/${a}` : "";
+  const dataBr = fmt.dataBr;
+
+  // Gráficos estreitos (celular) ganham legenda/raio/eixo mais compactos.
+  function estreito(el) {
+    return el.clientWidth < 520;
   }
 
   // Nada de número escrito à mão aqui: contagens, datas e meses vêm de
@@ -91,16 +91,16 @@
     const trilho = I.ciclos
       .map(
         (c, idx) => `
-      <div class="axis-tile" style="text-align:center" title="${UI.esc(c.nome)}">
+      <div class="axis-tile" title="${UI.esc(c.nome)}">
         <div class="pill pill-navy" style="margin-bottom:6px">Ciclo ${idx + 1}</div>
-        <div class="axis-name" style="font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${UI.esc(c.nome)}</div>
-        <div class="axis-value" style="font-size:20px">${fmt.num(c.empresas)}</div>
+        <div class="axis-name">${UI.esc(c.nome)}</div>
+        <div class="axis-value">${fmt.num(c.empresas)}</div>
         <div class="axis-sub">${UI.esc(c.semanas)}</div>
       </div>`
       )
       .join("");
 
-    const entregasRows = I.ciclos.map((c) => [UI.esc(c.nome), UI.esc(c.semanas), UI.esc(c.entrega), `<span class="td-strong">${fmt.num(c.empresas)}</span>`]);
+    const entregasRows = I.ciclos.map((c) => [`<span class="td-strong">${UI.esc(c.nome)}</span><div class="td-muted">${UI.esc(c.semanas)}</div>`, UI.esc(c.entrega), `<span class="td-strong">${fmt.num(c.empresas)}</span>`]);
 
     const aulasRows = I.aulasColetivas.map((a) => [UI.esc(a.fase), `${a.prontas}/${a.total}`, UI.miniBar(a.prontas, a.total)]);
     const semanasJornada = Math.max(0, ...I.ciclos.map((c) => Number((String(c.semanas).match(/\d+/g) || [0]).slice(-1)[0])));
@@ -117,7 +117,7 @@
         eyebrow: `Metodologia · ${fmt.num(semanasJornada)} semanas`,
         title: `Jornada da incubação — ${fmt.num(nCiclos)} ciclos`,
         desc: "Da entrada por edital até a graduação, com número de empresas ativas em cada etapa.",
-        bodyHtml: `<div class="grid" style="grid-template-columns:repeat(${nCiclos},minmax(0,1fr));gap:10px">${trilho}</div>`,
+        bodyHtml: `<div class="trilho">${trilho}</div>`,
       })}
 
       ${UI.sectionCard({
@@ -159,7 +159,7 @@
         ${UI.sectionCard({
           eyebrow: "Carteira atual",
           title: "Setores das startups ativas",
-          bodyHtml: UI.chartBox("chart-inc-setores", 320),
+          bodyHtml: UI.chartBox("chart-inc-setores", 340),
         })}
       </div>
 
@@ -182,9 +182,9 @@
         eyebrow: "Cronograma da incubadora",
         title: "Entregas-chave por ciclo",
         bodyHtml: UI.dataTable({
-          columns: ["Ciclo", "Semanas", "Entrega principal", "Empresas"],
+          columns: ["Ciclo", "Entrega principal", "Empresas"],
           rows: entregasRows,
-          numericCols: [3],
+          numericCols: [2],
         }),
       })}
     `;
@@ -243,18 +243,21 @@
     });
 
     // Rosca de setores — legenda sempre presente (>=2 séries), rótulo direto.
-    const chartSetores = registerChart(echarts.init(document.getElementById("chart-inc-setores")));
+    const elSetores = document.getElementById("chart-inc-setores");
+    const setoresEstreito = estreito(elSetores);
+    const chartSetores = registerChart(echarts.init(elSetores));
     chartSetores.setOption({
       color: T.SERIES_PALETTE,
-      tooltip: T.tooltipDefaults({ trigger: "item", formatter: (p) => `${p.name}<br/><b>${fmt.num(p.value)}</b> startups (${p.percent}%)` }),
-      legend: T.legendDefaults({ top: "auto", bottom: 0, left: "center", type: "scroll" }),
+      tooltip: T.tooltipDefaults({ trigger: "item", formatter: (p) => `${UI.esc(p.name)}<br/><b>${fmt.num(p.value)}</b> startups (${fmt.pct(p.percent, 1)})` }),
+      // Legenda sempre inteira (quebra em linhas), nunca paginada: escondia setores no celular.
+      legend: T.legendDefaults({ top: "auto", bottom: 0, left: "center", type: "plain", itemGap: setoresEstreito ? 8 : 14 }),
       series: [
         {
           type: "pie",
-          radius: ["46%", "70%"],
-          center: ["50%", "42%"],
+          radius: setoresEstreito ? ["34%", "54%"] : ["44%", "66%"],
+          center: ["50%", setoresEstreito ? "34%" : "40%"],
           itemStyle: { borderColor: T.COLORS.surface, borderWidth: 2 },
-          label: { formatter: "{d}%", color: "#fff", fontSize: 11.5, fontWeight: 700, position: "inside" },
+          label: { formatter: (p) => fmt.pct(p.percent), color: "#fff", fontSize: 11.5, fontWeight: 700, position: "inside" },
           labelLine: { show: false },
           data: I.setores.map((s) => ({ name: s.setor, value: s.valor })),
         },
@@ -266,13 +269,14 @@
     const fomentoPorSetor = {};
     I.startups.forEach((s) => (fomentoPorSetor[s.setor] = (fomentoPorSetor[s.setor] || 0) + s.fomentoCaptado));
     const setoresOrd = Object.entries(fomentoPorSetor).sort((a, b) => a[1] - b[1]);
-    const chartFomentoSetor = registerChart(echarts.init(document.getElementById("chart-inc-fomento-setor")));
+    const elFomento = document.getElementById("chart-inc-fomento-setor");
+    const chartFomentoSetor = registerChart(echarts.init(elFomento));
     chartFomentoSetor.setOption({
       color: [T.SERIES_PALETTE[3]],
       tooltip: T.tooltipDefaults({ trigger: "item", formatter: (p) => `${p.name}<br/><b>${fmt.currency(p.value)}</b>` }),
       grid: T.baseGrid({ top: 10, right: 24 }),
-      xAxis: T.valueAxis({ axisLabel: { ...T.axisText(), formatter: (v) => fmt.currencyCompact(v) } }),
-      yAxis: T.categoryAxis(setoresOrd.map(([nome]) => nome), { axisLabel: { ...T.axisText(), interval: 0 } }),
+      xAxis: T.valueAxis({ splitNumber: estreito(elFomento) ? 2 : 5, axisLabel: { ...T.axisText(), formatter: (v) => fmt.currencyCompact(v), hideOverlap: true } }),
+      yAxis: T.categoryAxis(setoresOrd.map(([nome]) => nome), { axisLabel: { ...T.axisText(), interval: 0, width: estreito(elFomento) ? 110 : 200, overflow: "truncate" } }),
       series: [
         {
           type: "bar",
@@ -300,11 +304,17 @@
     });
 
     // Radar de maturidade — polígono único, rótulo direto nos vértices.
-    const chartMaturidade = registerChart(echarts.init(document.getElementById("chart-inc-maturidade")));
+    const elMaturidade = document.getElementById("chart-inc-maturidade");
+    const chartMaturidade = registerChart(echarts.init(elMaturidade));
     chartMaturidade.setOption({
       color: [T.SERIES_PALETTE[0]],
       tooltip: T.tooltipDefaults({ trigger: "item" }),
-      radar: T.radarBase(I.maturidade.map((m) => ({ name: m.dimensao, max: 100 }))),
+      radar: T.radarBase(
+        I.maturidade.map((m) => ({ name: m.dimensao, max: 100 })),
+        estreito(elMaturidade)
+          ? { radius: "50%", axisName: { color: T.COLORS.gray700, fontSize: 10, formatter: (nome) => nome.replace(/ (?=\S+$)/, "\n") } }
+          : {}
+      ),
       series: [
         {
           type: "radar",

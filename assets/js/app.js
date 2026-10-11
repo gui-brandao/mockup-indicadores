@@ -140,6 +140,11 @@
           : "A planilha ainda não está conectada (variáveis de ambiente no Vercel) — exibindo dados de exemplo.";
       }
     }
+    const botaoPlanilha = document.getElementById("btn-planilha");
+    if (botaoPlanilha && fonte.origem === "real" && dados.planilhaUrl) {
+      botaoPlanilha.href = dados.planilhaUrl;
+      botaoPlanilha.hidden = false;
+    }
     if (fonte.avisos && fonte.avisos.length) {
       const aviso = document.createElement("div");
       aviso.className = "load-warning";

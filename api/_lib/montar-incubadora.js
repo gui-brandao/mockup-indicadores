@@ -30,6 +30,9 @@ const DIMENSOES = [
   ["propriedade_intelectual", "Propriedade intelectual"],
 ];
 const STATUS_STARTUP = ["Ativa", "Graduada", "Desligada"];
+const STATUS_MENTORIA = ["Realizada", "Agendada", "Cancelada"];
+const FORMATOS_MENTORIA = ["Presencial", "Online"];
+const ALERTA_DIAS_PADRAO = 21;
 const STATUS_PLANO = { "concluida": "concluida", "em execucao": "emExecucao", "nao iniciada": "naoIniciada" };
 const MAX_AVISOS = 60;
 
@@ -63,6 +66,32 @@ function dataIso(v) {
   if (br) return `${br[3]}-${br[2].padStart(2, "0")}-${br[1].padStart(2, "0")}`;
   const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
   return iso ? `${iso[1]}-${iso[2]}-${iso[3]}` : "";
+}
+
+// Aceita "14:00", "14h", "14h30", 14 e a fração de dia do Google Sheets
+// (0,5833 = 14:00; também data+hora). Devolve "HH:MM", "" se vazio ou null
+// se inválido.
+function hora(v) {
+  const doisDigitos = (n) => String(n).padStart(2, "0");
+  if (typeof v === "number" && Number.isFinite(v)) {
+    if (Number.isInteger(v)) return v >= 0 && v <= 23 ? `${doisDigitos(v)}:00` : null;
+    const minutos = Math.round((v - Math.floor(v)) * 1440) % 1440;
+    return `${doisDigitos(Math.floor(minutos / 60))}:${doisDigitos(minutos % 60)}`;
+  }
+  const s = texto(v).toLowerCase().replace(/\s/g, "");
+  if (!s) return "";
+  const m = s.match(/^(\d{1,2})(?:[:h](\d{2}))?(?::\d{2})?h?$/);
+  if (!m || Number(m[1]) > 23 || Number(m[2] || 0) > 59) return null;
+  return `${doisDigitos(Number(m[1]))}:${m[2] || "00"}`;
+}
+
+function dataBr(iso) {
+  const [a, m, d] = iso.split("-");
+  return `${d}/${m}/${a}`;
+}
+
+function diasEntre(deIso, ateIso) {
+  return Math.round((Date.parse(`${ateIso}T00:00:00Z`) - Date.parse(`${deIso}T00:00:00Z`)) / 86400000);
 }
 
 function fimDoMes(ano, mes) {
@@ -99,6 +128,7 @@ function montarIncubadora(abas, hoje) {
   });
   const mesDe = (iso) => (iso >= inicioAno && iso <= cortes[cortes.length - 1] ? Number(iso.slice(5, 7)) - 1 : -1);
   const multiplicadorFamilias = numero(config.multiplicador_familias) ?? 1.6;
+  const alertaDiasSemMentoria = numero(config.alerta_dias_sem_mentoria) || ALERTA_DIAS_PADRAO;
 
   // ---------------------------------------------------------------- listas
   const setoresLista = abas.Listas.map((r) => texto(r.setores)).filter(Boolean);
@@ -153,6 +183,10 @@ function montarIncubadora(abas, hoje) {
       avisar(`${linha}: "${nome}" está ${status} sem data_saida — fora do histórico de ativas`);
       saida = entrada;
     }
+    if (saida && saida < entrada) {
+      avisar(`${linha}: "${nome}" tem data_saida (${dataBr(saida)}) anterior à data_entrada (${dataBr(entrada)}) — confira as datas`);
+      saida = entrada;
+    }
     const ciclo = texto(r.ciclo_atual);
     if (!nomesCiclo.has(ciclo)) avisar(`${linha}: ciclo_atual "${ciclo}" não existe na aba Ciclos`);
     const setor = texto(r.setor);
@@ -163,6 +197,9 @@ function montarIncubadora(abas, hoje) {
       responsavel: texto(r.responsavel),
       fomentoCaptado: 0,
       empregosGerados: 0,
+      mentoriasRealizadas: 0,
+      ultimaMentoria: "",
+      proximaMentoria: null,
     });
   });
   const startupsTodas = [...porId.values()];
@@ -183,11 +220,62 @@ function montarIncubadora(abas, hoje) {
   }
 
   // ---------------------------------------------------------------- mentorias
+  // Uma linha por mentoria, realizada ou agendada (é o cronograma da equipe).
+  // Sem status: data até hoje = Realizada, data futura = Agendada. Só as
+  // realizadas contam nos indicadores; agendadas montam a agenda.
   const mentorias = new Array(mesReferencia).fill(0);
-  registros("Mentorias", (r, data) => {
-    const m = mesDe(data);
-    if (m >= 0) mentorias[m]++;
+  const agenda = [];
+  abas.Mentorias.forEach((r, i) => {
+    if (!Object.values(r).some((v) => texto(v))) return;
+    const linha = `Mentorias, linha ${i + 2}`;
+    const data = dataIso(r.data);
+    if (!data) return avisar(`${linha}: data inválida — linha ignorada`);
+    const startup = porId.get(texto(r.startup_id));
+    if (!startup) return avisar(`${linha}: startup_id "${texto(r.startup_id)}" não existe na aba Startups — linha ignorada`);
+    let status = STATUS_MENTORIA.find((s) => semAcento(s) === semAcento(r.status));
+    if (texto(r.status) && !status) avisar(`${linha}: status "${texto(r.status)}" inválido (use Agendada, Realizada ou Cancelada) — deduzido pela data`);
+    if (!status) status = data <= hojeIso ? "Realizada" : "Agendada";
+    if (status === "Realizada" && data > hojeIso) {
+      avisar(`${linha}: mentoria de ${startup.nome} marcada como Realizada, mas ${dataBr(data)} ainda não chegou — tratada como Agendada`);
+      status = "Agendada";
+    }
+    const aConfirmar = status === "Agendada" && data < hojeIso;
+    if (aConfirmar) avisar(`${linha}: mentoria de ${startup.nome} agendada para ${dataBr(data)} já passou — marque como Realizada ou Cancelada`);
+    let horario = hora(r.hora);
+    if (horario === null) {
+      avisar(`${linha}: hora "${texto(r.hora)}" inválida (use o formato 14:00)`);
+      horario = "";
+    }
+    const formato = FORMATOS_MENTORIA.find((f) => semAcento(f) === semAcento(r.formato)) || texto(r.formato);
+    const registro = {
+      data,
+      hora: horario,
+      startupId: startup.id,
+      startup: startup.nome,
+      consultor: texto(r.consultor),
+      fase: texto(r.fase).toUpperCase(),
+      tema: texto(r.tema),
+      formato,
+      horas: numero(r.horas),
+      status,
+      aConfirmar,
+    };
+    if (status === "Realizada") {
+      const m = mesDe(data);
+      if (m >= 0) mentorias[m]++;
+      startup.mentoriasRealizadas++;
+      if (data > startup.ultimaMentoria) startup.ultimaMentoria = data;
+    }
+    if (status === "Agendada" && !aConfirmar) {
+      const atual = startup.proximaMentoria;
+      if (!atual || `${data} ${horario}` < `${atual.data} ${atual.hora}`) {
+        startup.proximaMentoria = { data, hora: horario, consultor: registro.consultor, tema: registro.tema, formato };
+      }
+    }
+    // O cronograma leva o ano exibido e tudo o que ainda vai acontecer.
+    if (data >= inicioAno || data >= hojeIso) agenda.push(registro);
   });
+  agenda.sort((a, b) => `${a.data} ${a.hora}`.localeCompare(`${b.data} ${b.hora}`));
 
   // ---------------------------------------------------------------- fomento
   const fomentoNoAno = [];
@@ -221,6 +309,7 @@ function montarIncubadora(abas, hoje) {
     if (!atual || data >= atual.data) ultimoDiag.set(startup.id, { data, notas });
   });
   const diagsAtivas = ativas.map((s) => ultimoDiag.get(s.id)).filter(Boolean);
+  const mediaDiag = (d) => Math.round(d.notas.reduce((s, n) => s + n, 0) / d.notas.length);
   const maturidade = DIMENSOES.map(([, rotulo], i) => ({
     dimensao: rotulo,
     valor: diagsAtivas.length ? Math.round(diagsAtivas.reduce((s, d) => s + d.notas[i], 0) / diagsAtivas.length) : 0,
@@ -284,6 +373,14 @@ function montarIncubadora(abas, hoje) {
   const posicao = (setor) => (setoresLista.includes(setor) ? setoresLista.indexOf(setor) : setoresLista.length);
   setores.sort((a, b) => posicao(a.setor) - posicao(b.setor));
 
+  // Acompanhamento: dias desde a última mentoria realizada (ou desde a
+  // entrada, se ainda não teve nenhuma). Sem mentoria agendada e acima do
+  // limite da aba Config = precisa de atenção.
+  const acompanhamento = new Map(ativas.map((s) => {
+    const dias = diasEntre(s.ultimaMentoria || s.entrada, hojeIso);
+    return [s.id, { dias, atencao: dias > alertaDiasSemMentoria && !s.proximaMentoria }];
+  }));
+
   const soma = (arr) => arr.reduce((s, v) => s + v, 0);
   const data = {
     months: MESES_CURTOS.slice(0, mesReferencia),
@@ -305,22 +402,37 @@ function montarIncubadora(abas, hoje) {
       entregasConcluidas: planoTrabalho.concluida,
       graduandasPrevistas: ativas.filter((s) => s.cicloAtual === ultimoCiclo).length,
       startupsDiagnosticadas: diagsAtivas.length,
+      mentoriasAgendadas: agenda.filter((m) => m.status === "Agendada" && !m.aConfirmar).length,
+      mentoriasAConfirmar: agenda.filter((m) => m.aConfirmar).length,
+      startupsPrecisandoAtencao: [...acompanhamento.values()].filter((a) => a.atencao).length,
     },
+    parametros: { alertaDiasSemMentoria },
     planoTrabalho,
     setores,
     maturidade,
     serieMensal: { mentorias, aulas, startupsAtivas: startupsAtivasMensal },
-    startups: ativas.map((s) => ({
-      id: s.id,
-      nome: s.nome,
-      setor: s.setor,
-      descricaoAtual: s.descricaoAtual,
-      cicloAtual: s.cicloAtual,
-      fomentoCaptado: s.fomentoCaptado,
-      dataEntrada: s.entrada,
-      responsavel: s.responsavel,
-      empregosGerados: s.empregosGerados,
-    })),
+    startups: ativas.map((s) => {
+      const diag = ultimoDiag.get(s.id);
+      return {
+        id: s.id,
+        nome: s.nome,
+        setor: s.setor,
+        descricaoAtual: s.descricaoAtual,
+        cicloAtual: s.cicloAtual,
+        fomentoCaptado: s.fomentoCaptado,
+        dataEntrada: s.entrada,
+        responsavel: s.responsavel,
+        empregosGerados: s.empregosGerados,
+        mentoriasRealizadas: s.mentoriasRealizadas,
+        ultimaMentoria: s.ultimaMentoria,
+        proximaMentoria: s.proximaMentoria,
+        diasSemMentoria: acompanhamento.get(s.id).dias,
+        precisaAtencao: acompanhamento.get(s.id).atencao,
+        maturidade: diag ? mediaDiag(diag) : null,
+        dataDiagnostico: diag ? diag.data : "",
+      };
+    }),
+    mentorias: agenda,
     empregosGeradosMensal,
     familiasAtingidasMensal,
     fomentoCaptadoMensal,

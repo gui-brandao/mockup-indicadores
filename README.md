@@ -73,7 +73,8 @@ data/*.js      dados mockados de cada fonte (ver tabela acima)
 views/*.js     uma view por tela, cada uma com render() + mount()
 api/*.js       funções serverless (Vercel) da integração real (Agenda, O.S.,
                Incubadora via Google Sheets) — sem credencial, não muda nada no mock
-equipe.html   painel da equipe: só a tela Incubadora, lendo a planilha Google Sheets
+equipe.html   painel da equipe da Incubadora (startups, mentorias, indicadores e guia),
+              lendo a planilha Google Sheets
 docs/          CSVs com o modelo da planilha da Incubadora
 ```
 
@@ -122,10 +123,26 @@ no topo de cada função), e configurar as variáveis de ambiente no Vercel.
 
 ### Planilha da Incubadora e painel da equipe (Google Sheets, somente leitura)
 
-A tela **Incubadora & Jornada** tem uma versão de uso diário para a equipe,
-[`equipe.html`](equipe.html), que mostra **só essa tela** e lê tudo de uma planilha Google
-Sheets. `index.html` (a apresentação com as 12 telas) continua 100% ilustrativo e **não**
-busca a planilha, para não misturar dado real com dado de exemplo.
+A Incubadora tem um painel de uso diário para a equipe, [`equipe.html`](equipe.html), que
+lê tudo de uma planilha Google Sheets e funciona no computador e no celular. Tem quatro
+telas:
+
+- **Startups** (tela inicial): cartão de cada startup ativa, com a etapa da jornada, a última
+  e a próxima mentoria, o responsável e a maturidade, mais um alerta para quem está há mais de
+  N dias sem mentoria e sem nada agendado. Tem busca e filtros por ciclo, responsável e
+  "precisam de atenção". Ao lado, as **próximas mentorias** da semana.
+- **Mentorias**: o cronograma da equipe. Calendário do mês com as mentorias realizadas,
+  agendadas, a confirmar e canceladas, filtros por consultor, startup e situação, as startups
+  há mais tempo sem mentoria e as mentorias por consultor no período.
+- **Indicadores & Jornada**: a tela de indicadores (a mesma da apresentação), com os números
+  da planilha.
+- **Como usar**: o tutorial da planilha para a equipe, com as regras de ouro, o passo a passo
+  de cada tarefa com uma linha de exemplo, o que fazer com cada aviso e as perguntas
+  frequentes. A aba `LEIA-ME` da planilha e as notas nos cabeçalhos das colunas repetem o
+  essencial.
+
+`index.html` (a apresentação com as 12 telas) continua 100% ilustrativo e **não** busca a
+planilha, para não misturar dado real com dado de exemplo.
 
 **Princípio: a planilha só tem cadastros e registros, nunca totais.** Cada número, gráfico,
 cartão do Kanban e texto variável da tela é calculado em `api/_lib/montar-incubadora.js` a
@@ -140,7 +157,7 @@ preencha `ano` na aba `Config`.
 | Aba | Colunas (1ª linha = cabeçalho) | O que alimenta no painel |
 |---|---|---|
 | `Startups` | id, nome, cnpj, setor, descricao, ciclo_atual, status, data_entrada, data_saida, responsavel, observacoes | Kanban (só `status` = Ativa), trilho e distribuição por ciclo, setores, KPI e série mensal de startups ativas (entrada ≤ fim do mês < saída), graduandas previstas (ativas no último ciclo) |
-| `Mentorias` | data, startup_id, consultor, fase, tema, horas | KPI "Mentorias realizadas" e gráfico de cadência (por mês) |
+| `Mentorias` | data, startup_id, consultor, fase, tema, horas, hora, formato, status | **o cronograma**: uma linha por mentoria. Com `status` = Agendada (data futura) ela entra na agenda; Realizada conta nos indicadores; Cancelada fica só no histórico. Sem `status`, o painel deduz pela data. Agendada cuja data já passou vira "a confirmar" (no painel e em amarelo na planilha). Alimenta a última e a próxima mentoria de cada startup, o alerta de atenção, o KPI e a cadência. `hora`, `formato` e `status` são opcionais (planilhas antigas sem essas colunas continuam funcionando) |
 | `AulasColetivas` | fase, semana, formato, atividade, elaborador, prazo_material, material_pronto, data_realizada | tabela de material pronto por fase; KPI "Aulas ministradas" e cadência contam `data_realizada` |
 | `Diagnosticos` | data, startup_id, avaliador + 6 notas 0–100 (modelo_negocio, solucao_tecnologia, time_gestao, mercado_clientes, financeiro, propriedade_intelectual) | radar de maturidade: média do diagnóstico **mais recente** de cada startup ativa |
 | `Fomento` | data, startup_id, fonte, descricao, valor | KPI de fomento (no período + acumulado do ano), fomento por setor, valor em cada cartão |
@@ -151,7 +168,7 @@ preencha `ano` na aba `Config`.
 | `Fases` | id, nome, estagio, objetivo | nomes das fases S1–S6 |
 | `Equipe` | nome, funcao, email, ativo | lista suspensa de consultor/responsável |
 | `Listas` *(opcional)* | setores, status_startup, fontes_fomento, formatos_aula, status_tarefa, sim_nao | listas suspensas e ordem dos setores no painel |
-| `Config` *(opcional)* | chave, valor, descricao | `ano` (vazio = ano atual), `multiplicador_familias` (padrão 1,6) |
+| `Config` *(opcional)* | chave, valor, descricao | `ano` (vazio = ano atual), `multiplicador_familias` (padrão 1,6), `alerta_dias_sem_mentoria` (padrão 21) |
 
 Linhas inconsistentes (startup inexistente, ciclo ou status fora da lista, nota fora de
 0–100, data futura, Ativa com data de saída, id repetido…) **não derrubam o painel**: a

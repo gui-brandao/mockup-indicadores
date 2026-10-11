@@ -1,3 +1,4 @@
 chave,valor,descricao
 ano,,Ano exibido no painel. Vazio = ano atual (o painel vai de janeiro até o mês corrente).
 multiplicador_familias,1.6,Pessoas por família usadas para estimar famílias atingidas a partir dos empregos gerados.
+alerta_dias_sem_mentoria,21,"Dias sem mentoria (e sem nenhuma agendada) para uma startup aparecer em ""precisa de atenção"" no painel."

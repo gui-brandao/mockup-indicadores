@@ -4,14 +4,16 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Incubadora — Painel da equipe · Parque Tecnológico</title>
+<meta name="theme-color" content="#0c3c60" />
 <link rel="stylesheet" href="assets/css/tokens.css" />
 <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
 
-<!-- Painel de uso diário da equipe da Incubadora: só a tela Incubadora, lendo
-     a planilha Google Sheets (api/incubadora.js). Sem a planilha conectada,
-     mostra os dados ilustrativos de data/incubadora.js com o selo avisando. -->
+<!-- Painel de uso diário da equipe da Incubadora: startups, mentorias,
+     indicadores e o guia da planilha, lendo a planilha Google Sheets
+     (api/incubadora.js). Sem a planilha conectada, mostra os dados
+     ilustrativos de data/incubadora.js com o selo avisando. -->
 <div class="app-shell" id="app-shell">
 
   <aside class="sidebar" id="sidebar">
@@ -28,7 +30,10 @@
     </div>
 
     <nav class="sidebar-nav" id="sidebar-nav">
-      <a class="nav-item" data-route="incubadora" href="#/incubadora"><span class="nav-icon">🚀</span><span class="nav-label">Incubadora &amp; Jornada</span></a>
+      <a class="nav-item" data-route="inicio" href="#/inicio"><span class="nav-icon">🏠</span><span class="nav-label">Startups</span></a>
+      <a class="nav-item" data-route="mentorias" href="#/mentorias"><span class="nav-icon">📅</span><span class="nav-label">Mentorias</span></a>
+      <a class="nav-item" data-route="incubadora" href="#/incubadora"><span class="nav-icon">📊</span><span class="nav-label">Indicadores &amp; Jornada</span></a>
+      <a class="nav-item" data-route="guia" href="#/guia"><span class="nav-icon">📘</span><span class="nav-label">Como usar</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -55,7 +60,8 @@
           <span class="field-label">Período</span>
           <select class="select" id="period-select"></select>
         </div>
-        <div class="flex gap-8">
+        <div class="flex gap-8 toolbar-acoes">
+          <a class="btn btn-outline" id="btn-planilha" href="#" target="_blank" rel="noopener" hidden>📄 Abrir planilha</a>
           <button class="btn btn-primary" id="btn-present">⛶ Modo apresentação</button>
         </div>
       </div>
@@ -82,11 +88,18 @@
 <script src="assets/js/router.js"></script>
 
 <script src="views/incubadora.js"></script>
+<script src="views/equipe.js"></script>
+<script src="views/guia.js"></script>
 
 <script>
   window.APP_CONFIG = {
-    rotas: [["incubadora", "VIEW_INCUBADORA"]],
-    rotaInicial: "incubadora",
+    rotas: [
+      ["inicio", "VIEW_EQUIPE_INICIO"],
+      ["mentorias", "VIEW_MENTORIAS"],
+      ["incubadora", "VIEW_INCUBADORA"],
+      ["guia", "VIEW_GUIA"],
+    ],
+    rotaInicial: "inicio",
     fontes: ["incubadora"],
     periodoDe: "incubadora",
     seloDe: "incubadora",
