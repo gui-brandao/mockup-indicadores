@@ -206,6 +206,12 @@ Para ligar o painel à planilha:
 5. Abrir `/api/incubadora` no site publicado (`"ok": true`) e depois `/equipe.html` — o selo
    deve ficar verde. O cache é de 60 s: uma edição na planilha aparece em até 1 minuto.
 
+## Próximos passos
+
+A versão atual (HTML/CSS/JS puro) está congelada na tag `v1-html` e segue em uso. A
+evolução do painel da equipe, com edição pelo painel e pela planilha nos dois sentidos,
+login e componentes reaproveitáveis, está planejada em [docs/PLANO-V2.md](docs/PLANO-V2.md).
+
 ## Documentação relacionada
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — arquitetura técnica: camadas, contratos entre
