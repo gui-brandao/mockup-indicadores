@@ -208,7 +208,7 @@ Para ligar o painel à planilha:
 
 ## Próximos passos
 
-A versão atual (HTML/CSS/JS puro) fica congelada no commit `fb4c0a6` (tag `v1-html`) e
+A versão atual (HTML/CSS/JS puro) fica congelada no branch `v1-html` (commit `fb4c0a6`) e
 segue em uso. A
 evolução do painel da equipe, com edição pelo painel e pela planilha nos dois sentidos,
 login e componentes reaproveitáveis, está planejada em [docs/PLANO-V2.md](docs/PLANO-V2.md).
