@@ -1,9 +1,9 @@
-nome,funcao,email,ativo
-Rafael Prado,Consultor(a) de negócios (exemplo),,Sim
-Diego Nakamura,Consultor(a) de negócios (exemplo),,Sim
-Camila Reis,Consultor(a) de negócios (exemplo),,Sim
-Marina Duarte,Consultor(a) de negócios (exemplo),,Sim
-Ana,Elaboração de aulas coletivas,,Sim
-Cristiano,Elaboração de aulas coletivas,,Sim
-Guilherme,Elaboração de aulas coletivas,,Sim
-Natália,Elaboração de aulas coletivas,,Sim
+nome,funcao,email,ativo,papel
+Rafael Prado,Consultor(a) de negócios (exemplo),,Sim,
+Diego Nakamura,Consultor(a) de negócios (exemplo),,Sim,
+Camila Reis,Consultor(a) de negócios (exemplo),,Sim,
+Marina Duarte,Consultor(a) de negócios (exemplo),,Sim,
+Ana,Elaboração de aulas coletivas,,Sim,
+Cristiano,Elaboração de aulas coletivas,,Sim,
+Guilherme,Elaboração de aulas coletivas,,Sim,
+Natália,Elaboração de aulas coletivas,,Sim,

@@ -1,6 +1,6 @@
 # Plano da V2 — Painel da equipe da Incubadora
 
-> **Status:** planejamento para o futuro. Nada aqui está implementado.
+> **Status:** fase 1 concluída em 14/10/2026 (repositório `painel-incubadora-v2`); fases 2 em diante a fazer.
 > A V1 (este repositório, HTML/CSS/JS puro) continua sendo o painel em uso e fica
 > congelada no branch **`v1-html`** (commit `fb4c0a6`; release `v1.0.0`) — qualquer ajuste pequeno segue sendo feito nela até a
 > V2 estar pronta para substituí-la.
@@ -30,7 +30,7 @@
 | Quadro de tarefas | **dnd-kit** | Arrastar cartões entre A fazer / Fazendo / Pendente / Feito (e isso grava na planilha). |
 | Dados | **Google Sheets API** (conta de serviço, agora com permissão de **Editor**) | Leitura e escrita na própria planilha. |
 | Validação | **Zod** | As regras que hoje viram "avisos" (status válido, data, startup existente) passam a valer também para o que se digita no painel. |
-| Login | **Auth.js** com **Google** | Entra com a conta Google; **sem banco**: a lista de quem pode entrar é a aba `Equipe` da planilha (ver §4). |
+| Login | **Auth.js / next-auth** (v4, estável) com **Google** | Entra com a conta Google; **sem banco**: a lista de quem pode entrar é a aba `Equipe` da planilha (ver §4). |
 | Hospedagem | **Vercel** (onde a V1 já está) | Mesmo lugar, mesmo fluxo (push no GitHub → publica). Plano gratuito atende. |
 | Testes | **Vitest** (regras de cálculo) + **Playwright** (telas, celular e computador) | Os testes que já rodamos na V1 viram testes automáticos a cada mudança. |
 
@@ -143,7 +143,7 @@ Regras que deixam isso seguro:
 | Fase | Entrega | Critério de pronto |
 |---|---|---|
 | **0. Congelar a V1** | Branch `v1-html` no commit `fb4c0a6` (feito) e release `v1.0.0` criada a partir dele no GitHub. V1 segue no ar. | Release visível no GitHub. |
-| **1. Fundação** | Repositório novo `painel-incubadora-v2`, Next.js + TS + Tailwind + shadcn, login Google com a aba `Equipe`, leitura da planilha com o cálculo da V1 portado e testado. | Login funciona; os números batem 100% com a V1 sobre a mesma planilha. |
+| **1. Fundação** ✅ | Repositório novo `painel-incubadora-v2`, Next.js 16 + TS + Tailwind (componentes no padrão shadcn), login Google com a aba `Equipe` (coluna `papel` criada na planilha), leitura da planilha com o cálculo da V1 portado e testado, CI no GitHub Actions. | Login funciona; os números batem 100% com a V1 sobre a mesma planilha (teste de paridade). |
 | **2. Paridade (só leitura)** | As 5 telas da V1 refeitas com componentes. | Tudo que a V1 mostra, a V2 mostra igual (comparação lado a lado), no celular e no computador. |
 | **3. Edição — Tarefas** | Criar/mover/editar tarefas + aba `Historico` + detecção de conflito. | Editar no painel aparece na planilha e vice-versa; teste de conflito simulado. |
 | **4. Edição — Mentorias e Startups** | Agendar/confirmar mentorias, avançar ciclo, diagnósticos. | Idem, por tela. |
