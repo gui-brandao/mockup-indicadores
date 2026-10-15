@@ -208,7 +208,7 @@
   function tarefaChip(tarefa, abertas, href) {
     if (!tarefa) return "";
     const [icone, tom] = TAREFA_ROTULO[tarefa.status] || TAREFA_ROTULO["A fazer"];
-    // "Guilherme está fazendo" / "Pendente · Natália" / "A fazer · Cristiano"
+    // "Guilherme está fazendo" / "Pendente · Cristiano" / "A fazer · Cristiano"
     const quem =
       tarefa.status === "Fazendo"
         ? tarefa.responsavel ? `${esc(tarefa.responsavel)} está fazendo` : "Em andamento"

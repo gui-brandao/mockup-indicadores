@@ -1,19 +1,19 @@
 id,titulo,startup_id,responsavel,status,prioridade,prazo,concluida_em,link_zoho,observacao
 TAR-001,Validar MVP com 5 clientes-piloto,STU-17,Guilherme,Fazendo,Alta,2026-10-16,,https://crm.zoho.com/crm/,Link de exemplo — troque pelo endereço do registro no Zoho
-TAR-002,Revisar pitch para a banca de validação,STU-18,Camila Reis,A fazer,Média,2026-10-20,,,
-TAR-003,Montar plano de go-to-market,STU-05,Rafael Prado,Fazendo,Alta,2026-10-14,,,
-TAR-004,Receber documentação do CNPJ para o Inova Simples,STU-38,Natália,Pendente,Alta,2026-10-09,,,Startup ainda não enviou o contrato social
-TAR-005,Aplicar diagnóstico de entrada (6 dimensões),STU-38,Diego Nakamura,A fazer,Alta,2026-10-13,,,
-TAR-006,Preparar dossiê de graduação,STU-04,Diego Nakamura,Fazendo,Alta,2026-10-30,,https://crm.zoho.com/crm/,Link de exemplo
-TAR-007,Conectar com investidor-anjo da rede do ABC,STU-06,Marina Duarte,Pendente,Média,2026-10-23,,,Esperando retorno do investidor
-TAR-008,Inscrever no edital FAPESP PIPE fase 2,STU-14,Rafael Prado,A fazer,Alta,2026-10-25,,,
-TAR-009,Revisar fluxo de caixa projetado,STU-12,Marina Duarte,Feito,Média,2026-10-05,2026-10-06,,
+TAR-002,Revisar pitch para a banca de validação,STU-18,Guilherme,A fazer,Média,2026-10-20,,,
+TAR-003,Montar plano de go-to-market,STU-05,Ana,Fazendo,Alta,2026-10-14,,,
+TAR-004,Receber documentação do CNPJ para o Inova Simples,STU-38,Cristiano,Pendente,Alta,2026-10-09,,,Startup ainda não enviou o contrato social
+TAR-005,Aplicar diagnóstico de entrada (6 dimensões),STU-38,Cristiano,A fazer,Alta,2026-10-13,,,
+TAR-006,Preparar dossiê de graduação,STU-04,Cristiano,Fazendo,Alta,2026-10-30,,https://crm.zoho.com/crm/,Link de exemplo
+TAR-007,Conectar com investidor-anjo da rede do ABC,STU-06,Ana,Pendente,Média,2026-10-23,,,Esperando retorno do investidor
+TAR-008,Inscrever no edital FAPESP PIPE fase 2,STU-14,Ana,A fazer,Alta,2026-10-25,,,
+TAR-009,Revisar fluxo de caixa projetado,STU-12,Ana,Feito,Média,2026-10-05,2026-10-06,,
 TAR-010,Agendar visita técnica ao laboratório de manufatura,STU-15,Guilherme,Feito,Baixa,2026-10-08,2026-10-07,,
 TAR-011,Onboarding: apresentar regras e espaços do Parque,STU-33,Cristiano,Fazendo,Média,2026-10-12,,,
 TAR-012,Definir indicadores de tração (dashboard),STU-10,Guilherme,A fazer,Média,2026-10-28,,,
-TAR-013,Reunião com escritório de PI sobre pedido de patente,STU-13,Camila Reis,Pendente,Baixa,2026-11-06,,,Aguardando orçamento do escritório
+TAR-013,Reunião com escritório de PI sobre pedido de patente,STU-13,Guilherme,Pendente,Baixa,2026-11-06,,,Aguardando orçamento do escritório
 TAR-014,Atualizar cronograma das aulas coletivas da S2,,Ana,Fazendo,Média,2026-10-15,,,
-TAR-015,Consolidar relatório mensal para a FINEP,,Natália,A fazer,Alta,2026-10-31,,,
-TAR-016,Aplicar diagnóstico de entrada,STU-35,Camila Reis,Feito,Alta,2026-10-07,2026-10-07,,
+TAR-015,Consolidar relatório mensal para a FINEP,,Cristiano,A fazer,Alta,2026-10-31,,,
+TAR-016,Aplicar diagnóstico de entrada,STU-35,Guilherme,Feito,Alta,2026-10-07,2026-10-07,,
 TAR-017,Revisar termo de uso do espaço,STU-24,Cristiano,A fazer,Baixa,2026-10-19,,,
-TAR-018,Preparar material da mentoria de precificação,STU-25,Diego Nakamura,Fazendo,Média,2026-10-08,,,
+TAR-018,Preparar material da mentoria de precificação,STU-25,Cristiano,Fazendo,Média,2026-10-08,,,

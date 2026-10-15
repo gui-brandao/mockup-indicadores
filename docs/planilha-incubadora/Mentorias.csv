@@ -1,189 +1,189 @@
 data,startup_id,consultor,fase,tema,horas,hora,formato,status,id
-2026-01-01,STU-06,Diego Nakamura,S1,Design Sprint,2,,,Realizada,MEN-0001
-2026-01-02,STU-05,Rafael Prado,S1,Design Sprint,2,,,Realizada,MEN-0002
-2026-01-02,STU-08,Camila Reis,S1,Crescimento para Startups (Growth),2,,,Realizada,MEN-0003
-2026-01-05,STU-04,Diego Nakamura,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0004
-2026-01-05,STU-09,Camila Reis,S1,Proposta de Valor,1,,,Realizada,MEN-0005
-2026-01-06,STU-01,Camila Reis,S5,Propriedade Intelectual,2,,,Realizada,MEN-0006
-2026-01-15,STU-06,Diego Nakamura,S1,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0007
-2026-01-23,STU-05,Marina Duarte,S1,Proposta de Valor,1.5,,,Realizada,MEN-0008
-2026-01-23,STU-08,Camila Reis,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0009
-2026-01-26,STU-04,Diego Nakamura,S1,Pitch de Validação,2,,,Realizada,MEN-0010
-2026-01-26,STU-09,Camila Reis,S1,Proposta de Valor,1.5,,,Realizada,MEN-0011
-2026-01-29,STU-06,Camila Reis,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0012
-2026-02-02,STU-10,Marina Duarte,S1,Proposta de Valor,1.5,,,Realizada,MEN-0013
-2026-02-03,STU-01,Camila Reis,S6,Pitch de Validação,2,,,Realizada,MEN-0014
-2026-02-06,STU-05,Rafael Prado,S2,Crescimento para Startups (Growth),1,,,Realizada,MEN-0015
-2026-02-06,STU-08,Camila Reis,S1,Design Sprint,1,,,Realizada,MEN-0016
-2026-02-09,STU-04,Diego Nakamura,S2,Pitch de Validação,2,,,Realizada,MEN-0017
-2026-02-16,STU-10,Marina Duarte,S1,Pitch de Validação,1,,,Realizada,MEN-0018
-2026-02-17,STU-01,Camila Reis,S6,Marketing Digital para Startups,1.5,,,Realizada,MEN-0019
-2026-02-20,STU-05,Rafael Prado,S2,Vendas para Startups,1,,,Realizada,MEN-0020
-2026-02-23,STU-04,Diego Nakamura,S2,Proposta de Valor,2,,,Realizada,MEN-0021
-2026-02-23,STU-09,Camila Reis,S1,Propriedade Intelectual,1,,,Realizada,MEN-0022
-2026-02-26,STU-06,Diego Nakamura,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0023
-2026-02-27,STU-08,Camila Reis,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0024
-2026-03-02,STU-10,Camila Reis,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0025
-2026-03-06,STU-05,Marina Duarte,S2,Proposta de Valor,1,,,Realizada,MEN-0026
-2026-03-10,STU-13,Diego Nakamura,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0027
-2026-03-13,STU-08,Camila Reis,S2,Marketing Digital para Startups,2,,,Realizada,MEN-0028
-2026-03-16,STU-04,Rafael Prado,S2,Pitch de Validação,1.5,,,Realizada,MEN-0029
-2026-03-16,STU-10,Marina Duarte,S1,Pitch de Validação,2,,,Realizada,MEN-0030
-2026-03-20,STU-05,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0031
-2026-03-23,STU-09,Camila Reis,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0032
-2026-03-24,STU-13,Diego Nakamura,S1,Dashboards e Indicadores,1.5,,,Realizada,MEN-0033
-2026-03-26,STU-06,Diego Nakamura,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0034
-2026-03-30,STU-04,Diego Nakamura,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0035
-2026-03-30,STU-10,Marina Duarte,S1,Dashboards e Indicadores,2,,,Realizada,MEN-0036
-2026-04-03,STU-08,Camila Reis,S2,Gestão Financeira para Startups,1,,,Realizada,MEN-0037
-2026-04-06,STU-15,Rafael Prado,S1,Proposta de Valor,1,,,Realizada,MEN-0038
-2026-04-13,STU-04,Diego Nakamura,S2,Gestão Financeira para Startups,2,,,Realizada,MEN-0039
-2026-04-13,STU-17,Camila Reis,S1,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0040
-2026-04-14,STU-13,Diego Nakamura,S1,Design Sprint,1.5,,,Realizada,MEN-0041
-2026-04-16,STU-06,Diego Nakamura,S2,Dashboards e Indicadores,1,,,Realizada,MEN-0042
-2026-04-17,STU-05,Rafael Prado,S2,Propriedade Intelectual,1.5,,,Realizada,MEN-0043
-2026-04-20,STU-09,Camila Reis,S2,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0044
-2026-04-20,STU-15,Rafael Prado,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0045
-2026-04-27,STU-10,Marina Duarte,S1,Dashboards e Indicadores,2,,,Realizada,MEN-0046
-2026-04-27,STU-17,Camila Reis,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0047
-2026-04-28,STU-18,Camila Reis,S1,Propriedade Intelectual,1,,,Realizada,MEN-0048
-2026-04-30,STU-19,Rafael Prado,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0049
-2026-05-01,STU-08,Camila Reis,S2,Propriedade Intelectual,1,,,Realizada,MEN-0050
-2026-05-04,STU-15,Rafael Prado,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0051
-2026-05-05,STU-13,Diego Nakamura,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0052
-2026-05-08,STU-05,Rafael Prado,S4,CRM e Gestão Comercial,2,,,Realizada,MEN-0053
-2026-05-11,STU-04,Diego Nakamura,S4,Propriedade Intelectual,1,,,Realizada,MEN-0054
-2026-05-11,STU-09,Camila Reis,S2,Pitch de Validação,1,,,Realizada,MEN-0055
-2026-05-14,STU-06,Diego Nakamura,S2,Marketing Digital para Startups,1,,,Realizada,MEN-0056
-2026-05-14,STU-19,Rafael Prado,S1,Design Sprint,1.5,,,Realizada,MEN-0057
-2026-05-15,STU-08,Camila Reis,S2,Marketing Digital para Startups,2,,,Realizada,MEN-0058
-2026-05-18,STU-10,Marina Duarte,S2,Gestão Financeira para Startups,1,,,Realizada,MEN-0059
-2026-05-19,STU-13,Rafael Prado,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0060
-2026-05-19,STU-18,Rafael Prado,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0061
-2026-05-25,STU-17,Marina Duarte,S1,Pitch de Validação,1,,,Realizada,MEN-0062
-2026-05-29,STU-08,Camila Reis,S2,CRM e Gestão Comercial,1,,,Realizada,MEN-0063
-2026-06-01,STU-09,Camila Reis,S2,Pitch de Validação,2,,,Realizada,MEN-0064
-2026-06-01,STU-10,Marina Duarte,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0065
-2026-06-01,STU-15,Rafael Prado,S1,Design Sprint,1,,,Realizada,MEN-0066
-2026-06-04,STU-06,Diego Nakamura,S4,Propriedade Intelectual,1,,,Realizada,MEN-0067
-2026-06-05,STU-05,Rafael Prado,S4,Marketing Digital para Startups,1,,,Realizada,MEN-0068
-2026-06-08,STU-04,Diego Nakamura,S4,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0069
-2026-06-09,STU-13,Diego Nakamura,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0070
-2026-06-09,STU-18,Rafael Prado,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0071
-2026-06-11,STU-19,Rafael Prado,S1,Pitch de Validação,1.5,,,Realizada,MEN-0072
-2026-06-12,STU-08,Rafael Prado,S4,Proposta de Valor,1.5,,,Realizada,MEN-0073
-2026-06-15,STU-09,Camila Reis,S2,Proposta de Valor,2,,,Realizada,MEN-0074
-2026-06-15,STU-10,Marina Duarte,S2,Design Sprint,1,,,Realizada,MEN-0075
-2026-06-15,STU-17,Camila Reis,S1,Design Sprint,1.5,,,Realizada,MEN-0076
-2026-06-17,STU-21,Camila Reis,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0077
-2026-06-18,STU-06,Diego Nakamura,S4,Pitch de Validação,1,,,Realizada,MEN-0078
-2026-06-22,STU-15,Rafael Prado,S1,Pitch de Validação,1,,,Realizada,MEN-0079
-2026-06-23,STU-18,Rafael Prado,S1,Proposta de Valor,1.5,,,Realizada,MEN-0080
-2026-06-23,STU-22,Diego Nakamura,S1,Proposta de Valor,2,,,Realizada,MEN-0081
-2026-06-26,STU-05,Rafael Prado,S4,Vendas para Startups,1.5,,,Realizada,MEN-0082
-2026-06-29,STU-04,Diego Nakamura,S4,Dashboards e Indicadores,1.5,,,Realizada,MEN-0083
-2026-06-30,STU-13,Diego Nakamura,S2,Dashboards e Indicadores,2,,,Realizada,MEN-0084
-2026-07-03,STU-23,Diego Nakamura,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0085
-2026-07-06,STU-17,Camila Reis,S1,Proposta de Valor,2,,,Realizada,MEN-0086
-2026-07-07,STU-22,Diego Nakamura,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0087
-2026-07-08,STU-21,Marina Duarte,S1,Dashboards e Indicadores,1.5,,,Realizada,MEN-0088
-2026-07-09,STU-06,Diego Nakamura,S4,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0089
-2026-07-09,STU-19,Rafael Prado,S1,Pitch de Validação,1,,,Realizada,MEN-0090
-2026-07-10,STU-05,Rafael Prado,S5,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0091
-2026-07-13,STU-09,Camila Reis,S4,Vendas para Startups,1.5,,,Realizada,MEN-0092
-2026-07-13,STU-10,Marina Duarte,S2,Propriedade Intelectual,1,,,Realizada,MEN-0093
-2026-07-20,STU-04,Rafael Prado,S5,Marketing Digital para Startups,2,,,Realizada,MEN-0094
-2026-07-20,STU-15,Rafael Prado,S2,Business Model Canvas,1,,,Realizada,MEN-0095
-2026-07-21,STU-13,Diego Nakamura,S2,Design Sprint,2,,,Realizada,MEN-0096
-2026-07-21,STU-18,Rafael Prado,S1,Vendas para Startups,1,,,Realizada,MEN-0097
-2026-07-21,STU-22,Rafael Prado,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0098
-2026-07-23,STU-26,Rafael Prado,S1,Marketing Digital para Startups,1.5,,,Realizada,MEN-0099
-2026-07-24,STU-23,Diego Nakamura,S1,Proposta de Valor,2,,,Realizada,MEN-0100
-2026-07-27,STU-27,Marina Duarte,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0101
-2026-07-29,STU-25,Diego Nakamura,S1,Pitch de Validação,1,,,Realizada,MEN-0102
-2026-07-30,STU-06,Diego Nakamura,S4,Gestão Financeira para Startups,1,,,Realizada,MEN-0103
-2026-07-31,STU-05,Rafael Prado,S5,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0104
-2026-08-03,STU-04,Diego Nakamura,S5,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0105
-2026-08-03,STU-09,Camila Reis,S4,Business Model Canvas,1,,,Realizada,MEN-0106
-2026-08-03,STU-10,Marina Duarte,S4,Crescimento para Startups (Growth),1,,,Realizada,MEN-0107
-2026-08-03,STU-17,Camila Reis,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0108
-2026-08-04,STU-18,Rafael Prado,S1,Pitch de Validação,2,,,Realizada,MEN-0109
-2026-08-05,STU-21,Marina Duarte,S1,Proposta de Valor,2,,,Realizada,MEN-0110
-2026-08-06,STU-19,Rafael Prado,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0111
-2026-08-07,STU-23,Diego Nakamura,S1,Pitch de Validação,2,,,Realizada,MEN-0112
-2026-08-10,STU-15,Rafael Prado,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0113
-2026-08-11,STU-13,Diego Nakamura,S2,Gestão Financeira para Startups,2,,,Realizada,MEN-0114
-2026-08-11,STU-22,Diego Nakamura,S1,Gestão Financeira para Startups,2,,,Realizada,MEN-0115
-2026-08-12,STU-25,Diego Nakamura,S1,Crescimento para Startups (Growth),2,,,Realizada,MEN-0116
-2026-08-13,STU-26,Rafael Prado,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0117
-2026-08-13,STU-30,Diego Nakamura,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0118
-2026-08-14,STU-29,Camila Reis,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0119
-2026-08-17,STU-17,Camila Reis,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0120
-2026-08-18,STU-18,Marina Duarte,S2,Design Sprint,1,,,Realizada,MEN-0121
-2026-08-20,STU-06,Diego Nakamura,S5,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0122
-2026-08-24,STU-09,Camila Reis,S4,Propriedade Intelectual,1.5,,,Realizada,MEN-0123
-2026-08-24,STU-10,Marina Duarte,S4,Gestão Financeira para Startups,1,,,Realizada,MEN-0124
-2026-08-24,STU-27,Marina Duarte,S1,Gestão Financeira para Startups,1,,,Realizada,MEN-0125
-2026-08-26,STU-25,Camila Reis,S1,Proposta de Valor,1,,,Realizada,MEN-0126
-2026-08-27,STU-26,Rafael Prado,S1,Pitch de Validação,1.5,,,Realizada,MEN-0127
-2026-08-28,STU-05,Rafael Prado,S5,Crescimento para Startups (Growth),1,,,Realizada,MEN-0128
-2026-08-28,STU-23,Diego Nakamura,S1,Propriedade Intelectual,1,,,Realizada,MEN-0129
-2026-08-28,STU-29,Rafael Prado,S1,Marketing Digital para Startups,1.5,,,Realizada,MEN-0130
-2026-08-31,STU-04,Diego Nakamura,S5,Design Sprint,1,,,Realizada,MEN-0131
-2026-08-31,STU-15,Rafael Prado,S2,Vendas para Startups,1,,,Realizada,MEN-0132
-2026-08-31,STU-17,Camila Reis,S2,CRM e Gestão Comercial,1,,,Realizada,MEN-0133
-2026-09-01,STU-13,Diego Nakamura,S2,Propriedade Intelectual,1,,,Realizada,MEN-0134
-2026-09-01,STU-22,Diego Nakamura,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0135
-2026-09-02,STU-21,Marina Duarte,S1,Gestão Financeira para Startups,2,,,Realizada,MEN-0136
-2026-09-03,STU-06,Diego Nakamura,S5,Propriedade Intelectual,1.5,,,Realizada,MEN-0137
-2026-09-03,STU-19,Camila Reis,S2,Vendas para Startups,1,,,Realizada,MEN-0138
-2026-09-03,STU-30,Diego Nakamura,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0139
-2026-09-08,STU-18,Diego Nakamura,S2,Propriedade Intelectual,1,,,Realizada,MEN-0140
-2026-09-08,STU-31,Diego Nakamura,S1,Design Sprint,1.5,,,Realizada,MEN-0141
-2026-09-14,STU-04,Diego Nakamura,S6,Business Model Canvas,1,,,Realizada,MEN-0142
-2026-09-14,STU-17,Camila Reis,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0143
-2026-09-14,STU-27,Marina Duarte,S1,Vendas para Startups,1,,,Realizada,MEN-0144
-2026-09-15,STU-13,Diego Nakamura,S4,Business Model Canvas,2,,,Realizada,MEN-0145
-2026-09-15,STU-22,Diego Nakamura,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0146
-2026-09-17,STU-06,Diego Nakamura,S5,Business Model Canvas,1,,,Realizada,MEN-0147
-2026-09-17,STU-26,Rafael Prado,S1,Vendas para Startups,2,,,Realizada,MEN-0148
-2026-09-18,STU-05,Rafael Prado,S6,Propriedade Intelectual,1.5,,,Realizada,MEN-0149
-2026-09-21,STU-09,Camila Reis,S5,Marketing Digital para Startups,1.5,,,Realizada,MEN-0150
-2026-09-21,STU-10,Marina Duarte,S4,Proposta de Valor,1.5,,,Realizada,MEN-0151
-2026-09-21,STU-15,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0152
-2026-09-22,STU-31,Diego Nakamura,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0153
-2026-09-23,STU-21,Marina Duarte,S2,Marketing Digital para Startups,1,,,Realizada,MEN-0154
-2026-09-23,STU-25,Diego Nakamura,S1,Design Sprint,1,,,Realizada,MEN-0155
-2026-09-24,STU-19,Rafael Prado,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0156
-2026-09-24,STU-30,Marina Duarte,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0157
-2026-09-25,STU-23,Diego Nakamura,S1,Pitch de Validação,1.5,,,Realizada,MEN-0158
-2026-09-25,STU-29,Camila Reis,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0159
-2026-09-28,STU-04,Marina Duarte,S6,Dashboards e Indicadores,1,,,Realizada,MEN-0160
-2026-09-28,STU-27,Marina Duarte,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0161
-2026-09-29,STU-18,Rafael Prado,S2,Dashboards e Indicadores,1,,,Realizada,MEN-0162
-2026-10-02,STU-34,Diego Nakamura,S1,Pitch de Validação,1.5,,,Realizada,MEN-0163
-2026-10-05,STU-09,Camila Reis,S5,Dashboards e Indicadores,2,,,Realizada,MEN-0164
-2026-10-05,STU-36,Marina Duarte,S1,Business Model Canvas,1.5,,,Realizada,MEN-0165
-2026-10-06,STU-22,Diego Nakamura,S2,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0166
-2026-10-07,STU-21,Marina Duarte,S2,Business Model Canvas,1,,,Realizada,MEN-0167
-2026-10-07,STU-35,Marina Duarte,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0168
-2026-10-07,STU-37,Rafael Prado,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0169
-2026-10-08,STU-06,Camila Reis,S5,Design Sprint,1.5,,,Realizada,MEN-0170
-2026-10-08,STU-19,Rafael Prado,S2,Proposta de Valor,1.5,,,Realizada,MEN-0171
-2026-10-08,STU-26,Rafael Prado,S1,Marketing Digital para Startups,2,,,Realizada,MEN-0172
-2026-10-08,STU-38,Diego Nakamura,S1,Proposta de Valor,1,,,Realizada,MEN-0173
-2026-10-09,STU-29,Camila Reis,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0174
-2026-10-13,STU-38,Diego Nakamura,S1,Diagnóstico de entrada,1.5,09:30,Presencial,Agendada,MEN-0175
-2026-10-13,STU-35,Camila Reis,S1,Proposta de Valor,1,14:00,Online,Agendada,MEN-0176
-2026-10-14,STU-24,Marina Duarte,S2,Pitch de Validação,1.5,10:00,Presencial,Agendada,MEN-0177
-2026-10-14,STU-14,Rafael Prado,S4,Indicadores Financeiros e de Desempenho,1,15:30,Online,Agendada,MEN-0178
-2026-10-15,STU-10,Marina Duarte,S4,Gestão Financeira para Startups,1.5,09:00,Presencial,Agendada,MEN-0179
-2026-10-16,STU-33,Camila Reis,S1,Business Model Canvas,1,11:00,Online,Agendada,MEN-0180
-2026-10-19,STU-05,Rafael Prado,S6,Crescimento para Startups (Growth),2,14:00,Presencial,Agendada,MEN-0181
-2026-10-20,STU-17,Camila Reis,S2,CRM e Gestão Comercial,1,10:30,Online,Agendada,MEN-0182
-2026-10-21,STU-06,Diego Nakamura,S5,Vendas para Startups,1.5,09:30,Presencial,Agendada,MEN-0183
-2026-10-22,STU-12,Marina Duarte,S4,Dashboards e Indicadores,1,16:00,Online,Agendada,MEN-0184
-2026-10-23,STU-15,Rafael Prado,S2,Propriedade Intelectual,1.5,10:00,Presencial,Agendada,MEN-0185
-2026-10-27,STU-13,Diego Nakamura,S4,Marketing Digital para Startups,1,14:30,Online,Agendada,MEN-0186
-2026-10-28,STU-18,Rafael Prado,S2,Design Sprint,2,09:00,Presencial,Agendada,MEN-0187
-2026-10-30,STU-04,Diego Nakamura,S6,Pitch para Investidores,1.5,11:00,Online,Agendada,MEN-0188
+2026-01-01,STU-06,Cristiano,S1,Design Sprint,2,,,Realizada,MEN-0001
+2026-01-02,STU-05,Ana,S1,Design Sprint,2,,,Realizada,MEN-0002
+2026-01-02,STU-08,Guilherme,S1,Crescimento para Startups (Growth),2,,,Realizada,MEN-0003
+2026-01-05,STU-04,Cristiano,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0004
+2026-01-05,STU-09,Guilherme,S1,Proposta de Valor,1,,,Realizada,MEN-0005
+2026-01-06,STU-01,Guilherme,S5,Propriedade Intelectual,2,,,Realizada,MEN-0006
+2026-01-15,STU-06,Cristiano,S1,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0007
+2026-01-23,STU-05,Ana,S1,Proposta de Valor,1.5,,,Realizada,MEN-0008
+2026-01-23,STU-08,Guilherme,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0009
+2026-01-26,STU-04,Cristiano,S1,Pitch de Validação,2,,,Realizada,MEN-0010
+2026-01-26,STU-09,Guilherme,S1,Proposta de Valor,1.5,,,Realizada,MEN-0011
+2026-01-29,STU-06,Guilherme,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0012
+2026-02-02,STU-10,Ana,S1,Proposta de Valor,1.5,,,Realizada,MEN-0013
+2026-02-03,STU-01,Guilherme,S6,Pitch de Validação,2,,,Realizada,MEN-0014
+2026-02-06,STU-05,Ana,S2,Crescimento para Startups (Growth),1,,,Realizada,MEN-0015
+2026-02-06,STU-08,Guilherme,S1,Design Sprint,1,,,Realizada,MEN-0016
+2026-02-09,STU-04,Cristiano,S2,Pitch de Validação,2,,,Realizada,MEN-0017
+2026-02-16,STU-10,Ana,S1,Pitch de Validação,1,,,Realizada,MEN-0018
+2026-02-17,STU-01,Guilherme,S6,Marketing Digital para Startups,1.5,,,Realizada,MEN-0019
+2026-02-20,STU-05,Ana,S2,Vendas para Startups,1,,,Realizada,MEN-0020
+2026-02-23,STU-04,Cristiano,S2,Proposta de Valor,2,,,Realizada,MEN-0021
+2026-02-23,STU-09,Guilherme,S1,Propriedade Intelectual,1,,,Realizada,MEN-0022
+2026-02-26,STU-06,Cristiano,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0023
+2026-02-27,STU-08,Guilherme,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0024
+2026-03-02,STU-10,Guilherme,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0025
+2026-03-06,STU-05,Ana,S2,Proposta de Valor,1,,,Realizada,MEN-0026
+2026-03-10,STU-13,Cristiano,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0027
+2026-03-13,STU-08,Guilherme,S2,Marketing Digital para Startups,2,,,Realizada,MEN-0028
+2026-03-16,STU-04,Ana,S2,Pitch de Validação,1.5,,,Realizada,MEN-0029
+2026-03-16,STU-10,Ana,S1,Pitch de Validação,2,,,Realizada,MEN-0030
+2026-03-20,STU-05,Ana,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0031
+2026-03-23,STU-09,Guilherme,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0032
+2026-03-24,STU-13,Cristiano,S1,Dashboards e Indicadores,1.5,,,Realizada,MEN-0033
+2026-03-26,STU-06,Cristiano,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0034
+2026-03-30,STU-04,Cristiano,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0035
+2026-03-30,STU-10,Ana,S1,Dashboards e Indicadores,2,,,Realizada,MEN-0036
+2026-04-03,STU-08,Guilherme,S2,Gestão Financeira para Startups,1,,,Realizada,MEN-0037
+2026-04-06,STU-15,Ana,S1,Proposta de Valor,1,,,Realizada,MEN-0038
+2026-04-13,STU-04,Cristiano,S2,Gestão Financeira para Startups,2,,,Realizada,MEN-0039
+2026-04-13,STU-17,Guilherme,S1,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0040
+2026-04-14,STU-13,Cristiano,S1,Design Sprint,1.5,,,Realizada,MEN-0041
+2026-04-16,STU-06,Cristiano,S2,Dashboards e Indicadores,1,,,Realizada,MEN-0042
+2026-04-17,STU-05,Ana,S2,Propriedade Intelectual,1.5,,,Realizada,MEN-0043
+2026-04-20,STU-09,Guilherme,S2,Gestão Financeira para Startups,1.5,,,Realizada,MEN-0044
+2026-04-20,STU-15,Ana,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0045
+2026-04-27,STU-10,Ana,S1,Dashboards e Indicadores,2,,,Realizada,MEN-0046
+2026-04-27,STU-17,Guilherme,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0047
+2026-04-28,STU-18,Guilherme,S1,Propriedade Intelectual,1,,,Realizada,MEN-0048
+2026-04-30,STU-19,Ana,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0049
+2026-05-01,STU-08,Guilherme,S2,Propriedade Intelectual,1,,,Realizada,MEN-0050
+2026-05-04,STU-15,Ana,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0051
+2026-05-05,STU-13,Cristiano,S1,Crescimento para Startups (Growth),1,,,Realizada,MEN-0052
+2026-05-08,STU-05,Ana,S4,CRM e Gestão Comercial,2,,,Realizada,MEN-0053
+2026-05-11,STU-04,Cristiano,S4,Propriedade Intelectual,1,,,Realizada,MEN-0054
+2026-05-11,STU-09,Guilherme,S2,Pitch de Validação,1,,,Realizada,MEN-0055
+2026-05-14,STU-06,Cristiano,S2,Marketing Digital para Startups,1,,,Realizada,MEN-0056
+2026-05-14,STU-19,Ana,S1,Design Sprint,1.5,,,Realizada,MEN-0057
+2026-05-15,STU-08,Guilherme,S2,Marketing Digital para Startups,2,,,Realizada,MEN-0058
+2026-05-18,STU-10,Ana,S2,Gestão Financeira para Startups,1,,,Realizada,MEN-0059
+2026-05-19,STU-13,Ana,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0060
+2026-05-19,STU-18,Ana,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0061
+2026-05-25,STU-17,Ana,S1,Pitch de Validação,1,,,Realizada,MEN-0062
+2026-05-29,STU-08,Guilherme,S2,CRM e Gestão Comercial,1,,,Realizada,MEN-0063
+2026-06-01,STU-09,Guilherme,S2,Pitch de Validação,2,,,Realizada,MEN-0064
+2026-06-01,STU-10,Ana,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0065
+2026-06-01,STU-15,Ana,S1,Design Sprint,1,,,Realizada,MEN-0066
+2026-06-04,STU-06,Cristiano,S4,Propriedade Intelectual,1,,,Realizada,MEN-0067
+2026-06-05,STU-05,Ana,S4,Marketing Digital para Startups,1,,,Realizada,MEN-0068
+2026-06-08,STU-04,Cristiano,S4,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0069
+2026-06-09,STU-13,Cristiano,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0070
+2026-06-09,STU-18,Ana,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0071
+2026-06-11,STU-19,Ana,S1,Pitch de Validação,1.5,,,Realizada,MEN-0072
+2026-06-12,STU-08,Ana,S4,Proposta de Valor,1.5,,,Realizada,MEN-0073
+2026-06-15,STU-09,Guilherme,S2,Proposta de Valor,2,,,Realizada,MEN-0074
+2026-06-15,STU-10,Ana,S2,Design Sprint,1,,,Realizada,MEN-0075
+2026-06-15,STU-17,Guilherme,S1,Design Sprint,1.5,,,Realizada,MEN-0076
+2026-06-17,STU-21,Guilherme,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0077
+2026-06-18,STU-06,Cristiano,S4,Pitch de Validação,1,,,Realizada,MEN-0078
+2026-06-22,STU-15,Ana,S1,Pitch de Validação,1,,,Realizada,MEN-0079
+2026-06-23,STU-18,Ana,S1,Proposta de Valor,1.5,,,Realizada,MEN-0080
+2026-06-23,STU-22,Cristiano,S1,Proposta de Valor,2,,,Realizada,MEN-0081
+2026-06-26,STU-05,Ana,S4,Vendas para Startups,1.5,,,Realizada,MEN-0082
+2026-06-29,STU-04,Cristiano,S4,Dashboards e Indicadores,1.5,,,Realizada,MEN-0083
+2026-06-30,STU-13,Cristiano,S2,Dashboards e Indicadores,2,,,Realizada,MEN-0084
+2026-07-03,STU-23,Cristiano,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0085
+2026-07-06,STU-17,Guilherme,S1,Proposta de Valor,2,,,Realizada,MEN-0086
+2026-07-07,STU-22,Cristiano,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0087
+2026-07-08,STU-21,Ana,S1,Dashboards e Indicadores,1.5,,,Realizada,MEN-0088
+2026-07-09,STU-06,Cristiano,S4,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0089
+2026-07-09,STU-19,Ana,S1,Pitch de Validação,1,,,Realizada,MEN-0090
+2026-07-10,STU-05,Ana,S5,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0091
+2026-07-13,STU-09,Guilherme,S4,Vendas para Startups,1.5,,,Realizada,MEN-0092
+2026-07-13,STU-10,Ana,S2,Propriedade Intelectual,1,,,Realizada,MEN-0093
+2026-07-20,STU-04,Ana,S5,Marketing Digital para Startups,2,,,Realizada,MEN-0094
+2026-07-20,STU-15,Ana,S2,Business Model Canvas,1,,,Realizada,MEN-0095
+2026-07-21,STU-13,Cristiano,S2,Design Sprint,2,,,Realizada,MEN-0096
+2026-07-21,STU-18,Ana,S1,Vendas para Startups,1,,,Realizada,MEN-0097
+2026-07-21,STU-22,Ana,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0098
+2026-07-23,STU-26,Ana,S1,Marketing Digital para Startups,1.5,,,Realizada,MEN-0099
+2026-07-24,STU-23,Cristiano,S1,Proposta de Valor,2,,,Realizada,MEN-0100
+2026-07-27,STU-27,Ana,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0101
+2026-07-29,STU-25,Cristiano,S1,Pitch de Validação,1,,,Realizada,MEN-0102
+2026-07-30,STU-06,Cristiano,S4,Gestão Financeira para Startups,1,,,Realizada,MEN-0103
+2026-07-31,STU-05,Ana,S5,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0104
+2026-08-03,STU-04,Cristiano,S5,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0105
+2026-08-03,STU-09,Guilherme,S4,Business Model Canvas,1,,,Realizada,MEN-0106
+2026-08-03,STU-10,Ana,S4,Crescimento para Startups (Growth),1,,,Realizada,MEN-0107
+2026-08-03,STU-17,Guilherme,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0108
+2026-08-04,STU-18,Ana,S1,Pitch de Validação,2,,,Realizada,MEN-0109
+2026-08-05,STU-21,Ana,S1,Proposta de Valor,2,,,Realizada,MEN-0110
+2026-08-06,STU-19,Ana,S1,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0111
+2026-08-07,STU-23,Cristiano,S1,Pitch de Validação,2,,,Realizada,MEN-0112
+2026-08-10,STU-15,Ana,S2,Marketing Digital para Startups,1.5,,,Realizada,MEN-0113
+2026-08-11,STU-13,Cristiano,S2,Gestão Financeira para Startups,2,,,Realizada,MEN-0114
+2026-08-11,STU-22,Cristiano,S1,Gestão Financeira para Startups,2,,,Realizada,MEN-0115
+2026-08-12,STU-25,Cristiano,S1,Crescimento para Startups (Growth),2,,,Realizada,MEN-0116
+2026-08-13,STU-26,Ana,S1,CRM e Gestão Comercial,1.5,,,Realizada,MEN-0117
+2026-08-13,STU-30,Cristiano,S1,Dashboards e Indicadores,1,,,Realizada,MEN-0118
+2026-08-14,STU-29,Guilherme,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0119
+2026-08-17,STU-17,Guilherme,S2,Indicadores Financeiros e de Desempenho,1,,,Realizada,MEN-0120
+2026-08-18,STU-18,Ana,S2,Design Sprint,1,,,Realizada,MEN-0121
+2026-08-20,STU-06,Cristiano,S5,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0122
+2026-08-24,STU-09,Guilherme,S4,Propriedade Intelectual,1.5,,,Realizada,MEN-0123
+2026-08-24,STU-10,Ana,S4,Gestão Financeira para Startups,1,,,Realizada,MEN-0124
+2026-08-24,STU-27,Ana,S1,Gestão Financeira para Startups,1,,,Realizada,MEN-0125
+2026-08-26,STU-25,Guilherme,S1,Proposta de Valor,1,,,Realizada,MEN-0126
+2026-08-27,STU-26,Ana,S1,Pitch de Validação,1.5,,,Realizada,MEN-0127
+2026-08-28,STU-05,Ana,S5,Crescimento para Startups (Growth),1,,,Realizada,MEN-0128
+2026-08-28,STU-23,Cristiano,S1,Propriedade Intelectual,1,,,Realizada,MEN-0129
+2026-08-28,STU-29,Ana,S1,Marketing Digital para Startups,1.5,,,Realizada,MEN-0130
+2026-08-31,STU-04,Cristiano,S5,Design Sprint,1,,,Realizada,MEN-0131
+2026-08-31,STU-15,Ana,S2,Vendas para Startups,1,,,Realizada,MEN-0132
+2026-08-31,STU-17,Guilherme,S2,CRM e Gestão Comercial,1,,,Realizada,MEN-0133
+2026-09-01,STU-13,Cristiano,S2,Propriedade Intelectual,1,,,Realizada,MEN-0134
+2026-09-01,STU-22,Cristiano,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0135
+2026-09-02,STU-21,Ana,S1,Gestão Financeira para Startups,2,,,Realizada,MEN-0136
+2026-09-03,STU-06,Cristiano,S5,Propriedade Intelectual,1.5,,,Realizada,MEN-0137
+2026-09-03,STU-19,Guilherme,S2,Vendas para Startups,1,,,Realizada,MEN-0138
+2026-09-03,STU-30,Cristiano,S1,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0139
+2026-09-08,STU-18,Cristiano,S2,Propriedade Intelectual,1,,,Realizada,MEN-0140
+2026-09-08,STU-31,Cristiano,S1,Design Sprint,1.5,,,Realizada,MEN-0141
+2026-09-14,STU-04,Cristiano,S6,Business Model Canvas,1,,,Realizada,MEN-0142
+2026-09-14,STU-17,Guilherme,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0143
+2026-09-14,STU-27,Ana,S1,Vendas para Startups,1,,,Realizada,MEN-0144
+2026-09-15,STU-13,Cristiano,S4,Business Model Canvas,2,,,Realizada,MEN-0145
+2026-09-15,STU-22,Cristiano,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0146
+2026-09-17,STU-06,Cristiano,S5,Business Model Canvas,1,,,Realizada,MEN-0147
+2026-09-17,STU-26,Ana,S1,Vendas para Startups,2,,,Realizada,MEN-0148
+2026-09-18,STU-05,Ana,S6,Propriedade Intelectual,1.5,,,Realizada,MEN-0149
+2026-09-21,STU-09,Guilherme,S5,Marketing Digital para Startups,1.5,,,Realizada,MEN-0150
+2026-09-21,STU-10,Ana,S4,Proposta de Valor,1.5,,,Realizada,MEN-0151
+2026-09-21,STU-15,Ana,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0152
+2026-09-22,STU-31,Cristiano,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0153
+2026-09-23,STU-21,Ana,S2,Marketing Digital para Startups,1,,,Realizada,MEN-0154
+2026-09-23,STU-25,Cristiano,S1,Design Sprint,1,,,Realizada,MEN-0155
+2026-09-24,STU-19,Ana,S2,Indicadores Financeiros e de Desempenho,2,,,Realizada,MEN-0156
+2026-09-24,STU-30,Ana,S1,CRM e Gestão Comercial,2,,,Realizada,MEN-0157
+2026-09-25,STU-23,Cristiano,S1,Pitch de Validação,1.5,,,Realizada,MEN-0158
+2026-09-25,STU-29,Guilherme,S1,Marketing Digital para Startups,1,,,Realizada,MEN-0159
+2026-09-28,STU-04,Ana,S6,Dashboards e Indicadores,1,,,Realizada,MEN-0160
+2026-09-28,STU-27,Ana,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0161
+2026-09-29,STU-18,Ana,S2,Dashboards e Indicadores,1,,,Realizada,MEN-0162
+2026-10-02,STU-34,Cristiano,S1,Pitch de Validação,1.5,,,Realizada,MEN-0163
+2026-10-05,STU-09,Guilherme,S5,Dashboards e Indicadores,2,,,Realizada,MEN-0164
+2026-10-05,STU-36,Ana,S1,Business Model Canvas,1.5,,,Realizada,MEN-0165
+2026-10-06,STU-22,Cristiano,S2,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0166
+2026-10-07,STU-21,Ana,S2,Business Model Canvas,1,,,Realizada,MEN-0167
+2026-10-07,STU-35,Ana,S1,CRM e Gestão Comercial,1,,,Realizada,MEN-0168
+2026-10-07,STU-37,Ana,S1,Propriedade Intelectual,1.5,,,Realizada,MEN-0169
+2026-10-08,STU-06,Guilherme,S5,Design Sprint,1.5,,,Realizada,MEN-0170
+2026-10-08,STU-19,Ana,S2,Proposta de Valor,1.5,,,Realizada,MEN-0171
+2026-10-08,STU-26,Ana,S1,Marketing Digital para Startups,2,,,Realizada,MEN-0172
+2026-10-08,STU-38,Cristiano,S1,Proposta de Valor,1,,,Realizada,MEN-0173
+2026-10-09,STU-29,Guilherme,S1,Crescimento para Startups (Growth),1.5,,,Realizada,MEN-0174
+2026-10-13,STU-38,Cristiano,S1,Diagnóstico de entrada,1.5,09:30,Presencial,Agendada,MEN-0175
+2026-10-13,STU-35,Guilherme,S1,Proposta de Valor,1,14:00,Online,Agendada,MEN-0176
+2026-10-14,STU-24,Ana,S2,Pitch de Validação,1.5,10:00,Presencial,Agendada,MEN-0177
+2026-10-14,STU-14,Ana,S4,Indicadores Financeiros e de Desempenho,1,15:30,Online,Agendada,MEN-0178
+2026-10-15,STU-10,Ana,S4,Gestão Financeira para Startups,1.5,09:00,Presencial,Agendada,MEN-0179
+2026-10-16,STU-33,Guilherme,S1,Business Model Canvas,1,11:00,Online,Agendada,MEN-0180
+2026-10-19,STU-05,Ana,S6,Crescimento para Startups (Growth),2,14:00,Presencial,Agendada,MEN-0181
+2026-10-20,STU-17,Guilherme,S2,CRM e Gestão Comercial,1,10:30,Online,Agendada,MEN-0182
+2026-10-21,STU-06,Cristiano,S5,Vendas para Startups,1.5,09:30,Presencial,Agendada,MEN-0183
+2026-10-22,STU-12,Ana,S4,Dashboards e Indicadores,1,16:00,Online,Agendada,MEN-0184
+2026-10-23,STU-15,Ana,S2,Propriedade Intelectual,1.5,10:00,Presencial,Agendada,MEN-0185
+2026-10-27,STU-13,Cristiano,S4,Marketing Digital para Startups,1,14:30,Online,Agendada,MEN-0186
+2026-10-28,STU-18,Ana,S2,Design Sprint,2,09:00,Presencial,Agendada,MEN-0187
+2026-10-30,STU-04,Cristiano,S6,Pitch para Investidores,1.5,11:00,Online,Agendada,MEN-0188
