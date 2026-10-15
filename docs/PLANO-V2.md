@@ -1,6 +1,6 @@
 # Plano da V2 — Painel da equipe da Incubadora
 
-> **Status:** fase 1 concluída em 14/10/2026 (repositório `painel-incubadora-v2`); fases 2 em diante a fazer.
+> **Status:** fase 1 concluída em 14/10/2026 e fase 2 em 15/10/2026 (repositório `painel-incubadora-v2`); fases 3 em diante a fazer.
 > A V1 (este repositório, HTML/CSS/JS puro) continua sendo o painel em uso e fica
 > congelada no branch **`v1-html`** (commit `fb4c0a6`; release `v1.0.0`) — qualquer ajuste pequeno segue sendo feito nela até a
 > V2 estar pronta para substituí-la.
@@ -144,7 +144,7 @@ Regras que deixam isso seguro:
 |---|---|---|
 | **0. Congelar a V1** | Branch `v1-html` no commit `fb4c0a6` (feito) e release `v1.0.0` criada a partir dele no GitHub. V1 segue no ar. | Release visível no GitHub. |
 | **1. Fundação** ✅ | Repositório novo `painel-incubadora-v2`, Next.js 16 + TS + Tailwind (componentes no padrão shadcn), login Google com a aba `Equipe` (coluna `papel` criada na planilha), leitura da planilha com o cálculo da V1 portado e testado, CI no GitHub Actions. | Login funciona; os números batem 100% com a V1 sobre a mesma planilha (teste de paridade). |
-| **2. Paridade (só leitura)** | As 5 telas da V1 refeitas com componentes. | Tudo que a V1 mostra, a V2 mostra igual (comparação lado a lado), no celular e no computador. |
+| **2. Paridade (só leitura)** ✅ | As 5 telas da V1 refeitas com componentes, mais a página de cada startup (`/startups/STU-05`), "minhas tarefas" no Início e filtros no endereço. | Tudo que a V1 mostra, a V2 mostra igual (comparação lado a lado), no celular e no computador. |
 | **3. Edição — Tarefas** | Criar/mover/editar tarefas + aba `Historico` + detecção de conflito. | Editar no painel aparece na planilha e vice-versa; teste de conflito simulado. |
 | **4. Edição — Mentorias e Startups** | Agendar/confirmar mentorias, avançar ciclo, diagnósticos. | Idem, por tela. |
 | **5. Tutoriais e acabamento** | "?" contextual, tour de primeiro acesso, Planejamento (se aprovado). | Alguém da equipe que nunca usou consegue agendar uma mentoria e criar uma tarefa sozinho. |
