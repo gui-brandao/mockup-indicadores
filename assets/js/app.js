@@ -24,7 +24,7 @@
   // definem o seletor de período (vazio = Jan–Set/2026 do mock);
   // seloDe: fonte que define o selo "dados ilustrativos / planilha".
   const CONFIG = Object.assign(
-    { rotas: TODAS_AS_ROTAS, rotaInicial: "visao-geral", fontes: ["agenda", "os"], periodoDe: null, seloDe: null },
+    { rotas: TODAS_AS_ROTAS, rotaInicial: "visao-geral", fontes: ["agenda", "os"], periodoDe: null, seloDe: null, novaVersaoUrl: "" },
     window.APP_CONFIG || {}
   );
 
@@ -157,6 +157,23 @@
     }
   }
 
+  // Troca para a V2 (fase 6 do plano): com novaVersaoUrl preenchido no
+  // APP_CONFIG da página, mostra no topo o novo endereço do painel da equipe.
+  // Esta versão continua funcionando como reserva.
+  function avisoNovaVersao() {
+    const url = String(CONFIG.novaVersaoUrl || "");
+    if (!/^https:\/\//.test(url)) return;
+    const aviso = document.createElement("div");
+    aviso.className = "nova-versao";
+    aviso.setAttribute("role", "status");
+    aviso.innerHTML =
+      '<span class="nova-versao-icone" aria-hidden="true">🚀</span>' +
+      "<div><strong>O painel da equipe mudou de endereço.</strong> A nova versão tem login, edição de tarefas e mentorias pelo próprio painel e a tela Planejamento. " +
+      "Esta versão continua no ar por algumas semanas, como reserva.</div>" +
+      `<a class="btn btn-primary" href="${UI.esc(url)}">Abrir a nova versão</a>`;
+    document.querySelector(".content").prepend(aviso);
+  }
+
   // A biblioteca de gráficos é servida pelo próprio site (assets/js/vendor).
   // Se por qualquer motivo ela não carregar, avisa em vez de exibir um painel
   // com todos os boxes vazios — o modo de falha que chegou à produção antes.
@@ -207,6 +224,7 @@
     safeBoot(initPeriodSelect, "seletor de período");
     safeBoot(registerViews, "registro de telas");
     safeBoot(atualizarSelo, "selo da fonte de dados");
+    safeBoot(avisoNovaVersao, "aviso da nova versão");
     safeBoot(checkChartsLibrary, "verificação do ECharts");
     safeBoot(() => ROUTER.init({ rotaInicial: CONFIG.rotaInicial }), "inicialização do roteador");
   });

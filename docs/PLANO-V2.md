@@ -1,6 +1,6 @@
 # Plano da V2 — Painel da equipe da Incubadora
 
-> **Status:** fase 1 concluída em 14/10/2026, fases 2 a 5 em 15/10/2026 (repositório `painel-incubadora-v2`); falta a fase 6 (troca da V1 pela V2). A planilha já tem a aba `Historico` e a coluna `id` em Mentorias; para gravar, a conta de serviço precisa ser Editora.
+> **Status:** fase 1 concluída em 14/10/2026, fases 2 a 5 em 15/10/2026 (repositório `painel-incubadora-v2`); fase 6 (troca da V1 pela V2) com o código pronto — roteiro em `docs/IMPLANTACAO.md` do repositório da V2; falta publicar. A planilha já tem a aba `Historico` e a coluna `id` em Mentorias; para gravar, a conta de serviço precisa ser Editora.
 > A V1 (este repositório, HTML/CSS/JS puro) continua sendo o painel em uso e fica
 > congelada no branch **`v1-html`** (commit `fb4c0a6`; release `v1.0.0`) — qualquer ajuste pequeno segue sendo feito nela até a
 > V2 estar pronta para substituí-la.
@@ -148,7 +148,7 @@ Regras que deixam isso seguro:
 | **3. Edição — Tarefas** ✅ | Criar/mover/editar tarefas + aba `Historico` + detecção de conflito. | Editar no painel aparece na planilha e vice-versa; teste de conflito simulado. |
 | **4. Edição — Mentorias e Startups** ✅ | Agendar/confirmar mentorias, avançar ciclo, diagnósticos. | Idem, por tela. |
 | **5. Tutoriais e acabamento** ✅ | "?" contextual, tour de primeiro acesso, Planejamento (se aprovado). | Alguém da equipe que nunca usou consegue agendar uma mentoria e criar uma tarefa sozinho. |
-| **6. Troca** | V2 vira o endereço da equipe; V1 fica no ar por algumas semanas como reserva. | Duas semanas de uso sem bloqueio. |
+| **6. Troca** (código pronto: verificação do painel, aviso `novaVersaoUrl` na V1, roteiro) | V2 vira o endereço da equipe; V1 fica no ar por algumas semanas como reserva. | Duas semanas de uso sem bloqueio. |
 
 ## 9. Riscos e cuidados
 
