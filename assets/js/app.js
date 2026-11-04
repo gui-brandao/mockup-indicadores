@@ -157,9 +157,8 @@
     }
   }
 
-  // Troca para a V2 (fase 6 do plano): com novaVersaoUrl preenchido no
-  // APP_CONFIG da página, mostra no topo o novo endereço do painel da equipe.
-  // Esta versão continua funcionando como reserva.
+  // Painel aposentado: com novaVersaoUrl preenchido no APP_CONFIG da página,
+  // mostra no topo o endereço do painel principal da equipe.
   function avisoNovaVersao() {
     const url = String(CONFIG.novaVersaoUrl || "");
     if (!/^https:\/\//.test(url)) return;
@@ -168,9 +167,9 @@
     aviso.setAttribute("role", "status");
     aviso.innerHTML =
       '<span class="nova-versao-icone" aria-hidden="true">🚀</span>' +
-      "<div><strong>O painel da equipe mudou de endereço.</strong> A nova versão tem login, edição de tarefas e mentorias pelo próprio painel e a tela Planejamento. " +
-      "Esta versão continua no ar por algumas semanas, como reserva.</div>" +
-      `<a class="btn btn-primary" href="${UI.esc(url)}">Abrir a nova versão</a>`;
+      "<div><strong>O painel da equipe mudou de endereço.</strong> Esta versão foi aposentada e não recebe mais novidades: " +
+      "use o Painel da Incubadora, com login, edição de tarefas e mentorias, convites pelo Google Agenda, chat e relatório mensal.</div>" +
+      `<a class="btn btn-primary" href="${UI.esc(url)}">Abrir o Painel da Incubadora</a>`;
     document.querySelector(".content").prepend(aviso);
   }
 

@@ -41,11 +41,11 @@ do mock). `equipe.html` registra cinco rotas: `inicio` (`VIEW_EQUIPE_INICIO`) e
 (`VIEW_TAREFAS`, em `views/tarefas.js`); `incubadora`
 (`VIEW_INCUBADORA`, a mesma tela da apresentação); e `guia` (`VIEW_GUIA`, em
 `views/guia.js`). Usa `rotaInicial: "inicio"` e `fontes`, `periodoDe` e `seloDe` iguais a
-`"incubadora"`, e carrega só os scripts dessas telas. Há ainda `novaVersaoUrl`
-(vazio por padrão): preenchido com o endereço `https://` do painel V2, mostra no
-topo o aviso "O painel da equipe mudou de endereço" com o botão para lá — é o
-passo do "dia da troca" da fase 6 (`docs/PLANO-V2.md`); esta versão segue
-funcionando como reserva.
+`"incubadora"`, e carrega só os scripts dessas telas. Há ainda `novaVersaoUrl`:
+preenchido com o endereço `https://` do Painel da Incubadora (a versão principal,
+que substituiu esta), mostra no topo o aviso "O painel da equipe mudou de
+endereço" com o botão para lá. Esta página está aposentada: não recebe mais
+novidades.
 
 As telas da equipe têm estado de tela próprio (busca, filtros, mês do calendário, cartões
 abertos) guardado no módulo da view. Ele redesenha só o trecho afetado e sobrevive ao
